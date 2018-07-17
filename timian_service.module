@@ -1,0 +1,14 @@
+<?php
+/**
+ * Implements hook_services_resources
+ */
+
+ function timian_service_services_resources() {
+     module_load_include('inc', 'test_services', 'resources/test');
+     $resources = [
+         '#api_version' => '3002'
+     ];
+     $resources += _timian_service_resource_definition();
+
+     return $resources;
+ }
