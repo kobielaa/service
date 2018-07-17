@@ -21,5 +21,5 @@
   */
 function _timian_service_fetch_data($cos){
 
-    return 'Kurwa jest : ' . $cos ;
+    return 'blabla jest : ' . $cos ;
 }
