@@ -57,7 +57,7 @@
  /**
   * Callback function
   */
-function _timian_service_fetch_data($name){
+function _timian_service_fetch_data(){
 
-    return 'Kurwa jest : ' . $name;
+    return 'Kurwa jest : ' ;
 }
