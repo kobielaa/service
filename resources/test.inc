@@ -59,5 +59,5 @@
   */
 function _timian_service_fetch_data($name){
 
-    return $name;
+    return 'Kurwa jest : ' . $name;
 }
