@@ -19,7 +19,7 @@
  /**
   * Callback function
   */
-function _timian_service_fetch_data(){
+function _timian_service_fetch_data($cos){
 
-    return 'Kurwa jest : ' ;
+    return 'Kurwa jest : ' . $cos ;
 }
