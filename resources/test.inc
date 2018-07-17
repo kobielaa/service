@@ -6,14 +6,14 @@
   *     Returns boolen
   */
   function _timian_service_data_access($op = 'config', $args = []) {
-    $permission = FALSE;
-    global $user;
-    $roles = $user->roles;
+    // $permission = FALSE;
+    // global $user;
+    // $roles = $user->roles;
 
-    if (in_array('administrator', $roles)){
-        $permission = TRUE;
-    }
-    return $permission; 
+    // if (in_array('administrator', $roles)){
+    //     $permission = TRUE;
+    // }
+    return TRUE; 
 }
 
  /**
