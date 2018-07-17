@@ -24,7 +24,7 @@
                      ],
                      'args'=>[
                          [
-                             'name' => 'type',
+                             'name' => 'name',
                              'type' => 'string',
                              'description' => 'Type of string kurwa',
                              'source' => ['data' => 'type'],
