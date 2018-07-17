@@ -4,7 +4,7 @@
  */
 
  function timian_service_services_resources() {
-     module_load_include('inc', 'test_services', 'resources/test');
+     module_load_include('inc', 'timian_service', 'resources/test');
      $resources = [
          '#api_version' => '3002'
      ];
