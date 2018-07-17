@@ -27,7 +27,7 @@
                              'name' => 'name',
                              'type' => 'string',
                              'description' => 'Type of string kurwa',
-                             'source' => ['data' => 'type'],
+                             'source' => array('path'=> '0'),
                              'optional' => TRUE
                          ]
                      ]
