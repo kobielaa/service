@@ -57,7 +57,7 @@
  /**
   * Callback function
   */
-function _timian_service_fetch_data($str = NULL){
+function _timian_service_fetch_data($name){
 
-    return 'Hello world';
+    return $name;
 }
