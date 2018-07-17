@@ -10,8 +10,8 @@
  function _timian_service_resource_definition() {
      $config = [
          'testpoint' => [
-             'actions' => [
-                 'check'=> [
+          
+                 'index'=> [
                      'help' => 'Test point',
                      'access callback' => '_timian_service_data_access',
                      'access arguments' => ['config'],
@@ -32,7 +32,7 @@
                          ]
                      ]
                 ]
-             ]
+             
          ]
                          ];
                          return $config;
