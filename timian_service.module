@@ -4,11 +4,30 @@
  */
 
  function timian_service_services_resources() {
-     module_load_include('inc', 'timian_service', 'resources/test');
-     $resources = [
-         '#api_version' => '3002'
-     ];
-     $resources += _timian_service_resource_definition();
 
-     return $resources;
+    return [
+        'hello_world' => [
+            'index'=> [
+                'help' => 'Test point',
+                'access callback' => '_timian_service_data_access',
+                'access arguments' => ['config'],
+                'access arguments append' => TRUE,
+                'callback'=> '_timian_service_fetch_data',
+                'file' =>[
+                    'type' => 'inc',
+                    'module' => 'timian_service',
+                    'name' => 'resources/test'
+                ],
+                'args'=>[
+                    [
+                        'name' => 'name',
+                        'type' => 'string',
+                        'description' => 'Type of string kurwa',
+                        'source' => array('path'=> '0'),
+                        'optional' => TRUE
+                    ]
+                ]
+           ]
+        ]
+    ];     
  }
