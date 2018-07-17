@@ -58,8 +58,6 @@
   * Callback function
   */
 function _timian_service_fetch_data($str = NULL){
-    $data = [
-        'message' => 'Success'
-    ];
-    return $data;
+
+    return 'Hello world';
 }
