@@ -6,7 +6,7 @@
  function timian_service_services_resources() {
 
     return [
-        'hello_world' => [
+        'login' => [
             'index'=> [
                 'help' => 'Test point',
                 'access callback' => '_timian_service_data_access',
