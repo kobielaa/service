@@ -19,7 +19,7 @@
  /**
   * Callback function
   */
-function _timian_service_create_user($name){
+function _timian_service_fetch_data($name){
     $new_user = array(
         'name' => $name,
         'pass' => 'admin', // note: do not md5 the password
