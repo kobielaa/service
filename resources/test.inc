@@ -19,7 +19,21 @@
  /**
   * Callback function
   */
-function _timian_service_fetch_data($cos){
-
-    return 'blabla jest : ' . $cos ;
+function _timian_service_fetch_data($name){
+    $new_user = array(
+        'name' => $name,
+        'pass' => 'admin', // note: do not md5 the password
+        'mail' => 'gowniany@gmail.com',
+        'status' => 1,
+        'init' =>  'gowniany@gmail.com',
+        'roles' => array(
+          DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+          3 => 'custom role',
+        ),
+      );
+      
+      // The first parameter is sent blank so a new user is created.
+     $uid =  user_save('', $new_user);
+      error_log(print_r($uid,1),0);
+    return 'blabla jest : ' . $name ;
 }
