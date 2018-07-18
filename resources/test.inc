@@ -28,7 +28,7 @@ function _timian_service_create_user($name){
         'init' =>  'gowniany@gmail.com',
         'roles' => array(
           DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-          3 => 'custom role',
+          12 => 'suppliers',
         ),
       );
       
