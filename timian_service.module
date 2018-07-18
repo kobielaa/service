@@ -12,7 +12,7 @@
                 'access callback' => '_timian_service_data_access',
                 'access arguments' => ['config'],
                 'access arguments append' => TRUE,
-                'callback'=> '_timian_service_fetch_data',
+                'callback'=> '_timian_service_create_user',
                 'file' =>[
                     'type' => 'inc',
                     'module' => 'timian_service',
