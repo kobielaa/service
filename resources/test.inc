@@ -5,10 +5,10 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($op = 'config', $name, $name2)
+function _timian_service_data_access($op = 'config', $key)
 {
-    error_log(print_r($name,1),0);
-    error_log(print_r($name2,1),0);
+    error_log(print_r($key,1),0);
+
     // $permission = FALSE;
     // global $user;
     // $roles = $user->roles;
@@ -22,9 +22,9 @@ function _timian_service_data_access($op = 'config', $name, $name2)
 /**
  * Callback function
  */
-function _timian_service_fetch_data($name, $name2)
+function _timian_service_fetch_data($key, $name)
 {
-    error_log(print_r('dziala',1),0);
+
 
     $user = user_load_by_name($name);
     if ($user) {
