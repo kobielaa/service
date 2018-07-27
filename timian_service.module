@@ -9,7 +9,7 @@ function timian_service_services_resources()
         'supplier' => [
             'actions' => [
                 'create' => [
-                    'help'            => 'Login a user for a new session',
+                    'help'            => 'Create a supplier user',
                     'callback'        => '_timian_service_fetch_data',
                     'args'            => [
                         [
