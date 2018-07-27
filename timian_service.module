@@ -8,7 +8,7 @@ function timian_service_services_resources()
 
     return [
         'login' => [
-            'index' => [
+            'create' => [
                 'help'                    => 'Test point',
                 'access callback'         => '_timian_service_data_access',
                 'access arguments'        => ['config'],
