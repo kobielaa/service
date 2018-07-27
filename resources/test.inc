@@ -7,7 +7,10 @@
  */
 function _timian_service_data_access($key)
 {
+
     $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
+    error_log(print_r($key,1),0);
+    error_log(print_r($security_key,1),0);
     return ( $security_key == $key) ? true : false;
 }
 
