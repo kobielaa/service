@@ -20,7 +20,7 @@ function _timian_service_data_access($op = 'config', $args = [])
 /**
  * Callback function
  */
-function _timian_service_fetch_data($name)
+function _timian_service_create_user($name)
 {
 
     $user = user_load_by_name($name);
