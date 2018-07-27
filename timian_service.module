@@ -3,31 +3,32 @@
  * Implements hook_services_resources
  */
 
- function timian_service_services_resources() {
+function timian_service_services_resources()
+{
 
     return [
         'login' => [
-            'index'=> [
-                'help' => 'Test point',
-                'access callback' => '_timian_service_data_access',
-                'access arguments' => ['config'],
-                'access arguments append' => TRUE,
-                'callback'=> '_timian_service_fetch_data',
-                'file' =>[
-                    'type' => 'inc',
+            'index' => [
+                'help'                    => 'Test point',
+                'access callback'         => '_timian_service_create_user',
+                'access arguments'        => ['config'],
+                'access arguments append' => true,
+                'callback'                => '_timian_service_fetch_data',
+                'file'                    => [
+                    'type'   => 'inc',
                     'module' => 'timian_service',
-                    'name' => 'resources/test'
+                    'name'   => 'resources/test'
                 ],
-                'args'=>[
+                'args'                    => [
                     [
-                        'name' => 'name',
-                        'type' => 'string',
+                        'name'        => 'name',
+                        'type'        => 'string',
                         'description' => 'Type of string kurwa',
-                        'source' => array('path'=> '0'),
-                        'optional' => TRUE
+                        'source'      => ['path' => '0'],
+                        'optional'    => true
                     ]
                 ]
-           ]
+            ]
         ]
-    ];     
- }
+    ];
+}
