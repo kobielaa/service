@@ -19,15 +19,15 @@ function timian_service_services_resources()
                     'module' => 'timian_service',
                     'name'   => 'resources/test'
                 ],
-                'args'                    => [
-                    [
-                        'name' => 'question_details',
-                        'type' => 'string',
-                        'description' => 'Question Details',
-                        'source' => ['param' => 'cos'],
-                        'optional' => FALSE,
-                    ]
-                ]
+                // 'args'                    => [
+                //     [
+                //         'name' => 'question_details',
+                //         'type' => 'string',
+                //         'description' => 'Question Details',
+                //         'source' => ['param' => 'cos'],
+                //         'optional' => FALSE,
+                //     ]
+                // ]
             ]
         ]
     ];
