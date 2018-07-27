@@ -5,10 +5,9 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($key, $name)
+function _timian_service_data_access($key)
 {
     error_log(print_r($key,1),0);
-    error_log(print_r($name,1),0);
 
 
     // $permission = FALSE;
