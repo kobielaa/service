@@ -7,11 +7,11 @@ function timian_service_services_resources()
 {
 
     return [
-        'login' => [
-            'create' => [
+        'dupa' => [
+            'index' => [
                 'help'                    => 'Test point',
                 'access callback'         => '_timian_service_data_access',
-                'access arguments'        => ['config'],
+                'access arguments' => array('view'),
                 'access arguments append' => true,
                 'callback'                => '_timian_service_fetch_data',
                 'file'                    => [

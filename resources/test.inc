@@ -5,8 +5,10 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($op = 'config', $args = [])
+function _timian_service_data_access($op = 'config', $args)
 {
+    error_log(print_r('dziala',1),0);
+    error_log(print_r($args,1),0);
     // $permission = FALSE;
     // global $user;
     // $roles = $user->roles;
