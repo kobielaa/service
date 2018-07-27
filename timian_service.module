@@ -21,11 +21,11 @@ function timian_service_services_resources()
                 ],
                 'args'                    => [
                     [
-                        'name'        => 'cokolwiek',
-                        'type'        => 'string',
-                        'description' => 'Type of string kurwa',
-                        'source' => array('param'),
-                        'optional'    => true
+                        'name' => 'question_details',
+                        'type' => 'array',
+                        'description' => 'Question Details',
+                        'source' => 'data',
+                        'optional' => FALSE,
                     ]
                 ]
             ]
