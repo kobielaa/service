@@ -12,7 +12,7 @@ function timian_service_services_resources()
                 'help'                    => 'Test point',
                 'access callback'         => '_timian_service_data_access',
                 'access arguments' => array('view'),
-                'access arguments append' => true,
+                'access arguments append' => false,
                 'callback'                => '_timian_service_fetch_data',
                 'file'                    => [
                     'type'   => 'inc',
