@@ -7,8 +7,7 @@
  */
 function _timian_service_data_access($op = 'config', $args)
 {
-    error_log(print_r('dziala',1),0);
-    error_log(print_r($args,1),0);
+
     // $permission = FALSE;
     // global $user;
     // $roles = $user->roles;
@@ -24,7 +23,8 @@ function _timian_service_data_access($op = 'config', $args)
  */
 function _timian_service_fetch_data($name)
 {
-
+    error_log(print_r('dziala',1),0);
+    error_log(print_r($name,1),0);
     $user = user_load_by_name($name);
     if ($user) {
         return 'user ' . $name . ' istnieje';
