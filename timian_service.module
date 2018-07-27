@@ -24,7 +24,7 @@ function timian_service_services_resources()
                         'name'        => 'cokolwiek',
                         'type'        => 'string',
                         'description' => 'Type of string kurwa',
-                        'source'      => 'data',
+                        'source' => array('param'),
                         'optional'    => true
                     ]
                 ]
