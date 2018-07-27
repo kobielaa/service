@@ -22,9 +22,9 @@ function timian_service_services_resources()
                 'args'                    => [
                     [
                         'name' => 'question_details',
-                        'type' => 'array',
+                        'type' => 'string',
                         'description' => 'Question Details',
-                        'source' => 'data',
+                        'source' => ['param' => 'cos'],
                         'optional' => FALSE,
                     ]
                 ]
