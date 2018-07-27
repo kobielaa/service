@@ -5,11 +5,11 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($op = 'config', $key, $name)
+function _timian_service_data_access($key, $name)
 {
     error_log(print_r($key,1),0);
     error_log(print_r($name,1),0);
-    error_log(print_r($op,1),0);
+
 
     // $permission = FALSE;
     // global $user;
