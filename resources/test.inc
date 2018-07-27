@@ -8,7 +8,7 @@
 function _timian_service_data_access($key)
 {
     $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
-    return ( $security_key === $key) ? true : false;
+    return ( $security_key == $key) ? true : false;
 }
 
 /**
