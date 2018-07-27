@@ -7,17 +7,8 @@
  */
 function _timian_service_data_access($key)
 {
-    error_log(print_r($key,1),0);
-
-
-    // $permission = FALSE;
-    // global $user;
-    // $roles = $user->roles;
-
-    // if (in_array('administrator', $roles)){
-    //     $permission = TRUE;
-    // }
-    return true;
+    $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
+    return ( $security_key === $key) ? true : false;
 }
 
 /**
