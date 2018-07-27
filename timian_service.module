@@ -24,7 +24,7 @@ function timian_service_services_resources()
                         'name'        => 'name',
                         'type'        => 'string',
                         'description' => 'Type of string kurwa',
-                        'source'      => ['path' => '0'],
+                        'source'      => ['param' => 'username'],
                         'optional'    => true
                     ]
                 ]
