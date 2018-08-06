@@ -15,5 +15,7 @@ function _timian_service_data_access($key)
  */
 function _timian_service_fetch_data($key, $name)
 {
-        return json_encode('Dziala');
+        return [
+            'response' => 'success'
+        ]
 }
