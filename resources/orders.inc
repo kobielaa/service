@@ -13,7 +13,7 @@ function _timian_service_data_access($key)
 /**
  * Callback function
  */
-function _timian_service_fetch_data($key, $name)
+function _timian_service_fetch_data($id)
 {
         return [
             "response" => "success"
