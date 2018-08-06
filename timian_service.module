@@ -35,6 +35,30 @@ function timian_service_services_resources()
                     ],
                 ],
             ]
-        ]
+            ],
+            'orders' => [
+                'actions' => [
+                    'retrieve' => [
+                        'help'            => 'Get order',
+                        'callback'        => '_timian_service_fetch_data',
+                        'args'            => [
+                            [
+                                'name'        => 'order_id',
+                                'type'        => 'int',
+                                'description' => 'Order ID',
+                                'source' =>     array('path' => '0'),
+                                'optional'    => false,
+                            ],
+                        ],
+                        'access callback' => '_timian_service_data_access',
+                        'file'            => [
+                            'type'   => 'inc',
+                            'module' => 'timian_service',
+                            'name'   => 'resources/orders'
+                        ],
+                    ],
+                ]
+                ],
+
     ];
 }
