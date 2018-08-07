@@ -35,11 +35,11 @@ function _timian_service_fetch_data($id)
 	$order_products = $query->execute()->fetchAll();
 
 
-	// $array = [];
-	// $object = uc_order_load(12415);
-	// foreach ($object as $key => $value)  {
-	// 	$array[$key] = $value;
-	// }
+	$array = [];
+	$object = uc_order_load(12415);
+	foreach ($object as $key => $value)  {
+		$array[$key] = $value;
+	}
     
 	$order_data = [
 		"order" => $order,
