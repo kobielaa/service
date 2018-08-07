@@ -29,7 +29,7 @@ function _timian_service_fetch_data($id)
     $query->condition('o.order_id',12415, "=");
 	$order = $query->execute()->fetchAll();
 	
-	$query = db_select('uc_orders_order_products','o');
+	$query = db_select('uc_order_products','o');
 	$query->fields('o');
 	$query->condition('o.order_id',12415, "=");
 	$order_products = $query->execute()->fetchAll();
