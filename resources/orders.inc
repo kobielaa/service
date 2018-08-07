@@ -43,7 +43,7 @@ function _timian_service_fetch_data($id)
     
 	$order_data = [
 		"order" => $order,
-		"products" => [$order_products]
+		"products" => [$object]
 	];
 
 	error_log(print_r($array,1),0);
