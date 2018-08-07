@@ -26,8 +26,18 @@ function _timian_service_fetch_data($id)
 	$query->addField('d','code','d_div_code');
 	$query->addField('d','name','d_div_name');
     $query->addField('bu','name','d_bu_name');
-    $query->condition('order_id',1);
-    $orders = $query->execute()->fetchAll();
-    error_log(print_r($orders,1),0);
-        return json_encode($orders);
+    $query->condition('o.order_id',12415, "=");
+	$order = $query->execute()->fetchAll();
+	
+	$query = db_select('uc_orders_order_products','o');
+	$query->fields('o');
+	$query->condition('o.order_id',12415, "=");
+	$order_products = $query->execute()->fetchAll();
+
+	$order_data = [
+		"order" => $order,
+		"products" => $order_products
+	];
+    error_log(print_r($order_data,1),0);
+        return json_encode($order_data);
 }
