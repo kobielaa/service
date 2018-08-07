@@ -26,7 +26,7 @@ function _timian_service_fetch_data($id)
 	$query->addField('d','code','d_div_code');
 	$query->addField('d','name','d_div_name');
     $query->addField('bu','name','d_bu_name');
-    $query->codition('order_id',1);
+    $query->condition('order_id',1);
     $orders = $query->execute()->fetchAll();
     error_log(print_r($orders,1),0);
         return json_encode($orders);
