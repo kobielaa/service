@@ -38,6 +38,6 @@ function _timian_service_fetch_data($id)
 		"order" => $order,
 		"products" => $order_products
 	];
-    error_log(print_r($order_data,1),0);
-        return json_encode($order_data);
+
+        return $order_data;
 }
