@@ -34,16 +34,23 @@ function _timian_service_fetch_data($id)
 	$query->condition('o.order_id',12415, "=");
 	$order_products = $query->execute()->fetchAll();
 
+
+	$array = [];
+	$object = uc_order_load(12415);
+	foreach ($object as $key => $value)  {
+		$array[$key] = $value;
+	}
+    
 	$order_data = [
 		"order" => $order,
-		"products" => $order_products
+		"products" => $array
 	];
 
-	$cos =  [uc_order_load(12415)];
-	error_log(print_r($order,1),0);
-	error_log(print_r($cos,1),0);
+	// error_log(print_r($order[0]->order_id,1),0);
+	// error_log(print_r($cos[0]->order_id,1),0);
+	error_log(print_r($array,1),0);
 	// $order_data = [
 	// 	"order" => $order
 	// ];
-    return $order;
+    return $order_data;
 }
