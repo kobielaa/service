@@ -41,6 +41,6 @@ function _timian_service_fetch_data($id)
 
 	$order = uc_order_load(12415);
     return [
-		"order" => $order
+		"order" => [$order]
 	];
 }
