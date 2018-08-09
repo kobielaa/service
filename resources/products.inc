@@ -16,10 +16,17 @@ function _timian_service_data_access($key)
 function _timian_service_fetch_data($id)
 {
     $data = [
+        [
         'name' => 'Aragorn',
         'race' => 'Human'
+        ],
+        [
+            'name' => 'Basia',
+            'race' => 'mama'
+        ],
+
     ];
     
        
-    return json_encode($data);
+    return $data;
 }
