@@ -61,18 +61,28 @@ function timian_service_services_resources()
                 ],
                 'products' => [
                     'operations' => [
-                        'retrieve' => [
+                        // 'retrieve' => [
+                        //     'help'            => 'Get products',
+                        //     'callback'        => '_timian_service_fetch_data',
+                        //     'args'            => [
+                        //         [
+                        //             'name'        => 'order_id',
+                        //             'type'        => 'int',
+                        //             'description' => 'Order ID',
+                        //             'source' =>     array('path' => '0'),
+                        //             'optional'    => false,
+                        //         ],
+                        //     ],
+                        //     'access callback' => '_timian_service_data_access',
+                        //     'file'            => [
+                        //         'type'   => 'inc',
+                        //         'module' => 'timian_service',
+                        //         'name'   => 'resources/products'
+                        //     ],
+                        // ],
+                        'index' => [
                             'help'            => 'Get products',
                             'callback'        => '_timian_service_fetch_data',
-                            'args'            => [
-                                [
-                                    'name'        => 'order_id',
-                                    'type'        => 'int',
-                                    'description' => 'Order ID',
-                                    'source' =>     array('path' => '0'),
-                                    'optional'    => false,
-                                ],
-                            ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [
                                 'type'   => 'inc',
@@ -80,7 +90,8 @@ function timian_service_services_resources()
                                 'name'   => 'resources/products'
                             ],
                         ],
-                    ]
+                    ],
+                    
                     ],
 
     ];
