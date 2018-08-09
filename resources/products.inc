@@ -30,3 +30,21 @@ function _timian_service_fetch_data($id)
        
     return $data;
 }
+
+function _timian_service_fetch_product($id)
+{
+    $data = [
+        [
+        'id' => 'dupa',
+        'text' => 'Human'
+        ],
+        [
+            'id' => 'dupa',
+            'text' => 'mama'
+        ],
+
+    ];
+    
+       
+    return $data;
+}
