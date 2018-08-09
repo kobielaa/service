@@ -17,12 +17,12 @@ function _timian_service_fetch_data($id)
 {
     $data = [
         [
-        'name' => 'Aragorn',
-        'race' => 'Human'
+        'id' => 'Aragorn',
+        'text' => 'Human'
         ],
         [
-            'name' => 'Basia',
-            'race' => 'mama'
+            'id' => 'Basia',
+            'text' => 'mama'
         ],
 
     ];
