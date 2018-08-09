@@ -21,5 +21,5 @@ function _timian_service_fetch_data($id)
     ];
     
        
-    return $data;
+    return json_encode($data);
 }
