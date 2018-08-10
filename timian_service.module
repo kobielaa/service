@@ -101,6 +101,13 @@ function timian_service_services_resources()
                                     'source' =>     array('path' => '0'),
                                     'optional'    => false,
                                 ],
+                                [
+                                    'name'        => 'order_id',
+                                    'type'        => 'int',
+                                    'description' => 'Order id',
+                                    'source' =>     array('path' => '1'),
+                                    'optional'    => false,
+                                ],
                             ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [

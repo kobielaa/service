@@ -49,21 +49,18 @@ function _timian_service_fetch_product($id)
     return $data;
 }
 
-function _timian_service_resource_delete($id)
+function _timian_service_resource_delete($product_id, $order_id)
 {
-    uc_order_product_delete($id);
-    $order = uc_order_load(882,true);
-    uc_order_save($order);	
+    // uc_order_product_delete($id);
+    // $order = uc_order_load(882,true);
+    // uc_order_save($order);	
 
     $cokowliek = [
         [
-        'id' => DRUPAL_ROOT . "/" . drupal_get_path('module', 'ubercart') . 'uc_order/uc_order.module',
-        'text' => $adres
+        'order' => $order_id,
+        'product' => $product_id
         ],
-        [
-            'id' => DRUPAL_ROOT,
-            'text' => __DIR__
-        ],
+
 
     ];
     
