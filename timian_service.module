@@ -102,13 +102,6 @@ function timian_service_services_resources()
                                     'type' => 'int',
                                     'description' => 'The nid of the node to update',
                                   ),
-                                  array(
-                                    'name' => 'product_id',
-                                    'optional' => FALSE,
-                                    'source' => 'data',
-                                    'description' => 'The node data to update',
-                                    'type' => 'array',
-                                  ),
                                   
                             ],
                             'access callback' => '_timian_service_data_access',
