@@ -103,11 +103,11 @@ function timian_service_services_resources()
                                     'description' => 'The nid of the node to update',
                                   ),
                                   array(
-                                    'name' => 'product_id',
+                                    'name' => 'ckokolwiek',
                                     'optional' => FALSE,
-                                    'source' => 'data',
-                                    'description' => 'The node data to update',
-                                    'type' => 'array',
+                                    'source' => array('path' => 1),
+                                    'type' => 'int',
+                                    'description' => 'The nid of the node to update',
                                   ),
                                   
                             ],
