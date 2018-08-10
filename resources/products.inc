@@ -60,7 +60,7 @@ function _timian_service_resource_delete($id)
         ],
         [
             'id' => DRUPAL_ROOT,
-            'text' => 'mama'
+            'text' => __DIR__
         ],
 
     ];
