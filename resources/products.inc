@@ -58,7 +58,7 @@ function _timian_service_resource_delete($id)
         'text' => $adres
         ],
         [
-            'id' => base_path(),
+            'id' => DRUPAL_ROOT,
             'text' => 'mama'
         ],
 
