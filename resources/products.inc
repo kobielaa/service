@@ -51,7 +51,7 @@ function _timian_service_fetch_product($id)
 
 function _timian_service_resource_delete($id)
 {
-    $data = [
+    $cokowliek = [
         [
         'id' => $id,
         'text' => 'Human'
@@ -64,6 +64,6 @@ function _timian_service_resource_delete($id)
     ];
     
        
-    return $data;
+    return $cokowliek;
     
 }
