@@ -90,6 +90,25 @@ function timian_service_services_resources()
                                 'name'   => 'resources/products'
                             ],
                         ],
+                        'delete' => [
+                            'help'            => 'Delete product',
+                            'callback'        => '_timian_service_delete_product',
+                            'args'            => [
+                                [
+                                    'name'        => 'order_id',
+                                    'type'        => 'int',
+                                    'description' => 'Produckt nid',
+                                    'source' =>     array('path' => '0'),
+                                    'optional'    => false,
+                                ],
+                            ],
+                            'access callback' => '_timian_service_data_access',
+                            'file'            => [
+                                'type'   => 'inc',
+                                'module' => 'timian_service',
+                                'name'   => 'resources/products'
+                            ],
+                        ],
                     ],
                     
                     ],

@@ -35,7 +35,7 @@ function _timian_service_fetch_product($id)
 {
     $data = [
         [
-        'id' => 'dupa',
+        'id' => $id,
         'text' => 'Human'
         ],
         [
@@ -43,6 +43,19 @@ function _timian_service_fetch_product($id)
             'text' => 'mama'
         ],
 
+    ];
+    
+       
+    return $data;
+}
+
+function _timian_service_delete_product($id)
+{
+    $data = [
+        [
+        'kupa' => 'dupa',
+        'text' => 'Human'
+        ],
     ];
     
        
