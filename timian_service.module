@@ -93,6 +93,7 @@ function timian_service_services_resources()
                         'delete' => [
                             'help'            => 'Delete product',
                             'callback'        => '_timian_service_resource_delete',
+                            'access arguments append' => FALSE,
                             'args'            => [
                                 array(
                                     'name'         => 'order_id',
