@@ -51,7 +51,9 @@ function _timian_service_fetch_product($id)
 
 function _timian_service_resource_delete($id)
 {
-    //uc_order_product_delete();
+    uc_order_product_delete($id);
+    $order = uc_order_load(882,true);
+    uc_order_save($order);	
 
     $cokowliek = [
         [
