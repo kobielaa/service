@@ -54,7 +54,7 @@ function _timian_service_resource_delete($id)
 
     $cokowliek = [
         [
-        'id' => dirname(__FILE__) . '/uc_order.order_pane.inc',
+        'id' => drupal_get_path('module', 'ubercart') . '/uc_order.order_pane.inc',
         'text' => 'Human'
         ],
         [
