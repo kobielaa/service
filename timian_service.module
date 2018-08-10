@@ -93,14 +93,23 @@ function timian_service_services_resources()
                         'delete' => [
                             'help'            => 'Delete product',
                             'callback'        => '_timian_service_resource_delete',
+                            'access arguments append' => true,
                             'args'            => [
-                                [
-                                    'name'        => 'product_id',
-                                    'type'        => 'int',
-                                    'description' => 'Produckt nid',
-                                    'source' =>     array('path' => '0'),
-                                    'optional'    => false,
-                                ],
+                                  array(
+                                    'name' => 'order_id',
+                                    'optional' => FALSE,
+                                    'source' => array('path' => 0),
+                                    'type' => 'int',
+                                    'description' => 'The nid of the node to update',
+                                  ),
+                                  array(
+                                    'name' => 'product_id',
+                                    'optional' => FALSE,
+                                    'source' => 'data',
+                                    'description' => 'The node data to update',
+                                    'type' => 'array',
+                                  ),
+                                  
                             ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [
