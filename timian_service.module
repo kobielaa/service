@@ -92,10 +92,10 @@ function timian_service_services_resources()
                         ],
                         'delete' => [
                             'help'            => 'Delete product',
-                            'callback'        => '_timian_service_delete_product',
+                            'callback'        => '_timian_service_resource_delete',
                             'args'            => [
                                 [
-                                    'name'        => 'order_id',
+                                    'name'        => 'product_id',
                                     'type'        => 'int',
                                     'description' => 'Produckt nid',
                                     'source' =>     array('path' => '0'),
