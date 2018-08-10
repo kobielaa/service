@@ -51,9 +51,10 @@ function _timian_service_fetch_product($id)
 
 function _timian_service_resource_delete($id)
 {
+
     $cokowliek = [
         [
-        'id' => $id,
+        'id' => dirname(__FILE__) . '/uc_order.order_pane.inc',
         'text' => 'Human'
         ],
         [
