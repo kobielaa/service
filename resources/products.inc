@@ -56,7 +56,7 @@ function _timian_service_resource_delete($id)
         [
         'kupa' => 'cokolweik',
         'text' => 'Human'
-        ],
+        ]
     ];
     
        
