@@ -34,7 +34,9 @@ function _timian_service_fetch_data($order_id)
 	$query->condition('o.order_id', $order_id , "=");
 	$order_products = $query->execute()->fetchAll();
 
+	$comments = uc_order_comments_load(order_id);
 
+	error_log(print_r($comments,1),0);
 	// $array = [];
 	// $object = uc_order_load(12415);
 	// foreach ($object as $key => $value)  {
