@@ -51,11 +51,11 @@ function _timian_service_fetch_product($id)
 
 function _timian_service_resource_delete($id)
 {
-
+    $adres = drupal_get_path('module', 'ubercart');
     $cokowliek = [
         [
         'id' => drupal_get_path('module', 'ubercart') . '/uc_order.order_pane.inc',
-        'text' => 'Human'
+        'text' => $adres
         ],
         [
             'id' => 'dupa',
