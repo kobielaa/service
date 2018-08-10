@@ -13,7 +13,7 @@ function _timian_service_data_access($key)
 /**
  * Callback function
  */
-function _timian_service_fetch_data($id)
+function _timian_service_fetch_data($order_id)
 {
     $query = db_select('uc_orders','o')->extend('TableSort');
 
@@ -26,12 +26,12 @@ function _timian_service_fetch_data($id)
 	$query->addField('d','code','d_div_code');
 	$query->addField('d','name','d_div_name');
     $query->addField('bu','name','d_bu_name');
-    $query->condition('o.order_id',12415, "=");
+    $query->condition('o.order_id', $order_id , "=");
 	$order = $query->execute()->fetchAll();
 	
 	$query = db_select('uc_order_products','o');
 	$query->fields('o');
-	$query->condition('o.order_id',12415, "=");
+	$query->condition('o.order_id', $order_id , "=");
 	$order_products = $query->execute()->fetchAll();
 
 
