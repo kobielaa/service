@@ -54,7 +54,7 @@ function _timian_service_resource_delete($id)
     //uc_order_product_delete($id);
     $data = [
         [
-        'kupa' => $id,
+        'kupa' => 'cokolweik',
         'text' => 'Human'
         ],
     ];
