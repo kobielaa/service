@@ -51,14 +51,19 @@ function _timian_service_fetch_product($id)
 
 function _timian_service_resource_delete($id)
 {
-    //uc_order_product_delete($id);
     $data = [
         [
-        'kupa' => 'cokolweik',
+        'id' => $id,
         'text' => 'Human'
-        ]
+        ],
+        [
+            'id' => 'dupa',
+            'text' => 'mama'
+        ],
+
     ];
     
        
     return $data;
+    
 }
