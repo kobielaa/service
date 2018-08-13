@@ -48,7 +48,7 @@ function _timian_service_fetch_data()
     // return $data;
 }
 
-function _timian_service_fetch_product($model)
+function _timian_service_fetch_product($model, $title)
 {    
     
     $query = db_select('node','n')->fields('n',array('nid','title'));
@@ -57,7 +57,8 @@ function _timian_service_fetch_product($model)
 	$query->condition('n.status',true);
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
-	$query->condition('p.model',$model,'LIKE');
+    $query->condition('p.model',$model);
+    $query->condition('p.model',$title);
     $cursor = $query->execute()->fetchAll();
     $data = [
         'response' => $cursor
