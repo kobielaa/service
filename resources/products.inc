@@ -31,7 +31,7 @@ function _timian_service_fetch_data($id)
         $match['text'] = trim($entry->title).'           '.$entry->model;
         $result[] = $match;
     }
-    error_log(print_r($cursor,1),0);
+    error_log(print_r(variable_get('sja_supplier','5'),1),0);
 	return $result;
     // $data = [
     //     [
