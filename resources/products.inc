@@ -22,6 +22,10 @@ function _timian_service_fetch_data($search)
 	$query->condition('n.status',true);
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
+    $orCondtion = db_or();
+	$orCondtion->condition('n.title','%'.$search.'%','LIKE');
+	$orCondtion->condition('p.model',$search.'%','LIKE');
+	$query->condition($orCondtion);
     $cursor = $query->execute()->fetchAll();
 
     $result = [];
