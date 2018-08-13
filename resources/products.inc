@@ -42,6 +42,15 @@ function _timian_service_fetch_data($search)
     return $data;
 }
 
+
+/**
+ * Callback function - get specific product
+ * 
+ * @param string $model
+ * @param string $title
+ * 
+ * @return array $data Product
+ */
 function _timian_service_fetch_product($model, $title)
 {    
     
@@ -53,10 +62,10 @@ function _timian_service_fetch_product($model, $title)
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
     $query->condition('p.model',$model);
     $query->condition('n.title',$title);
-    $cursor = $query->execute()->fetchAll();
-    $data = [
-        'response' => $cursor,
+    $product = $query->execute()->fetchAll();
 
+    $data = [
+        'response' => $product,
     ];
     
        
