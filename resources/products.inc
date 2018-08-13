@@ -45,9 +45,9 @@ function _timian_service_fetch_data($search)
 function _timian_service_fetch_product($model, $title)
 {    
     
-    $query = db_select('node','n')->fields('n',array('nid','title'));
+    $query = db_select('node','n')->fields('n');
 	$query->join('uc_products','p','p.nid=n.nid');
-	$query->fields('p',array('model'));
+	$query->fields('p');
 	$query->condition('n.status',true);
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
