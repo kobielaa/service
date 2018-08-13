@@ -15,20 +15,37 @@ function _timian_service_data_access($key)
  */
 function _timian_service_fetch_data($id)
 {
-    $data = [
-        [
-        'id' => 'Aragorn',
-        'text' => 'Human'
-        ],
-        [
-            'id' => 'Basia',
-            'text' => 'mama'
-        ],
 
-    ];
+    $query = db_select('node','n')->fields('n',array('nid','title'));
+	$query->join('uc_products','p','p.nid=n.nid');
+	$query->fields('p',array('model'));
+	$query->condition('n.status',true);
+    $query->condition('n.type','product');
+    $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
+    $cursor = $query->execute();
+
+    $result = [];
+    foreach ($cursor as $entry) {
+		$match = array();
+		$match['id'] = $entry->nid;
+        $match['text'] = trim($entry->title).'           '.$entry->model;
+        $result[$entry->title] = $match;
+	}
+	return $result;
+    // $data = [
+    //     [
+    //     'id' => 'Aragorn',
+    //     'text' => 'Human'
+    //     ],
+    //     [
+    //         'id' => 'Basia',
+    //         'text' => 'mama'
+    //     ],
+
+    // ];
     
        
-    return $data;
+    // return $data;
 }
 
 function _timian_service_fetch_product($id)

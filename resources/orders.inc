@@ -41,7 +41,6 @@ function _timian_service_fetch_data($order_id)
 	foreach ($order_products as $product)  {
 		$product->data = unserialize($product->data);
 	}
-    error_log(print_r($order_products,1),0);
 	$order_data = [
 		"order" => $order,
 		"products" => $order_products,
