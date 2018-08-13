@@ -31,7 +31,7 @@ function _timian_service_fetch_data()
         $match['text'] = $entry->model.'           | '.trim($entry->title);
         $result[] = $match;
     }
-	return $result;
+
     // $data = [
     //     [
     //     'id' => 'Aragorn',
@@ -44,8 +44,10 @@ function _timian_service_fetch_data()
 
     // ];
     
-       
-    // return $data;
+       $data = [
+           "results" => $result
+       ];
+    return $data;
 }
 
 function _timian_service_fetch_product($model, $title)
