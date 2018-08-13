@@ -72,13 +72,7 @@ function timian_service_services_resources()
                                     'source' =>     array('path' => '0'),
                                     'optional'    => false,
                                 ],
-                                [
-                                    'name'        => 'product_title',
-                                    'type'        => 'string',
-                                    'description' => 'Product title',
-                                    'source' =>     array('path' => '1'),
-                                    'optional'    => false,
-                                ],
+
                             ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [
@@ -96,6 +90,15 @@ function timian_service_services_resources()
                                 'module' => 'timian_service',
                                 'name'   => 'resources/products'
                             ],
+                            'args' => array(
+                                array(
+                                  'name' => 'search',
+                                  'optional' => FALSE,
+                                  'type' => 'string',
+                                  'description' => 'The zero-based index of the page to get, defaults to 0.',
+                                  'source' => array('param' => 'search'),
+                                ),
+                            ),
                         ],
                         'delete' => [
                             'help'            => 'Delete product',
