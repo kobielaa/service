@@ -61,8 +61,7 @@ function _timian_service_fetch_product($model, $title)
     $query->condition('n.title',$title);
     $cursor = $query->execute()->fetchAll();
     $data = [
-        'model' => $model,
-        'title' => $title
+        'model' => $cursor
 
     ];
     
