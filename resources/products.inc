@@ -58,7 +58,7 @@ function _timian_service_fetch_product($model)
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
 	$orCondtion = db_or();
-	$orCondtion->condition('p.model',$model.'%','LIKE');
+	$orCondtion->condition('p.model',$model,'LIKE');
     $cursor = $query->execute()->fetchAll();
     $data = [
         'response' => $cursor
