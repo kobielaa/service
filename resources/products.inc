@@ -35,18 +35,6 @@ function _timian_service_fetch_data($search)
         $match['text'] = $entry->model.'           | '.trim($entry->title);
         $result[] = $match;
     }
-
-    // $data = [
-    //     [
-    //     'id' => 'Aragorn',
-    //     'text' => 'Human'
-    //     ],
-    //     [
-    //         'id' => 'Basia',
-    //         'text' => 'mama'
-    //     ],
-
-    // ];
     
        $data = [
            "results" => $result
