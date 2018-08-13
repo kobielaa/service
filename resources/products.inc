@@ -22,7 +22,7 @@ function _timian_service_fetch_data($id)
 	$query->condition('n.status',true);
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
-    $cursor = $query->execute();
+    $cursor = $query->execute()->fetchAll();
 
     $result = [];
     foreach ($cursor as $entry) {
