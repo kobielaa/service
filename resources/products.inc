@@ -30,7 +30,8 @@ function _timian_service_fetch_data($id)
 		$match['id'] = $entry->nid;
         $match['text'] = trim($entry->title).'           '.$entry->model;
         $result[] = $match;
-	}
+    }
+    error_log(print_r($cursor,1),0);
 	return $result;
     // $data = [
     //     [
