@@ -49,18 +49,24 @@ function _timian_service_fetch_product($id)
     return $data;
 }
 
+
+/**
+ * Callback function to delete product from order
+ * 
+ * @param int $order_id
+ * @param int $product_id
+ */
 function _timian_service_resource_delete( $order_id, $product_id)
 {
     uc_order_product_delete($product_id);
     $order = uc_order_load($order_id,true);
     $response = uc_order_save($order);	
-
+    //
+    // brakuje dodania komentarza po usunieciu
     $data = [
         [
-        'response' => $response,
+        'response' => 'success',
         ],
-
-
     ];
     
     return $data;
