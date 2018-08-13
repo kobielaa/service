@@ -39,7 +39,7 @@ function _timian_service_fetch_data($order_id)
 	// $array = [];
 	// $object = uc_order_load(12415);
 	foreach ($order_products as $product)  {
-		$product->data = serialize($product->data);
+		$product->data = unserialize($product->data);
 	}
     error_log(print_r($order_products,1),0);
 	$order_data = [
