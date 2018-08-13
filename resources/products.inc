@@ -16,21 +16,21 @@ function _timian_service_data_access($key)
 function _timian_service_fetch_data($search)
 {
 
-    // $query = db_select('node','n')->fields('n',array('nid','title'));
-	// $query->join('uc_products','p','p.nid=n.nid');
-	// $query->fields('p',array('model'));
-	// $query->condition('n.status',true);
-    // $query->condition('n.type','product');
-    // $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
-    // $cursor = $query->execute()->fetchAll();
+    $query = db_select('node','n')->fields('n',array('nid','title'));
+	$query->join('uc_products','p','p.nid=n.nid');
+	$query->fields('p',array('model'));
+	$query->condition('n.status',true);
+    $query->condition('n.type','product');
+    $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
+    $cursor = $query->execute()->fetchAll();
 
-    // $result = [];
-    // foreach ($cursor as $entry) {
-	// 	$match = array();
-	// 	$match['id'] = $entry->model;
-    //     $match['text'] = $entry->model.'           | '.trim($entry->title);
-    //     $result[] = $match;
-    // }
+    $result = [];
+    foreach ($cursor as $entry) {
+		$match = array();
+		$match['id'] = $entry->model;
+        $match['text'] = $entry->model.'           | '.trim($entry->title);
+        $result[] = $match;
+    }
 
     // $data = [
     //     [
@@ -45,7 +45,7 @@ function _timian_service_fetch_data($search)
     // ];
     
        $data = [
-           "results" => $search
+           "results" => $result
        ];
     return $data;
 }
