@@ -75,7 +75,7 @@ function _timian_service_fetch_product($model, $title)
 
 function _timian_service_create_product($data) {
     // error_log(print_r($data['title'],1),0);
-    $add_product = node_load($data['nide']);
+    $add_product = node_load($data['nid']);
         error_log(print_r($add_product,1),0);
     $response = [
         'title' => $data['model'],
