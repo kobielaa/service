@@ -34,8 +34,9 @@ function _timian_service_fetch_data($search)
 		$match['id'] = $entry->model;
         $match['text'] = $entry->model.'           | ' . $entry->title;
         $result[] = $match;
+        error_log(print_r($entry->title,1),0);
     }
-    
+
        $data = [
            "results" => $result
        ];
