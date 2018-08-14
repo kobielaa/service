@@ -33,7 +33,6 @@ function _timian_service_fetch_data($search)
 		$match = array();
 		$match['id'] = $entry->model;
         $match['text'] = $entry->model.'           | ' . $entry->title;
-        $match['data-name'] = $entry->title;
         $result[] = $match;
         error_log(print_r($entry->title,1),0);
     }
@@ -63,6 +62,7 @@ function _timian_service_fetch_product($model, $title)
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
     $query->condition('p.model',$model);
+    $query->condition('n.title',$title);
     $product = $query->execute()->fetchAll();
 
     $data = [
