@@ -74,6 +74,7 @@ function _timian_service_fetch_product($model, $title)
 }
 
 function _timian_service_create_product($account) {
+    error_log(print_r($account,1),0);
     $data = [
         'response' => $account,
     ];
