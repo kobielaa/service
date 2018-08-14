@@ -115,12 +115,7 @@ function _timian_service_create_product($data) {
 
         }
     $response = [
-        'title' => $data['description'],
-        'quantity' => eldhus_parse_number($data['quantity']),
-        'weight' => eldhus_parse_number($data['weight']),
-        'price' => eldhus_parse_number($data['price']),
-        'discount' => eldhus_parse_number($data['discount']),
-        'model'=> $data['model']
+        'order_id' => $data['order_id']
     ];
 
     return $response;
