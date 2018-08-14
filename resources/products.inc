@@ -73,9 +73,9 @@ function _timian_service_fetch_product($model, $title)
     return $data;
 }
 
-function _timian_service_create_product($param) {
+function _timian_service_create_product($order_id) {
     $data = [
-        'response' => $param,
+        'response' => $order_id,
     ];
 }
 
