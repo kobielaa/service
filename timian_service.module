@@ -111,11 +111,11 @@ function timian_service_services_resources()
                             'callback'        => '_timian_service_create_product',
                             'args'            => [
                                 array(
-                                    'name' => 'search',
+                                    'name' => 'account',
+                                    'type' => 'array',
+                                    'description' => 'The user object',
+                                    'source' => 'data',
                                     'optional' => FALSE,
-                                    'type' => 'string',
-                                    'description' => 'Product description (title)',
-                                    'source' => array('param' => 'search'),
                                   ),
                                 //   array(
                                 //     'name' => 'title',
