@@ -32,7 +32,7 @@ function _timian_service_fetch_data($search)
     foreach ($cursor as $entry) {
 		$match = array();
 		$match['id'] = $entry->model;
-        $match['text'] = $entry->model.'           | '.trim($entry->title);
+        $match['text'] = $entry->model.'           | ' . $entry->title;
         $result[] = $match;
     }
     
