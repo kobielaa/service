@@ -72,13 +72,13 @@ function timian_service_services_resources()
                                     'source' =>     array('path' => '0'),
                                     'optional'    => false,
                                 ],
-                                [
-                                    'name'        => 'product_title',
-                                    'type'        => 'string',
-                                    'description' => 'Product title',
-                                    'source' =>     array('path' => '1'),
-                                    'optional'    => false,
-                                ],
+                                array(
+                                    'name' => 'title',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'title'),
+                                  ),
                             ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [
