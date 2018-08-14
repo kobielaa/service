@@ -106,6 +106,60 @@ function timian_service_services_resources()
                                 ),
                             ),
                         ],
+                        'create' => [
+                            'help'            => 'Add product to order',
+                            'callback'        => '_timian_service_create_product',
+                            'args'            => [
+                                array(
+                                    'name' => 'order_id',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'order_id'),
+                                  ),
+                                  array(
+                                    'name' => 'title',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'title'),
+                                  ),
+                                  array(
+                                    'name' => 'model',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'model'),
+                                  ),
+                                  array(
+                                    'name' => 'quantity',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'quantity'),
+                                  ),
+                                  array(
+                                    'name' => 'weight',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'weight'),
+                                  ),
+                                  array(
+                                    'name' => 'price',
+                                    'optional' => FALSE,
+                                    'type' => 'string',
+                                    'description' => 'Product description (title)',
+                                    'source' => array('param' => 'price'),
+                                  ),
+                            ],
+                            'access callback' => '_timian_service_data_access',
+                            'file'            => [
+                                'type'   => 'inc',
+                                'module' => 'timian_service',
+                                'name'   => 'resources/products'
+                            ],
+                        ],
                         'delete' => [
                             'help'            => 'Delete product',
                             'callback'        => '_timian_service_resource_delete',
