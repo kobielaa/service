@@ -35,12 +35,11 @@ function _timian_service_fetch_data($order_id)
 	// $order_products = $query->execute()->fetchAll();
 	$order_products = eldhus_uc_get_order_products_for_display($order_id);
 	$comments = uc_order_comments_load($order_id);
-	
-	// $array = [];
-	// $object = uc_order_load(12415);
+	error_log(print_r($order_products,1),0);
 	// foreach ($order_products as $product)  {
 	// 	$product->data = unserialize($product->data);
 	// }
+
 	$order_data = [
 		"order" => $order,
 		"products" => $order_products,
