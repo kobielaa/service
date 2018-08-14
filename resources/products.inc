@@ -62,7 +62,6 @@ function _timian_service_fetch_product($model, $title)
     $query->condition('n.type','product');
     $query->join('field_data_field_commodity_supplier','cs','cs.entity_id=n.nid');
     $query->condition('p.model',$model);
-	$query->condition('n.title','%'.$title.'%','LIKE');
     $product = $query->execute()->fetchAll();
 
     $data = [
