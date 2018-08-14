@@ -42,7 +42,7 @@ function _timian_service_fetch_data($order_id)
 
 	$order_data = [
 		"order" => $order,
-		"products" => $order_products,
+		"products" => json_encode($order_products),
 		"comments" => $comments,
 	];
 
