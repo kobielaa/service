@@ -85,23 +85,34 @@ function _timian_service_create_product($data) {
 
     	if ($add_product) {
             $add_product_data = array(
-                'order_id' => $order->order_id,
-                'title' => $form_state['values']['commodity-title'],
-                'model' => $form_state['values']['commodity-name'],    // note this is the new model
-                'qty' => $add_order_line_qty,
-                'weight' => $add_order_line_weight / $add_order_line_qty,
-                'price' => $add_order_line_unit_price * (1-$add_order_line_discount/100),
+                'order_id' => $data['order_id'],
+                'title' => $data['description'],
+                'model' => $data['model'],
+                'qty' => $quantity,
+                'weight' => $weight,
+                'price' => $unit_price * (1-$discount/100),
                 'cost' => 0,
                 'data' => array(
                     'supplier' => array(
-                        'total_weight' => $add_order_line_weight,
-                        'unit_price' => $add_order_line_unit_price,
-                        'qty' => $add_order_line_qty,
-                        'discount' => $add_order_line_discount,
-                        'model' => $form_state['values']['commodity-name']
+                        'total_weight' => $weight,
+                        'unit_price' => $unit_price,
+                        'qty' => $quantity,
+                        'discount' => $discount,
+                        'model' => $data['model']
                     )
                 )
             );
+
+            // if (arg(0) == 'supplier' && arg(1) == 'view' && arg(2) == 'order') {
+            //     uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
+            // }
+            $add_product_data['nid'] = $add_product->nid;
+            $add_product_data['weight_units'] = $add_product->weight_units;
+            $add_order_product = entity_create('uc_order_product', $add_product_data);
+            uc_order_product_entity_save($add_order_product);
+            $order = uc_order_load($data['order_id'],true);
+            uc_order_save($order);	
+
         }
     $response = [
         'quantity' => eldhus_parse_number($data['quantity']),
