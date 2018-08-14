@@ -73,6 +73,12 @@ function _timian_service_fetch_product($model, $title)
     return $data;
 }
 
+function _timian_service_create_product($param) {
+    $data = [
+        'response' => $param,
+    ];
+}
+
 
 /**
  * Callback function to delete product from order
