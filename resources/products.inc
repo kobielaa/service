@@ -33,6 +33,7 @@ function _timian_service_fetch_data($search)
 		$match = array();
 		$match['id'] = $entry->model;
         $match['text'] = $entry->model.'           | ' . $entry->title;
+        $match['data-name'] = $entry->title;
         $result[] = $match;
         error_log(print_r($entry->title,1),0);
     }
