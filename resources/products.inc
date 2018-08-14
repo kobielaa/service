@@ -73,7 +73,7 @@ function _timian_service_fetch_product($model, $title)
     return $data;
 }
 
-function _timian_service_create_product($account) {
+function _timian_service_create_product($data) {
     error_log(print_r($account['title'],1),0);
     $data = [
         'response' => $account,
