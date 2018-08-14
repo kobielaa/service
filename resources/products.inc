@@ -77,9 +77,36 @@ function _timian_service_create_product($data) {
     // error_log(print_r($data['title'],1),0);
     $add_product = node_load($data['nid']);
         error_log(print_r($add_product,1),0);
+
+        $quantity = eldhus_parse_number($data['quantity']);
+        $weight = eldhus_parse_number($data['weight']);
+        $unit_price = eldhus_parse_number($data['price']);
+        $discount = eldhus_parse_number($data['discount']);
+
+    	if ($add_product) {
+            $add_product_data = array(
+                'order_id' => $order->order_id,
+                'title' => $form_state['values']['commodity-title'],
+                'model' => $form_state['values']['commodity-name'],    // note this is the new model
+                'qty' => $add_order_line_qty,
+                'weight' => $add_order_line_weight / $add_order_line_qty,
+                'price' => $add_order_line_unit_price * (1-$add_order_line_discount/100),
+                'cost' => 0,
+                'data' => array(
+                    'supplier' => array(
+                        'total_weight' => $add_order_line_weight,
+                        'unit_price' => $add_order_line_unit_price,
+                        'qty' => $add_order_line_qty,
+                        'discount' => $add_order_line_discount,
+                        'model' => $form_state['values']['commodity-name']
+                    )
+                )
+            );
     $response = [
-        'title' => $data['model'],
-        'nid' => $data['nid'],
+        'quantity' => eldhus_parse_number($data['quantity']),
+        'weight' => eldhus_parse_number($data['weight']),
+        'unit_price' => eldhus_parse_number($data['price']),
+        'discount' => eldhus_parse_number($data['discount'])
     ];
 
     return $response;
