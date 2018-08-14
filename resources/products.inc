@@ -102,6 +102,7 @@ function _timian_service_create_product($data) {
                     )
                 )
             );
+        }
     $response = [
         'quantity' => eldhus_parse_number($data['quantity']),
         'weight' => eldhus_parse_number($data['weight']),
