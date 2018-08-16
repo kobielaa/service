@@ -139,6 +139,7 @@ function _timian_service_resource_delete($data)
     //     "Eyddi út vörulínu: ".$deleted_line->model." - ".$deleted_line->title.", magn: ".$deleted_line->weight*$deleted_line->qty." ".$deleted_line->weight_units.", ".theme('uc_price',array('price' => $deleted_line->price*$deleted_line->qty)),"order",$order->order_status,false);
     // //
     // brakuje dodania komentarza po usunieciu
+    error_log(print_r($data,1),0);
     $response = [
         [
         'response' => $data['title'],
