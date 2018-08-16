@@ -145,5 +145,5 @@ function _timian_service_resource_delete($data)
         ],
     ];
     
-    return $data;
+    return $response;
 }
