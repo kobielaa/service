@@ -74,51 +74,48 @@ function _timian_service_fetch_product($model, $title)
 
 function _timian_service_create_product($data)
 {
+    $add_product = node_load($data['nid']);
+    $user = user_load_by_name($data['supplier']);
 
-    error_log(print_r($data['supplier'],1),0);
-    // $add_product = node_load($data['nid']);
-    // $user = user_load_by_name($data['supplier']);
+    $quantity = eldhus_parse_number($data['quantity']);
+    $weight = eldhus_parse_number($data['weight']);
+    $unit_price = eldhus_parse_number($data['price']);
+    $discount = eldhus_parse_number($data['discount']);
 
-    // $quantity = eldhus_parse_number($data['quantity']);
-    // $weight = eldhus_parse_number($data['weight']);
-    // $unit_price = eldhus_parse_number($data['price']);
-    // $discount = eldhus_parse_number($data['discount']);
+    if ($add_product) {
+        $add_product_data = [
+            'order_id' => $data['order_id'],
+            'title'    => $data['description'],
+            'model'    => $data['model'],
+            'qty'      => $quantity,
+            'weight'   => $weight,
+            'price'    => $unit_price * (1 - $discount / 100),
+            'cost'     => 0,
+            'data'     => [
+                'supplier' => [
+                    'total_weight' => $weight,
+                    'unit_price'   => $unit_price,
+                    'qty'          => $quantity,
+                    'discount'     => $discount,
+                    'model'        => $data['model']
+                ]
+            ]
+        ];
 
-    // if ($add_product) {
-    //     $add_product_data = [
-    //         'order_id' => $data['order_id'],
-    //         'title'    => $data['description'],
-    //         'model'    => $data['model'],
-    //         'qty'      => $quantity,
-    //         'weight'   => $weight,
-    //         'price'    => $unit_price * (1 - $discount / 100),
-    //         'cost'     => 0,
-    //         'data'     => [
-    //             'supplier' => [
-    //                 'total_weight' => $weight,
-    //                 'unit_price'   => $unit_price,
-    //                 'qty'          => $quantity,
-    //                 'discount'     => $discount,
-    //                 'model'        => $data['model']
-    //             ]
-    //         ]
-    //     ];
+        // if (arg(0) == 'supplier' && arg(1) == 'view' && arg(2) == 'order') {
+        //     uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
+        // }
+        $add_product_data['nid'] = $add_product->nid;
+        $add_product_data['weight_units'] = $add_product->weight_units;
+        $add_order_product = entity_create('uc_order_product', $add_product_data);
+        uc_order_product_entity_save($add_order_product);
+        $order = uc_order_load($data['order_id'], true);
+        uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
+        uc_order_save($order);
 
-    //     // if (arg(0) == 'supplier' && arg(1) == 'view' && arg(2) == 'order') {
-    //     //     uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
-    //     // }
-    //     $add_product_data['nid'] = $add_product->nid;
-    //     $add_product_data['weight_units'] = $add_product->weight_units;
-    //     $add_order_product = entity_create('uc_order_product', $add_product_data);
-    //     uc_order_product_entity_save($add_order_product);
-    //     $order = uc_order_load($data['order_id'], true);
-    //     uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
-    //     uc_order_save($order);
-
-    // }
+    }
     $response = [
         'order_id' => $data['order_id'],
-        'supplier' => $data['supplier'],
     ];
 
     return $response;
