@@ -34,7 +34,6 @@ function _timian_service_fetch_data($search)
 		$match['id'] = $entry->model;
         $match['text'] = $entry->model.'           | ' . $entry->title;
         $result[] = $match;
-        error_log(print_r($entry->title,1),0);
     }
 
        $data = [
@@ -76,7 +75,7 @@ function _timian_service_fetch_product($model, $title)
 function _timian_service_create_product($data) {
     // error_log(print_r($data['title'],1),0);
     $add_product = node_load($data['nid']);
-        error_log(print_r($add_product,1),0);
+
 
         $quantity = eldhus_parse_number($data['quantity']);
         $weight = eldhus_parse_number($data['weight']);
@@ -130,16 +129,15 @@ function _timian_service_create_product($data) {
  */
 function _timian_service_resource_delete($data)
 {
-    // uc_order_product_delete($product_id);
-    // $order = uc_order_load($order_id,true);
+    // uc_order_product_delete($data['product_id']);
+    $order = uc_order_load($data['order_id'],true);
+    error_log(print_r($order,1),0);
     // $response = uc_order_save($order);	
     // uc_order_comment_save(
-    //     $order->order_id, 
+    //     $data['order_id'], 
     //     $user->uid, 
-    //     "Eyddi út vörulínu: ".$deleted_line->model." - ".$deleted_line->title.", magn: ".$deleted_line->weight*$deleted_line->qty." ".$deleted_line->weight_units.", ".theme('uc_price',array('price' => $deleted_line->price*$deleted_line->qty)),"order",$order->order_status,false);
-    // //
-    // brakuje dodania komentarza po usunieciu
-    error_log(print_r($data,1),0);
+    //     "Eyddi út vörulínu: ".$data['model']." - ".$data['title'].", magn: ".$data['weight']*$data['quantity']." ".$data['weight'].", ".theme('uc_price',array('price' => $data['price']*$data['quantity'])),"order",$order->order_status,false);
+
     $response = [
         [
         'response' => $data['title'],
