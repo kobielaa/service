@@ -128,14 +128,18 @@ function _timian_service_create_product($data) {
  * @param int $order_id
  * @param int $product_id
  */
-function _timian_service_resource_delete( $order_id, $product_id)
+function _timian_service_resource_delete($data)
 {
-    uc_order_product_delete($product_id);
-    $order = uc_order_load($order_id,true);
-    $response = uc_order_save($order);	
-    //
+    // uc_order_product_delete($product_id);
+    // $order = uc_order_load($order_id,true);
+    // $response = uc_order_save($order);	
+    // uc_order_comment_save(
+    //     $order->order_id, 
+    //     $user->uid, 
+    //     "Eyddi út vörulínu: ".$deleted_line->model." - ".$deleted_line->title.", magn: ".$deleted_line->weight*$deleted_line->qty." ".$deleted_line->weight_units.", ".theme('uc_price',array('price' => $deleted_line->price*$deleted_line->qty)),"order",$order->order_status,false);
+    // //
     // brakuje dodania komentarza po usunieciu
-    $data = [
+    $response = [
         [
         'response' => 'success',
         ],

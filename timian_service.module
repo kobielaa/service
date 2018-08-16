@@ -130,21 +130,13 @@ function timian_service_services_resources()
                             'callback'        => '_timian_service_resource_delete',
                             'access arguments append' => true,
                             'args'            => [
-                                  array(
-                                    'name' => 'order_id',
+                                array(
+                                    'name' => 'data',
+                                    'type' => 'array',
+                                    'description' => 'Data from add product form',
+                                    'source' => 'data',
                                     'optional' => FALSE,
-                                    'source' => array('path' => 0),
-                                    'type' => 'int',
-                                    'description' => 'The nid of the node to update',
                                   ),
-                                  array(
-                                    'name' => 'ckokolwiek',
-                                    'optional' => FALSE,
-                                    'source' => array('path' => 1),
-                                    'type' => 'int',
-                                    'description' => 'The nid of the node to update',
-                                  ),
-                                  
                             ],
                             'access callback' => '_timian_service_data_access',
                             'file'            => [
