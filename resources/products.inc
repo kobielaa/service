@@ -141,7 +141,7 @@ function _timian_service_resource_delete($data)
     // brakuje dodania komentarza po usunieciu
     $response = [
         [
-        'response' => 'success',
+        'response' => $data['title'],
         ],
     ];
     
