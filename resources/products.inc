@@ -74,6 +74,7 @@ function _timian_service_fetch_product($model, $title)
 
 function _timian_service_create_product($data)
 {
+    error_log(print_r($data['data'],1),0);
     error_log(print_r(json_decode($data['data'], true),1),0);
     error_log(print_r($data['supplier'],1),0);
     // $add_product = node_load($data['nid']);
