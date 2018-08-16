@@ -29,21 +29,16 @@ function _timian_service_fetch_data($order_id)
     $query->condition('o.order_id', $order_id , "=");
 	$order = $query->execute()->fetchAll();
 	
-	// $query = db_select('uc_order_products','o');
-	// $query->fields('o');
-	// $query->condition('o.order_id', $order_id , "=");
-	// $order_products = $query->execute()->fetchAll();
+
 	$order_products = eldhus_uc_get_order_products_for_display(uc_order_load($order_id,true));
 	$comments = uc_order_comments_load($order_id);
-	error_log(print_r($order_products,1),0);
-	// foreach ($order_products as $product)  {
-	// 	$product->data = unserialize($product->data);
-	// }
+	$statuses = eldhus_uc_order_status_display();
 
 	$order_data = [
 		"order" => $order,
 		"products" => $order_products,
 		"comments" => $comments,
+		"statuses"	=> $statuses
 	];
 
     return $order_data;
