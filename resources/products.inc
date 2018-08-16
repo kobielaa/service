@@ -113,7 +113,7 @@ function _timian_service_create_product($data)
     //     $order = uc_order_load($data['order_id'], true);
     //     uc_order_save($order);
 
-    }
+    // }
     $response = [
         // 'order_id' => $data['order_id'],
         'order_id' => 'dziala'
