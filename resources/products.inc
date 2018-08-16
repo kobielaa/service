@@ -118,7 +118,7 @@ function _timian_service_create_product($data)
     // }
     $response = [
         'order_id' => $data['order_id'],
-        'order_id' => $data['supplier'],
+        'supplier' => $data['supplier'],
     ];
 
     return $response;
