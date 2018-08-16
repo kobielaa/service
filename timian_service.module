@@ -125,26 +125,6 @@ function timian_service_services_resources()
                         'name'   => 'resources/products'
                     ],
                 ],
-                // 'delete'   => [
-                //     'help'                    => 'Delete product',
-                //     'callback'                => '_timian_service_resource_delete',
-                //     'access arguments append' => true,
-                //     'args'                    => [
-                //         [
-                //             'name'        => 'data',
-                //             'type'        => 'array',
-                //             'description' => 'Data from add product form',
-                //             'source'      => 'data',
-                //             'optional'    => false,
-                //         ],
-                //     ],
-                //     'access callback'         => '_timian_service_data_access',
-                //     'file'                    => [
-                //         'type'   => 'inc',
-                //         'module' => 'timian_service',
-                //         'name'   => 'resources/products'
-                //     ],
-                // ],
             ],
             'actions' => array(
                 'delete' =>  [
