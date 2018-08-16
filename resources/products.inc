@@ -142,7 +142,7 @@ function _timian_service_resource_delete($data)
 
     $response = [
         [
-            'response' => $data['title'],
+            'order_id' => $data['order_id'],
         ],
     ];
 
