@@ -131,7 +131,7 @@ function _timian_service_resource_delete($data)
 {
     // uc_order_product_delete($data['product_id']);
     $order = uc_order_load($data['order_id'],true);
-    error_log(print_r($order,1),0);
+    error_log(print_r($order->status,1),0);
     // $response = uc_order_save($order);	
     // uc_order_comment_save(
     //     $data['order_id'], 
