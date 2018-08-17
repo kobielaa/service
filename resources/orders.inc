@@ -81,6 +81,7 @@ function _timian_service_update_order($order_id, $data){
 	}
 	
 	if ($changed) {
+		$order = uc_order_load($order_id, true);
 		uc_order_save($order);
 	}
 
