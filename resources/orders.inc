@@ -61,7 +61,8 @@ function _timian_service_update_order($order_id, $data){
 	} else {
 		uc_order_comment_save($order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
 	}
-
+	
+	$order = uc_order_load($order_id, true);
 	$changed = false;
 	if (isset($data['ext_invoice_id'])) {
 		$invoice_ids = explode(',',$data['ext_invoice_id']);
@@ -81,7 +82,7 @@ function _timian_service_update_order($order_id, $data){
 	}
 	
 	if ($changed) {
-		$order = uc_order_load($order_id, true);
+		
 		uc_order_save($order);
 	}
 
