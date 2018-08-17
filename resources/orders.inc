@@ -57,7 +57,7 @@ function _timian_service_update_order($order_id, $data){
 	if (empty($data['comment'])) {
 		uc_order_comment_save($order_id, $user->uid, '-', 'order', $data['status'], false);
 	} else {
-		uc_order_comment_save($order->order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
+		uc_order_comment_save($order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
 	}
 	uc_order_save($order);
 	
