@@ -18,15 +18,17 @@ function _timian_service_fetch_data($order_id)
     $query = db_select('uc_orders','o')->extend('TableSort');
 
 	$query->join('eldhus_uc_order_fields','cf','o.order_id=cf.order_id');
-	// $query->fields('o',array('order_id','created','order_status','order_total','product_count','delivery_first_name','data'));
-	// $query->fields('cf',array('delivery_div','delivery_date','order_descr','supplier_id'));
+	$query->fields('o',array('order_id','created','order_status','order_total','product_count','delivery_first_name','data'));
+	$query->fields('cf',array('delivery_div','delivery_date','order_descr','supplier_id'));
 	$query->join('eldhus_divisions','d','d.id=cf.delivery_div');
 	$query->join('eldhus_business_unit','bu','bu.id=d.bunit');
 	$query->join('uc_order_statuses','os','os.order_status_id=o.order_status');
-	$query->fields('o')->fields('cf')->fields('d')->fields('bu')->fields('os');
-	// $query->addField('d','code','d_div_code');
-	// $query->addField('d','name','d_div_name');
-    // $query->addField('bu','name','d_bu_name');
+	// $query->fields('o')->fields('cf')->fields('d')->fields('bu')->fields('os');
+	$query->addField('d','code','d_div_code');
+	$query->addField('d','name','d_div_name');
+	$query->addField('bu','name','d_bu_name');
+	$query->addField('cf','ext_invoice_id');
+	$query->addField('cf','ext_invoice_date');
     $query->condition('o.order_id', $order_id , "=");
 	$order = $query->execute()->fetchAll();
 	
