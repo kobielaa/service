@@ -45,8 +45,20 @@ function _timian_service_fetch_data($order_id)
 }
 
 function _timian_service_update_order($order_id, $data){
+	
+	$order = uc_order_load($order_id, true);
+	$user = user_load_by_name($data['supplier']);
+
+	if ($data['status'] != $order->order_status) {	
+		uc_order_update_status($order_id, $data['status']);
+	}
+	if (empty($data['comment'])) {
+		uc_order_comment_save($order_id, $user->uid, '-', 'order', $data['status'], false);
+	} else {
+		uc_order_comment_save($order->order_id, $user->uid, $form_state['values']['order_comment'], 'order', $form_state['values']['status'], false);
+	}
+	
 	return [
-		"order" => $data['title'],
-		"id" => $order_id,
+		"order_id" => $order_id,
 	];
 }
