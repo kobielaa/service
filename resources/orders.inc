@@ -46,6 +46,7 @@ function _timian_service_fetch_data($order_id)
 
 function _timian_service_update_order($order_id, $data){
 	return [
-		"order" => 'dziala update',
+		"order" => $data['title'],
+		"id" => $order_id,
 	];
 }
