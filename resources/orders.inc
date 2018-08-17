@@ -23,7 +23,6 @@ function _timian_service_fetch_data($order_id)
 	$query->join('eldhus_divisions','d','d.id=cf.delivery_div');
 	$query->join('eldhus_business_unit','bu','bu.id=d.bunit');
 	$query->join('uc_order_statuses','os','os.order_status_id=o.order_status');
-	// $query->fields('o')->fields('cf')->fields('d')->fields('bu')->fields('os');
 	$query->addField('d','code','d_div_code');
 	$query->addField('d','name','d_div_name');
 	$query->addField('bu','name','d_bu_name');
@@ -61,6 +60,28 @@ function _timian_service_update_order($order_id, $data){
 		uc_order_comment_save($order_id, $user->uid, '-', 'order', $data['status'], false);
 	} else {
 		uc_order_comment_save($order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
+	}
+
+	$changed = false;
+	if (isset($data['ext_invoice_id'])) {
+		$invoice_ids = explode(',',$data['ext_invoice_id']);
+		if (count($invoice_ids) > 1) {
+			// incase we have more than one we must trim out all extra spaces
+			$invoice_ids = array_map(function ($itm) {return trim($itm);},$invoice_ids);
+			$order->ext_invoice_id = implode(',',$invoice_ids);
+		}
+		else {
+			$order->ext_invoice_id = $data['ext_invoice_id'];
+		}
+		$changed = true;
+	}
+	if (isset($data['ext_invoice_date'])) {
+		$order->ext_invoice_date = strtotime($data['ext_invoice_date']);
+		$changed = true;
+	}
+	
+	if ($changed) {
+		uc_order_save($order);
 	}
 
 	
