@@ -49,6 +49,8 @@ function _timian_service_update_order($order_id, $data){
 	$order = uc_order_load($order_id, true);
 	$user = user_load_by_name($data['supplier']);
 
+	error_log(print_r($data['status'],1),0);
+	error_log(print_r($order->order_status,1),0);
 	if ($data['status'] != $order->order_status) {	
 		uc_order_update_status($order_id, $data['status']);
 	}
