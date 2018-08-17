@@ -43,3 +43,9 @@ function _timian_service_fetch_data($order_id)
 
     return $order_data;
 }
+
+function _timian_service_update_order($order_id, $data){
+	return [
+		"order" => 'dziala update',
+	];
+}
