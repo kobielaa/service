@@ -59,6 +59,7 @@ function _timian_service_update_order($order_id, $data){
 	} else {
 		uc_order_comment_save($order->order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
 	}
+	uc_order_save($order);
 	
 	return [
 		"order_id" => $order_id,
