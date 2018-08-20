@@ -5,20 +5,19 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($data)
+function _timian_service_data_access($user)
 {
-    error_log(print_r($data,1),0);
-    // $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
-    // return ( $security_key == $key) ? true : false;
-    return true;
+    $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
+    return ( $security_key == $user['key']) ? true : false;
 }
 
 /**
  * Callback function
  */
-function _timian_service_fetch_data($key, $name)
+function _timian_service_fetch_data($user)
 {
-
+    error_log(print_r($key,1),0);
+    error_log(print_r($name,1),0);
     $user = user_load_by_name($name);
     if ($user) {
         return 'User : ' . $name . ' already exist';
