@@ -38,8 +38,9 @@ function _timian_service_fetch_data($order_id)
 
 	foreach ($comments as $comment) {
 		error_log(print_r($comment->uid,1),0);
-		// $comment_creator = user_load(comment['uid']);
+		$comment_creator = user_load($comment->uid);
 		error_log(print_r($comment_creator,1),0);
+		error_log(print_r($comment,1),0);
 	}
 
 	$order_data = [
