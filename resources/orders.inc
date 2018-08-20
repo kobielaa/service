@@ -39,7 +39,7 @@ function _timian_service_fetch_data($order_id)
 	// add username to comment
 	foreach ($comments as $comment) {
 		$comment_creator = user_load($comment->uid);
-		$comment['user_name'] = $comment_creator->name;
+		$comment->user_name = $comment_creator->name;
 	}
 
 	$order_data = [
