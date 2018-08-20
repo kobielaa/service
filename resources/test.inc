@@ -18,12 +18,12 @@ function _timian_service_data_access($data)
  */
 function _timian_service_fetch_data($data)
 {
-
+    error_log(print_r($data,1),0);
     $user = user_load_by_name($data);
     // error_log(print_r($user,1),0);
     // error_log(print_r($user['name'],1),0);
     if ($user) {
-        // error_log(print_r($user,1),0);
+       
         return 'User : ' . $data['name'] . ' already exist';
     } else {
         error_log(print_r('chuje muje',1),0);
