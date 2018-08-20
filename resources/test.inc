@@ -5,9 +5,9 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($user_data)
+function _timian_service_data_access($data)
 {
-    error_log(print_r($user_data,1),0);
+    error_log(print_r($data,1),0);
     // $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
     // return ( $security_key == $key) ? true : false;
     return true;
