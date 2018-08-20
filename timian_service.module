@@ -13,7 +13,7 @@ function timian_service_services_resources()
                     'callback'        => '_timian_service_fetch_data',
                     'args'            => [
                         [
-                            'name'        => 'user',
+                            'name'        => 'data',
                             'type'        => 'array',
                             'description' => 'Data from add product form',
                             'source'      => 'data',

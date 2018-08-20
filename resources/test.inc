@@ -5,7 +5,7 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($user)
+function _timian_service_data_access($data)
 {
     // $user = user_load_by_name($user['name']);
     // $security_key = 'uj38djdncnffjeidncnci9eqieruifewejhca8ujcuewdfuhuwf';
@@ -16,7 +16,7 @@ function _timian_service_data_access($user)
 /**
  * Callback function
  */
-function _timian_service_fetch_data($user)
+function _timian_service_fetch_data($data)
 {
 
     $user = user_load_by_name($user['name']);
