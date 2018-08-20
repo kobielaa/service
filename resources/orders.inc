@@ -36,6 +36,10 @@ function _timian_service_fetch_data($order_id)
 	$comments = uc_order_comments_load($order_id);
 	$statuses = eldhus_uc_order_status_display();
 
+	foreach (comments as comment) {
+		error_log(print_r(comment,1),0);
+	}
+
 	$order_data = [
 		"order" => $order,
 		"products" => $order_products,
