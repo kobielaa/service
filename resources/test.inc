@@ -19,12 +19,12 @@ function _timian_service_data_access($data)
 function _timian_service_fetch_data($data)
 {
 
-    $user = user_load_by_name($user['name']);
-    error_log(print_r($user,1),0);
-    error_log(print_r($user['name'],1),0);
+    $user = user_load_by_name($data);
+    // error_log(print_r($user,1),0);
+    // error_log(print_r($user['name'],1),0);
     if ($user) {
-        error_log(print_r($user,1),0);
-        return 'User : ' . $name . ' already exist';
+        // error_log(print_r($user,1),0);
+        return 'User : ' . $data['name'] . ' already exist';
     } else {
         error_log(print_r('chuje muje',1),0);
         // $new_user = [
@@ -39,6 +39,6 @@ function _timian_service_fetch_data($data)
         //     ],
         // ];
         // user_save('', $new_user);
-        return 'Created user : ' . $name;
+        return 'Created user : ' . $data['name'];
     }
 }
