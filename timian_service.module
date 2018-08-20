@@ -13,17 +13,10 @@ function timian_service_services_resources()
                     'callback'        => '_timian_service_fetch_data',
                     'args'            => [
                         [
-                            'name'        => 'security_key',
-                            'type'        => 'string',
-                            'description' => 'A valid username',
-                            'source'      => ['data' => 'key'],
-                            'optional'    => false,
-                        ],
-                        [
-                            'name'        => 'name',
-                            'type'        => 'string',
-                            'description' => 'A valid password',
-                            'source'      => ['data' => 'name'],
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'Data from add product form',
+                            'source'      => 'data',
                             'optional'    => false,
                         ],
                     ],
