@@ -22,6 +22,7 @@ function _timian_service_fetch_data($user)
         error_log(print_r($user,1),0);
         return 'User : ' . $name . ' already exist';
     } else {
+        error_log(print_r('chuje muje',1),0);
         // $new_user = [
         //     'name'   => $name,
         //     'pass'   => 'admin', // note: do not md5 the password
