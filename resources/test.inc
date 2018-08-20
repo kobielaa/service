@@ -16,6 +16,8 @@ function _timian_service_data_access($key)
  */
 function _timian_service_fetch_data($key, $name)
 {
+    error_log(print_r($key,1),0);
+    error_log(print_r($name,1),0);
     $user = user_load_by_name($name);
     if ($user) {
         return 'User : ' . $name . ' already exist';
