@@ -59,8 +59,6 @@ function _timian_service_fetch_data($data)
         return 'Successfully updated user : ' . $data['name'];
     } else {
         error_log(print_r('chuje muje', 1), 0);
-        error_log(print_r(drupal_random_key(), 1), 0);
-
         $new_user = [
             'name'                => $data['name'],
             'pass'                => drupal_random_key(), // random password, user will be login trough sso
@@ -83,13 +81,14 @@ function _timian_service_fetch_data($data)
 
         //insert data only visible for user with supplier role
         $user = user_load_by_name($data['name']);
+        error_log(print_r($user, 1), 0);
         $user->field_phone_nr['und'][0]['value'] = $data['phone'];
         $user->field_supplier_sid['und'][0]['value'] = $data['sid'];
         $user->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
         $user->field_supplier_order_email['und'][0]['value'] = $data['email'];
         $user->field_supplier_shorthand['und'][0]['value'] = $data['short_name'];
         $user->field_min_order_total['und'][0]['value'] = $data['minimum'];
-        user_save('', $user);
+        user_save($user);
 
         return 'Created user : ' . $data['name'];
     }
