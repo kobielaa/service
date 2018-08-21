@@ -90,6 +90,8 @@ function _timian_service_fetch_data($data)
         $user->field_min_order_total['und'][0]['value'] = $data['minimum'];
         user_save($user);
 
+        $user = user_load_by_name($data['name']);
+        error_log(print_r($user, 1), 0);
         return 'Created user : ' . $data['name'];
     }
 }
