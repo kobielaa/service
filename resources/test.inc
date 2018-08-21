@@ -24,7 +24,7 @@ function _timian_service_fetch_data($data)
     // error_log(print_r($user['name'],1),0);
     if ($user) {
            error_log(print_r($user,1),0);
-           $user->field_first_name = array(
+           $user->field_phone_nr = array(
             'und' => array(
               0 => array(
                 'value' => $data['phone'],
