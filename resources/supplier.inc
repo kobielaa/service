@@ -100,3 +100,11 @@ function _timian_service_update_supplier($data) {
         ];
     }
 }
+
+function _timian_service_validate_supplier($data) {
+    $user = user_load_by_name($data['name']);
+    
+    return [
+        "result" => $user ? "fail" : "success"
+    ];
+}
