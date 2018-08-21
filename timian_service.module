@@ -10,7 +10,7 @@ function timian_service_services_resources()
             'actions' => [
                 'create' => [
                     'help'            => 'Create a supplier user',
-                    'callback'        => '_timian_service_fetch_data',
+                    'callback'        => '_timian_service_create_supplier',
                     'args'            => [
                         [
                             'name'        => 'data',
@@ -25,6 +25,25 @@ function timian_service_services_resources()
                         'type'   => 'inc',
                         'module' => 'timian_service',
                         'name'   => 'resources/test'
+                    ],
+                ],
+                'update' => [
+                    'help'            => 'Create a supplier user',
+                    'callback'        => '_timian_service_update_supplier',
+                    'args'            => [
+                        [
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'Data from add product form',
+                            'source'      => 'data',
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/supplier'
                     ],
                 ],
             ]
