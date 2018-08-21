@@ -52,7 +52,7 @@ function _timian_service_fetch_data($data)
             }
         }
         user_save($user);
-        //error_log(print_r($user,1),0);
+        error_log(print_r($user,1),0);
         return 'Successfully updated user : ' . $data['name'];
     } else {
         error_log(print_r('chuje muje', 1), 0);
