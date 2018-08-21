@@ -18,15 +18,24 @@ function _timian_service_data_access($data)
  */
 function _timian_service_fetch_data($data)
 {
-    error_log(print_r($data,1),0);
+    //error_log(print_r($data,1),0);
     $user = user_load_by_name($data['name']);
     // error_log(print_r($user,1),0);
     // error_log(print_r($user['name'],1),0);
     if ($user) {
-           error_log(print_r($user,1),0);
-           $user->field_phone_nr['und'][0]['value'] = $data['phone'];
-           user_save($user);
-        error_log(print_r($user,1),0);
+           //error_log(print_r($user,1),0);
+           foreach ($data as $key => $value) {
+            error_log(print_r($value,1),0);
+           }
+        //    $user->field_phone_nr['und'][0]['value'] = $data['phone'];
+        //    $user->field_supplier_sid['und'][0]['value'] = $data['sid'];
+        //    $user->field_supplier_address1['und'][0]['value'] = $data['street'];
+        //    $user->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
+        //    $user->field_supplier_order_email['und'][0]['value'] = $data['email'];
+        //    $user->field_supplier_shorthand['und'][0]['value'] = $data['short_name'];
+        //    $user->field_min_order_total['und'][0]['value'] = $data['minimum'];
+           //user_save($user);
+        //error_log(print_r($user,1),0);
         return 'User : ' . $data['name'] . ' already exist';
     } else {
         error_log(print_r('chuje muje',1),0);
