@@ -25,7 +25,7 @@ function _timian_service_fetch_data($data)
     if ($user) {
            //error_log(print_r($user,1),0);
            foreach ($data as $key => $value) {
-               if($value){
+               if($value != "" && $value != null){
                 error_log(print_r($value,1),0);
                }
            }
