@@ -18,7 +18,6 @@ function _timian_service_data_access($data)
  */
 function _timian_service_create_supplier($data)
 {
-
     $user = user_load_by_name($data['name']);
 
     if ($user) {
@@ -26,7 +25,6 @@ function _timian_service_create_supplier($data)
             "result" => "fail"
         ];
     } else {
-        error_log(print_r('chuje muje', 1), 0);
         $new_user = [
             'name'                => $data['name'],
             'pass'                => drupal_random_key(), // random password, user will be login trough sso
@@ -50,8 +48,6 @@ function _timian_service_create_supplier($data)
         //insert data only visible for user with supplier role
         _timian_service_update_supplier($data);
 
-        $check = user_load_by_name($data['name']);
-        error_log(print_r($check, 1), 0);
         return [
             "result" => "success"
         ];
@@ -94,7 +90,7 @@ function _timian_service_update_supplier($data) {
             $user->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
         }
         user_save($user);
-        error_log(print_r($user, 1), 0);
+
         return [
             "result" => "success"
         ];
