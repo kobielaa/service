@@ -24,7 +24,7 @@ function timian_service_services_resources()
                     'file'            => [
                         'type'   => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/test'
+                        'name'   => 'resources/supplier'
                     ],
                 ],
                 'update' => [
