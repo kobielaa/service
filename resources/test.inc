@@ -25,7 +25,9 @@ function _timian_service_fetch_data($data)
     if ($user) {
            //error_log(print_r($user,1),0);
            foreach ($data as $key => $value) {
-            error_log(print_r($value,1),0);
+               if($value){
+                error_log(print_r($value,1),0);
+               }
            }
         //    $user->field_phone_nr['und'][0]['value'] = $data['phone'];
         //    $user->field_supplier_sid['und'][0]['value'] = $data['sid'];
