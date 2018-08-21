@@ -24,6 +24,14 @@ function _timian_service_fetch_data($data)
     // error_log(print_r($user['name'],1),0);
     if ($user) {
            error_log(print_r($user,1),0);
+           $user->field_first_name = array(
+            'und' => array(
+              0 => array(
+                'value' => $data['phone'],
+              ),
+            ),
+        );
+        error_log(print_r($user,1),0);
         return 'User : ' . $data['name'] . ' already exist';
     } else {
         error_log(print_r('chuje muje',1),0);
