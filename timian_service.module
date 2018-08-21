@@ -2,20 +2,19 @@
 /**
  * Implements hook_services_resources
  */
-
 function timian_service_services_resources()
 {
     return [
         'supplier' => [
             'actions' => [
-                'create' => [
+                'create'   => [
                     'help'            => 'Create a supplier user',
                     'callback'        => '_timian_service_create_supplier',
                     'args'            => [
                         [
                             'name'        => 'data',
                             'type'        => 'array',
-                            'description' => 'Data from add product form',
+                            'description' => 'Data from HTTP POST request',
                             'source'      => 'data',
                             'optional'    => false,
                         ],
@@ -27,14 +26,14 @@ function timian_service_services_resources()
                         'name'   => 'resources/supplier'
                     ],
                 ],
-                'update' => [
-                    'help'            => 'Create a supplier user',
+                'update'   => [
+                    'help'            => 'Update a supplier user data',
                     'callback'        => '_timian_service_update_supplier',
                     'args'            => [
                         [
                             'name'        => 'data',
                             'type'        => 'array',
-                            'description' => 'Data from add product form',
+                            'description' => 'Data from HTTP POST request',
                             'source'      => 'data',
                             'optional'    => false,
                         ],
@@ -53,7 +52,7 @@ function timian_service_services_resources()
                         [
                             'name'        => 'data',
                             'type'        => 'array',
-                            'description' => 'Data from add product form',
+                            'description' => 'Data from HTTP POST request',
                             'source'      => 'data',
                             'optional'    => false,
                         ],
@@ -70,8 +69,8 @@ function timian_service_services_resources()
         'orders'   => [
             'operations' => [
                 'retrieve' => [
-                    'help'            => 'Get order',
-                    'callback'        => '_timian_service_fetch_data',
+                    'help'            => 'Get single order order',
+                    'callback'        => '_timian_service_fetch_order',
                     'args'            => [
                         [
                             'name'        => 'order_id',
@@ -88,7 +87,7 @@ function timian_service_services_resources()
                         'name'   => 'resources/orders'
                     ],
                 ],
-                'update' => [
+                'update'   => [
                     'help'            => 'Update order',
                     'callback'        => '_timian_service_update_order',
                     'args'            => [
@@ -100,11 +99,11 @@ function timian_service_services_resources()
                             'optional'    => false,
                         ],
                         [
-                            'name' => 'data',
-                            'type' => 'array',
+                            'name'        => 'data',
+                            'type'        => 'array',
                             'description' => 'The object with comment and order status',
-                            'source' => 'data',
-                            'optional' => FALSE,
+                            'source'      => 'data',
+                            'optional'    => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
@@ -114,7 +113,7 @@ function timian_service_services_resources()
                         'name'   => 'resources/orders'
                     ],
                 ],
-                
+
             ]
         ],
         'products' => [
@@ -146,7 +145,7 @@ function timian_service_services_resources()
                     ],
                 ],
                 'index'    => [
-                    'help'            => 'Get products',
+                    'help'            => 'Get products (autocompolete)',
                     'callback'        => '_timian_service_fetch_data',
                     'access callback' => '_timian_service_data_access',
                     'file'            => [
@@ -184,8 +183,8 @@ function timian_service_services_resources()
                     ],
                 ],
             ],
-            'actions' => array(
-                'delete' =>  [
+            'actions'    => [
+                'delete' => [
                     'help'                    => 'Delete product',
                     'callback'                => '_timian_service_resource_delete',
                     'access arguments append' => true,
@@ -205,7 +204,7 @@ function timian_service_services_resources()
                         'name'   => 'resources/products'
                     ],
                 ],
-            )
+            ]
         ],
 
     ];

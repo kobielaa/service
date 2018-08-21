@@ -14,7 +14,13 @@ function _timian_service_data_access($data)
 }
 
 /**
- * Callback function
+ * Callback function to create new supplier user
+ *
+ * @param array $data
+ *   User's data from http post request
+ *
+ * @return array
+ *   json with result
  */
 function _timian_service_create_supplier($data)
 {
@@ -44,7 +50,7 @@ function _timian_service_create_supplier($data)
             ],
         ];
         user_save('', $new_user);
-        
+
         //insert data only visible for user with supplier role
         _timian_service_update_supplier($data);
 
@@ -54,10 +60,18 @@ function _timian_service_create_supplier($data)
     }
 }
 
-function _timian_service_update_supplier($data) {
-    
+/**
+ * Callback function for update user data
+ *
+ * @param array $data
+ *   User's data from http post request
+ *
+ * @return array
+ *   json with result
+ */
+function _timian_service_update_supplier($data)
+{
     $user = user_load_by_name($data['name']);
-
     if ($user) {
         foreach ($data as $key => $value) {
             if ($value != "" && $value != null) {
@@ -101,9 +115,19 @@ function _timian_service_update_supplier($data) {
     }
 }
 
-function _timian_service_validate_supplier($data) {
+/**
+ * Callback function for checking accessibility of username
+ *
+ * @param array $data
+ *   User's data from http post request
+ *
+ * @return array
+ *   json with result
+ */
+function _timian_service_validate_supplier($data)
+{
     $user = user_load_by_name($data['name']);
-    
+
     return [
         "result" => $user ? "fail" : "success"
     ];

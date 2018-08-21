@@ -11,12 +11,17 @@ function _timian_service_data_access($key)
 }
 
 /**
- * Callback function
+ * Callback function - retrive single order
+ *
+ * @param int $order_id
+ *      Order ID
+
+ * @return array $data 
+ *      json with order, order's product, order's comment and statuses
  */
-function _timian_service_fetch_data($order_id)
+function _timian_service_fetch_order($order_id)
 {
     $query = db_select('uc_orders','o')->extend('TableSort');
-
 	$query->join('eldhus_uc_order_fields','cf','o.order_id=cf.order_id');
 	$query->fields('o',array('order_id','created','order_status','order_total','product_count','delivery_first_name','data'));
 	$query->fields('cf',array('delivery_div','delivery_date','order_descr','supplier_id'));
@@ -31,7 +36,6 @@ function _timian_service_fetch_data($order_id)
     $query->condition('o.order_id', $order_id , "=");
 	$order = $query->execute()->fetchAll();
 	
-
 	$order_products = eldhus_uc_get_order_products_for_display(uc_order_load($order_id,true));
 	$comments = uc_order_comments_load($order_id);
 	$statuses = eldhus_uc_order_status_display();
@@ -52,13 +56,22 @@ function _timian_service_fetch_data($order_id)
     return $order_data;
 }
 
+/**
+ * Callback function - update order data
+ *
+ * @param array $data
+ *      Product data
+ * @param int $order_id
+ *      Product data
+ * 
+ * @return array $data 
+ *      json with order_id
+ */
 function _timian_service_update_order($order_id, $data){
 	
 	$order = uc_order_load($order_id, true);
 	$user = user_load_by_name($data['supplier']);
 
-	error_log(print_r($data['status'],1),0);
-	error_log(print_r($order->order_status,1),0);
 	if ($data['status'] != $order->order_status) {	
 		uc_order_update_status($order_id, $data['status']);
 	}
@@ -88,11 +101,9 @@ function _timian_service_update_order($order_id, $data){
 	}
 	
 	if ($changed) {
-		
 		uc_order_save($order);
 	}
 
-	
 	return [
 		"order_id" => $order_id,
 	];

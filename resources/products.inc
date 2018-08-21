@@ -1,5 +1,5 @@
 <?php
-//require_once DRUPAL_ROOT . "/" . drupal_get_path('module', 'ubercart') . '/uc_order/uc_order.module';
+
 /**
  * Access restriction.
  * @return bool
@@ -11,11 +11,15 @@ function _timian_service_data_access($key)
 }
 
 /**
- * Callback function
+ * Callback function - autocomplete products
+ *
+ * @param string $search
+ *  Searched product
+ * @return array $data
+ *   Products match to serach term
  */
 function _timian_service_fetch_data($search)
 {
-
     $query = db_select('node', 'n')->fields('n', ['nid', 'title']);
     $query->join('uc_products', 'p', 'p.nid=n.nid');
     $query->fields('p', ['model']);
@@ -53,7 +57,6 @@ function _timian_service_fetch_data($search)
  */
 function _timian_service_fetch_product($model, $title)
 {
-
     $query = db_select('node', 'n')->fields('n');
     $query->join('uc_products', 'p', 'p.nid=n.nid');
     $query->fields('p');
@@ -68,10 +71,17 @@ function _timian_service_fetch_product($model, $title)
         'response' => $product,
     ];
 
-
     return $data;
 }
 
+/**
+ * Callback function - add new product to order
+ *
+ * @param array $data
+ *      Product data
+ * @return array $data
+ *      json with order_id
+ */
 function _timian_service_create_product($data)
 {
     $add_product = node_load($data['nid']);
@@ -110,7 +120,7 @@ function _timian_service_create_product($data)
         $add_order_product = entity_create('uc_order_product', $add_product_data);
         uc_order_product_entity_save($add_order_product);
         $order = uc_order_load($data['order_id'], true);
-        uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: ".$add_product->model." - ".$add_product->title,"order",$order->order_status,false);
+        uc_order_comment_save($order->order_id, $user->uid, "Bætti við vörulínu: " . $add_product->model . " - " . $add_product->title, "order", $order->order_status, false);
         uc_order_save($order);
 
     }
@@ -125,8 +135,12 @@ function _timian_service_create_product($data)
 /**
  * Callback function to delete product from order
  *
- * @param int $order_id
- * @param int $product_id
+ * @param array $data
+ *      Product's data
+ *
+ * @return array $response
+ *      json with order_id and product name
+ *
  */
 function _timian_service_resource_delete($data)
 {
