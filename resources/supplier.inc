@@ -48,18 +48,7 @@ function _timian_service_create_supplier($data)
         user_save('', $new_user);
         
         //insert data only visible for user with supplier role
-        $new_user = user_load_by_name($data['name']);
-        error_log(print_r($new_user, 1), 0);
-        $new_user->field_phone_nr['und'][0]['value'] = $data['phone'];
-        $new_user->field_supplier_sid['und'][0]['value'] = $data['sid'];
-        $new_user->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
-        $new_user->field_supplier_order_email['und'][0]['value'] = $data['email'];
-        $new_user->field_supplier_shorthand['und'][0]['value'] = $data['short_name'];
-        $new_user->field_min_order_total['und'][0]['value'] = $data['minimum'];
-        if ($data['street'] != "" && $data['postal_code'] != "" && $data['city'] != "") {
-            $new_user->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
-        }
-        user_save($new_user);
+        _timian_service_update_supplier($data);
 
         $check = user_load_by_name($data['name']);
         error_log(print_r($check, 1), 0);
