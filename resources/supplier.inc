@@ -48,12 +48,19 @@ function _timian_service_create_supplier($data)
                     ],
                 ],
             ],
+            'field_supplier_sid' => [
+                'und' => [
+                    0 => [
+                        'value' => 'jakis sid',
+                    ],
+                ],
+            ],
         ];
         user_save('', $new_user);
-        $user1 = user_load_by_name($data['name']);
-        $user1->field_supplier_sid['und'][0]['value'] = 'kurwa mac';
-        user_save($user1);
-        error_log(print_r($user1,1),0);
+        // $user1 = user_load_by_name($data['name']);
+        // $user1->field_supplier_sid['und'][0]['value'] = 'kurwa mac';
+        // user_save($user1);
+        // error_log(print_r($user1,1),0);
         //insert data only visible for user with supplier role
         // _timian_service_update_supplier($data);
         // $user2 = user_load_by_name($data['name']);
