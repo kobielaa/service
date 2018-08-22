@@ -147,7 +147,7 @@ function _timian_service_validate_supplier($data)
 
 function _timian_service_retrive_supplier($name)
 {
-    $user = user_load_by_name($name);
+    $user = user_load($name);
     return [
         "result" => $user
     ];
