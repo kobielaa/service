@@ -64,6 +64,25 @@ function timian_service_services_resources()
                         'name'   => 'resources/supplier'
                     ],
                 ],
+                'getUser' => [
+                    'help'            => 'Check if username isn\'t already taken',
+                    'callback'        => '_timian_service_retrive_supplier',
+                    'args'            => [
+                        [
+                            'name'        => 'name',
+                            'type'        => 'string',
+                            'description' => 'Order ID',
+                            'source'      => ['path' => '0'],
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/supplier'
+                    ],
+                ],
             ]
         ],
         'orders'   => [
