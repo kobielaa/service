@@ -84,10 +84,10 @@ function _timian_service_create_supplier($data)
 function _timian_service_update_supplier($data)
 {
     $user = user_load_by_name($data['name']);
-    error_log(print_r('dane w update',1),0);
-    error_log(print_r($data,1),0);
-    error_log(print_r('user w update',1),0);
-    error_log(print_r($user,1),0);
+    // error_log(print_r('dane w update',1),0);
+    // error_log(print_r($data,1),0);
+    // error_log(print_r('user w update',1),0);
+    // error_log(print_r($user,1),0);
     if ($user) {
         foreach ($data as $key => $value) {
             if ($value != "" && $value != null) {
@@ -120,9 +120,7 @@ function _timian_service_update_supplier($data)
             $user->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
         }
         user_save($user);
-        $userpo = user_load_by_name($data['name']);
-        error_log(print_r('user po update',1),0);
-        error_log(print_r($userpo,1),0);
+
 
         return [
             "result" => "success"
