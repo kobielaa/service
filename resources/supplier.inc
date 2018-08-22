@@ -69,12 +69,12 @@ function _timian_service_create_supplier($data)
         $node->comment = 2; 
 
         // Custom fields
-        //$node->field_some_text[$node->language][]['value'] = "YOUR TEXT";
+        $node->field_supplier_sid['und'][0]['value'] = "666";
         //$node->field_product_tid[$node->language][]['tid'] = $form_state['values']['a taxonomy term id'];
 
         $node = node_submit($node); // Prepare node for saving
         $nid = node_save($node);
-        error_log(print_r($node->nid,1),0);
+        error_log(print_r(node_load($node->nid),1),0);
         // create node with typ birgi 
 
         return [
