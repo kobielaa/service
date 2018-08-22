@@ -75,12 +75,14 @@ function _timian_service_create_supplier($data)
         $node->comment = 2; 
 
         // Custom fields
-        $node->field_phone_nr['und'][0]['value'] = $data['phone'];
+        $node->field_supplier_defphone['und'][0]['value'] = $data['phone'];
         $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
         $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
         $node->field_supplier_order_email['und'][0]['value'] = $data['email_for_orders'];
         $node->field_supplier_shorthand['und'][0]['value'] =  $data['short_name'];
         $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
+        $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
+    
 
         $node = node_submit($node);
         $nid = node_save($node);
