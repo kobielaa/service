@@ -105,7 +105,7 @@ function _timian_service_update_supplier($data)
                         $user->field_supplier_order_email['und'][0]['value'] = $value;
                         break;
                     case 'short_name':
-                        $user->field_supplier_shorthand['und'][0]['value'] = $value;
+                        $user->field_supplier_shorthand['und'][0]['value'] = 'dasdas';
                         break;
                     case 'minimum':
                         $user->field_min_order_total['und'][0]['value'] = $value;
