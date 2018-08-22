@@ -31,10 +31,12 @@ function _timian_service_create_supplier($data)
             "result" => "fail"
         ];
     } else {
-        //get last supplier value
+        //get the highest supplier value to avoide duplicate entry
         $query = db_select('field_data_field_user_supplier', 'n')->fields('n')->orderBy('field_user_supplier_value','DESC');
-        $cos = $query->execute()->fetchAll();
-        error_log(print_r($cos,1),0);
+        $supplier_value = $query->execute()->fetchAll();
+        $supplier_value = $supplier_value[0]['field_user_supplier_value'];
+        error_log(print_r($supplier_value,1),0);
+
 
         $new_user = [
             'name'                => $data['name'],
