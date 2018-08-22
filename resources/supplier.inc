@@ -140,6 +140,6 @@ function _timian_service_retrive_supplier($name)
 {
     $user = user_load_by_name($name);
     return [
-        "result" => $user 
+        "result" => $name
     ];
 }
