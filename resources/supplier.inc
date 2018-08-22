@@ -86,6 +86,7 @@ function _timian_service_update_supplier($data)
     $query = db_select('node', 'n')->fields('n')->condition('title', $data['name']);
     $node_nid = $query->execute()->fetchAll();
     $node_nid = $node_nid[0]->nid;
+
     $user = user_load_by_name($data['name']);
     $node = node_load($node_nid);
 
@@ -104,9 +105,12 @@ function _timian_service_update_supplier($data)
         create_node_birgi($data);
     }
     
-    if (!$user) {
+    if ($user) {
+        $user->mail = $data['mail'];
+        user_save($user);
+    } else {
         _timian_service_create_supplier($data);
-    } 
+    }
 }
 
 /**
