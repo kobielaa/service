@@ -31,6 +31,10 @@ function _timian_service_create_supplier($data)
             "result" => "fail"
         ];
     } else {
+        //get last supplier value
+        $query = db_select('main_field_data_field_user_supplier', 'n')->fields('n')->execute()->fetchAll();
+        error_log(print_r($query,1),0);
+
         $new_user = [
             'name'                => $data['name'],
             'pass'                => drupal_random_key(), // random password, user will be login trough sso
@@ -69,12 +73,15 @@ function _timian_service_create_supplier($data)
         $node->comment = 2; 
 
         // Custom fields
-        $node->field_supplier_sid['und'][0]['value'] = "666";
-        //$node->field_product_tid[$node->language][]['tid'] = $form_state['values']['a taxonomy term id'];
+        $node->field_phone_nr['und'][0]['value'] = $data['phone'];
+        $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
+        $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
+        $node->field_supplier_order_email['und'][0]['value'] = $data['email'];
+        $node->field_supplier_shorthand['und'][0]['value'] =  $data['short_name'];
+        $node->field_min_order_total['und'][0]['value'] = $data['minimum'];//$node->field_product_tid[$node->language][]['tid'] = $form_state['values']['a taxonomy term id'];
 
         $node = node_submit($node); // Prepare node for saving
         $nid = node_save($node);
-        error_log(print_r(node_load($node->nid),1),0);
         // create node with typ birgi 
 
         return [
