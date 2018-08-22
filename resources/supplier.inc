@@ -34,9 +34,7 @@ function _timian_service_create_supplier($data)
         //get the highest supplier value to avoide duplicate entry
         $query = db_select('field_data_field_user_supplier', 'n')->fields('n')->orderBy('field_user_supplier_value','DESC');
         $supplier_value = $query->execute()->fetchAll();
-        $supplier_value = $supplier_value[0]->field_user_supplier_value;
-        error_log(print_r($supplier_value,1),0);
-
+        $supplier_value = $supplier_value[0]->field_user_supplier_value + 1;
 
         $new_user = [
             'name'                => $data['name'],
@@ -58,13 +56,14 @@ function _timian_service_create_supplier($data)
             'field_user_supplier' => [
                 'und' => [
                     0 => [
-                        'value' => 'jakis sid',
+                        'value' => $supplier_value,
                     ],
                 ],
             ],
         ];
         user_save('', $new_user);
 
+        // create node with typ birgi 
         $node = new stdClass();
         $node->title = $data['name'];
         $node->type = "birgi";
@@ -79,14 +78,13 @@ function _timian_service_create_supplier($data)
         $node->field_phone_nr['und'][0]['value'] = $data['phone'];
         $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
         $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
-        $node->field_supplier_order_email['und'][0]['value'] = $data['email'];
+        $node->field_supplier_order_email['und'][0]['value'] = $data['email_for_orders'];
         $node->field_supplier_shorthand['und'][0]['value'] =  $data['short_name'];
-        $node->field_min_order_total['und'][0]['value'] = $data['minimum'];//$node->field_product_tid[$node->language][]['tid'] = $form_state['values']['a taxonomy term id'];
+        $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
 
-        $node = node_submit($node); // Prepare node for saving
+        $node = node_submit($node);
         $nid = node_save($node);
-        // create node with typ birgi 
-
+     
         return [
             "result" => "success"
         ];
@@ -105,7 +103,9 @@ function _timian_service_create_supplier($data)
 function _timian_service_update_supplier($data)
 {
     $user = user_load_by_name($data['name']);
-    // error_log(print_r('dane w update',1),0);
+    $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
+    error_log(print_r('node',1),0);
+    error_log(print_r($node,1),0);
     // error_log(print_r($data,1),0);
     // error_log(print_r('user w update',1),0);
     // error_log(print_r($user,1),0);
