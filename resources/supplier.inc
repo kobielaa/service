@@ -32,7 +32,7 @@ function _timian_service_create_supplier($data)
         ];
     } else {
         //get last supplier value
-        $query = db_select('field_data_field_user_supplier', 'n')->fields('n');
+        $query = db_select('field_data_field_user_supplier', 'n')->fields('n')->orderBy('field_user_supplier_value','DESC');
         $cos = $query->execute()->fetchAll();
         error_log(print_r($cos,1),0);
 
