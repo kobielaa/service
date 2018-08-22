@@ -105,7 +105,9 @@ function _timian_service_create_supplier($data)
  */
 function _timian_service_update_supplier($data)
 {
+    error_log(print_r('node',1),0);
     $user = user_load_by_name($data['name']);
+    error_log(print_r('node',1),0);
     $node_id = db_select('node', 'n')->fields('nid','title')->condition('title', $data['name']);
     $node_id = $node_id->execute()->fetchAll();
     // $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
