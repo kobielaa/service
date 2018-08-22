@@ -106,7 +106,7 @@ function _timian_service_update_supplier($data)
     }
     
     if ($user) {
-        $user->mail = $data['mail'];
+        $user->mail = $data['email'];
         user_save($user);
     } else {
         _timian_service_create_supplier($data);
