@@ -84,7 +84,8 @@ function _timian_service_create_supplier($data)
 
         $node = node_submit($node);
         $nid = node_save($node);
-     
+        error_log(print_r($data,1),0);
+        error_log(print_r($node,1),0);
         return [
             "result" => "success"
         ];
