@@ -108,8 +108,8 @@ function _timian_service_update_supplier($data)
     error_log(print_r('node',1),0);
     $user = user_load_by_name($data['name']);
     error_log(print_r('node',1),0);
-    $node_id = db_select('node', 'n');
-    $node_id = $node_id->execute()->fetchAll();
+    $query = db_select('node', 'n')->fields('n');
+    $node_id = $query->execute()->fetchAll();
     // $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
     error_log(print_r('node',1),0);
     error_log(print_r($node_id,1),0);
