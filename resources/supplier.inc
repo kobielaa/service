@@ -111,6 +111,7 @@ function _timian_service_update_supplier($data)
     $query = db_select('node', 'n')->fields('n')->condition('title', $data['name']);
     $node_nid = $query->execute()->fetchAll();
     $node_nid = $node_nid[0]->nid;
+    error_log(print_r($node_id,1),0);
     // $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
     error_log(print_r('node',1),0);
     error_log(print_r($node_id,1),0);
