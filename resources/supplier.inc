@@ -74,7 +74,7 @@ function _timian_service_create_supplier($data)
 
         $node = node_submit($node); // Prepare node for saving
         $nid = node_save($node);
-        error_log(print_r($nid,1),0);
+        error_log(print_r($node->nid,1),0);
         // create node with typ birgi 
 
         return [
