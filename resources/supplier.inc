@@ -83,12 +83,11 @@ function _timian_service_create_supplier($data)
         $node->field_supplier_shorthand['und'][0]['value'] =  $data['short_name'];
         $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
         $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
-        $node->field_supplier_price_permission['und'][0]['value'] = false;
+        $node->field_supplier_price_permission['und'][0]['value'] = 0;
 
         $node = node_submit($node);
         $nid = node_save($node);
-        error_log(print_r($data,1),0);
-        error_log(print_r($node,1),0);
+
         return [
             "result" => "success"
         ];
@@ -107,12 +106,23 @@ function _timian_service_create_supplier($data)
 function _timian_service_update_supplier($data)
 {
     $user = user_load_by_name($data['name']);
-    $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
+    $node_id = db_select('node', 'n')->fields('nid','title')->condition('title', $data['name']);
+    $node_id = $query->execute()->fetchAll();
+    // $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
     error_log(print_r('node',1),0);
-    error_log(print_r($node,1),0);
+    error_log(print_r($node_id,1),0);
     // error_log(print_r($data,1),0);
     // error_log(print_r('user w update',1),0);
     // error_log(print_r($user,1),0);
+    $node->field_supplier_defphone['und'][0]['value'] = $data['phone'];
+    $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
+    $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
+    $node->field_supplier_order_email['und'][0]['value'] = $data['email_for_orders'];
+    $node->field_supplier_def_email['und'][0]['value'] = $data['email'];
+    $node->field_supplier_shorthand['und'][0]['value'] =  $data['short_name'];
+    $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
+    $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
+    $node->field_supplier_price_permission['und'][0]['value'] = 0;
     if ($user) {
         foreach ($data as $key => $value) {
             if ($value != "" && $value != null) {
