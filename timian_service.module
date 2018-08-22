@@ -72,7 +72,7 @@ function timian_service_services_resources()
                             'name'        => 'name',
                             'type'        => 'string',
                             'description' => 'Order ID',
-                            'source'      => ['path' => '0'],
+                            'source'      => ['path' => '1'],
                             'optional'    => false,
                         ],
                     ],
