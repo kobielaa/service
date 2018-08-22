@@ -48,7 +48,7 @@ function _timian_service_create_supplier($data)
                     ],
                 ],
             ],
-            'field_supplier_sid' => [
+            'field_user_supplier' => [
                 'und' => [
                     0 => [
                         'value' => 'jakis sid',
@@ -57,15 +57,26 @@ function _timian_service_create_supplier($data)
             ],
         ];
         user_save('', $new_user);
-        // $user1 = user_load_by_name($data['name']);
-        // $user1->field_supplier_sid['und'][0]['value'] = 'kurwa mac';
-        // user_save($user1);
-        // error_log(print_r($user1,1),0);
-        //insert data only visible for user with supplier role
-        // _timian_service_update_supplier($data);
-        // $user2 = user_load_by_name($data['name']);
-        // error_log(print_r('drugi',1),0);
-        // error_log(print_r($user2,1),0);
+
+        $node = new stdClass();
+        $node->title = $data['name'];
+        $node->type = "birgi";
+        node_object_prepare($node); 
+        $node->language = LANGUAGE_NONE; 
+        $node->uid = 1; 
+        $node->status = 1; 
+        $node->promote = 1; 
+        $node->comment = 2; 
+
+        // Custom fields
+        //$node->field_some_text[$node->language][]['value'] = "YOUR TEXT";
+        //$node->field_product_tid[$node->language][]['tid'] = $form_state['values']['a taxonomy term id'];
+
+        $node = node_submit($node); // Prepare node for saving
+        $nid = node_save($node);
+        error_log(print_r($nid,1),0);
+        // create node with typ birgi 
+
         return [
             "result" => "success"
         ];
