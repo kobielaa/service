@@ -83,10 +83,7 @@ function _timian_service_create_supplier($data)
  */
 function _timian_service_update_supplier($data)
 {
-    $query = db_select('node', 'n')->fields('n')->condition('title', $data['name']);
-    $node_nid = $query->execute()->fetchAll();
-    $node_nid = $node_nid[0]->nid;
-
+    $node_nid = get_node_nid($data['name']);
     $user = user_load_by_name($data['name']);
     $node = node_load($node_nid);
 
@@ -131,12 +128,19 @@ function _timian_service_validate_supplier($data)
     ];
 }
 
-function _timian_service_retrive_supplier($name)
+function _timian_service_delete_supplier($data)
 {
-    $user = user_load_by_name($name);
+    $user = user_load_by_name($data['name']);
     return [
         "result" => $user
     ];
+}
+
+function get_node_nid($node_title){
+    $query = db_select('node', 'n')->fields('n')->condition('title', $node_title)->condition('type','birgi');
+    $node_nid = $query->execute()->fetchAll();
+    $node_nid = $node_nid[0]->nid;
+    return $node_nid;
 }
 
 function create_node_birgi($data) {
