@@ -137,7 +137,7 @@ function _timian_service_delete_supplier($data)
     //$node = node_delete($node_nid);
 
     return [
-        "result" => $user
+        "result" => $user->uid
     ];
 }
 
