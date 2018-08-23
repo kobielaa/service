@@ -133,12 +133,9 @@ function _timian_service_delete_supplier($data)
     $node_nid = get_node_nid($data['name']);
     $user = user_load_by_name($data['name']);
     
+    node_delete($node_nid);
+    user_delete($user->uid);
 
-    //$node = node_delete($node_nid);
-
-    return [
-        "result" => $user->uid
-    ];
 }
 
 function get_node_nid($node_title){
