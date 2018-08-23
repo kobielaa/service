@@ -130,9 +130,10 @@ function _timian_service_validate_supplier($data)
 
 function _timian_service_delete_supplier($data)
 {
+    error_log(print_r('weszlo do delete',1),0);
+    
     $node_nid = get_node_nid($data['name']);
     $user = user_load_by_name($data['name']);
-    
     node_delete($node_nid);
     user_delete($user->uid);
 
