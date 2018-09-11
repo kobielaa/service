@@ -244,7 +244,7 @@ function timian_service_services_resources()
                 ],
                 'update'   => [
                     'help'            => 'Update product from order list',
-                    'callback'        => '_timian_service_update_product',
+                    'callback'        => '_timian_service_resource_update',
                     'args'            => [
                         [
                             'name'        => 'data',
