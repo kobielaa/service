@@ -40,6 +40,12 @@ function _timian_service_fetch_order($order_id)
 	$comments = uc_order_comments_load($order_id);
 	$statuses = eldhus_uc_order_status_display();
 
+	unset($statuses['for_suppliers']['received']);
+	unset($statuses['for_suppliers']['completed']);
+	//Swap english status to islandic
+	$orderStatus = $order[0]->order_status;
+	$order[0]->order_status = $statuses['for_suppliers'][$orderStatus];
+
 	// add username to comment
 	foreach ($comments as $comment) {
 		$comment_creator = user_load($comment->uid);
