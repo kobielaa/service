@@ -183,9 +183,9 @@ function _timian_service_resource_delete($data)
     // ];
     $order = uc_order_load(998, true);
     $response = [
-        [
+    
             'kasdjk' => $order,
-        ],
+        
     ];
 
     return $response;
