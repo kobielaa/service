@@ -74,6 +74,19 @@ function _timian_service_fetch_product($model, $title)
     return $data;
 }
 
+
+/**
+ * Callback function - update product from order
+ *
+ * @param array $data
+ *      Product data
+ * @return array $data
+ *      json with order_id
+ */
+function timian_service_update_product($data){
+    error_log(print_r($data,1),0);
+}
+
 /**
  * Callback function - add new product to order
  *

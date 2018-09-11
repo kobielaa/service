@@ -218,6 +218,26 @@ function timian_service_services_resources()
                         'name'   => 'resources/products'
                     ],
                 ],
+                'update'   => [
+                    'help'            => 'Update product from order list',
+                    'callback'        => '_timian_service_update_product',
+                    'args'            => [
+                        [
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'The object with product new product specification.',
+                            'source'      => 'data',
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/products'
+                    ],
+                ],
+
             ],
             'actions'    => [
                 'delete' => [
