@@ -175,12 +175,20 @@ function _timian_service_resource_delete($data)
     //     $user->uid,
     //     "Eyddi út vörulínu: " . $data['model'] . " - " . $data['title'] . ", magn: " . $data['weight'] * $data['quantity'] . " " . $data['weight'] . ", " . theme('uc_price', ['price' => $data['price'] * $data['quantity']]), "order", $order->order_status, false);
     error_log(print_r('gowno',1),0);
+    // $response = [
+        // [
+        //     'order_id' => $data['order_id'],
+        //     'product'  => $data['title'],
+        // ],
+    // ];
+    $order = uc_order_load(998, true);
     $response = [
         [
-            'order_id' => $data['order_id'],
-            'product'  => $data['title'],
+            'kasdjk' => $order,
         ],
     ];
 
     return $response;
+
+    
 }
