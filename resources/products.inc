@@ -84,7 +84,7 @@ function _timian_service_fetch_product($model, $title)
  *      json with order_id
  */
 function timian_service_resource_update($data){
-    error_log(print_r('gowno',1),0);
+    // error_log(print_r('gowno',1),0);
     $order = uc_order_load(998, true);
     $response = [
         [
