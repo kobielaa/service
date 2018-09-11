@@ -88,8 +88,8 @@ function _timian_service_resource_edit($data){
     $query = db_select('node', 'n')->fields('n');
     $query->join('uc_products', 'p', 'p.nid=n.nid');
     $query->fields('p');
-    $query->condition('n.status', true);
-    $query->condition('n.type', 'product');
+    // $query->condition('n.status', true);
+    // $query->condition('n.type', 'product');
     $query->join('field_data_field_commodity_supplier', 'cs', 'cs.entity_id=n.nid');
     $query->condition('p.model', $data['product']);
     // $query->condition('n.title', $title);
