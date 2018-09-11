@@ -83,8 +83,8 @@ function _timian_service_fetch_product($model, $title)
  * @return array $data
  *      json with order_id
  */
-function timian_service_resource_update($data){
-    // error_log(print_r('gowno',1),0);
+function timian_service_resource_edit($data){
+    error_log(print_r('gowno dfsad',1),0);
     $order = uc_order_load(998, true);
     $response = [
         [

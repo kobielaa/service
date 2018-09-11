@@ -241,9 +241,9 @@ function timian_service_services_resources()
                         'name'   => 'resources/products'
                     ],
                 ],
-                'update'   => [
+                'edit'   => [
                     'help'            => 'Update product from order list',
-                    'callback'        => '_timian_service_resource_update',
+                    'callback'        => '_timian_service_resource_edit',
                     'access arguments append' => true,
                     'args'            => [
                         [
