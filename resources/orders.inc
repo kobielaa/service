@@ -42,7 +42,7 @@ function _timian_service_fetch_order($order_id)
 
 	$orderStatus = $order[0]->order_status;
 	$order[0]->order_status = $statuses['for_suppliers'][$orderStatus];
-	
+
 	unset($statuses['for_suppliers']['received']);
 	unset($statuses['for_suppliers']['completed']);
 	//Swap english status to islandic
@@ -79,6 +79,10 @@ function _timian_service_update_order($order_id, $data){
 	
 	$order = uc_order_load($order_id, true);
 	$user = user_load_by_name($data['supplier']);
+
+	$orderStatus = $data['status'];
+	$statuses = eldhus_uc_order_status_display(); 
+	$data['status'] = array_search($orderStatus,$statuses['for_suppliers']);
 
 	if ($data['status'] != $order->order_status) {	
 		uc_order_update_status($order_id, $data['status']);
