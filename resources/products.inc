@@ -84,9 +84,27 @@ function _timian_service_fetch_product($model, $title)
  *      json with order_id
  */
 function _timian_service_resource_edit($data){
+
+    $query = db_select('node', 'n')->fields('n');
+    $query->join('uc_products', 'p', 'p.nid=n.nid');
+    $query->fields('p');
+    $query->condition('n.status', true);
+    $query->condition('n.type', 'product');
+    $query->join('field_data_field_commodity_supplier', 'cs', 'cs.entity_id=n.nid');
+    $query->condition('p.model', $data['product']);
+    // $query->condition('n.title', $title);
+    $product = $query->execute()->fetchAll();
+
+    // $quantity = eldhus_parse_number($data['quantity']);
+    // $weight = eldhus_parse_number($data['weight']);
+    // $unit_price = eldhus_parse_number($data['price']);
+    // $discount = eldhus_parse_number($data['discount']);
+
+    // $add_product = node_load($data['nid']);
+    // $user = user_load_by_name($data['supplier']);
     error_log(print_r($data,1),0);
     $dane = [
-        "response" => "hell fucking yeah",
+        "response" => $product,
     ];
 
     return $dane;
