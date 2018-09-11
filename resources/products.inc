@@ -84,7 +84,7 @@ function _timian_service_fetch_product($model, $title)
  *      json with order_id
  */
 function timian_service_update_product($data){
-    error_log(print_r($data,1),0);
+    error_log(print_r('gowno',1),0);
     $dane = [
         "response" => "hell fucking yeah",
     ];
