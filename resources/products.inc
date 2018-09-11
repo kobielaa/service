@@ -85,11 +85,11 @@ function _timian_service_fetch_product($model, $title)
  */
 function timian_service_update_product($data){
     error_log(print_r($data,1),0);
-    $data = [
+    $dane = [
         'response' => 'hell fucking yeah',
     ];
 
-    return $data;
+    return $dane;
 }
 
 /**
