@@ -84,15 +84,12 @@ function _timian_service_fetch_product($model, $title)
  *      json with order_id
  */
 function _timian_service_resource_edit($data){
-    error_log(print_r('gowno dfsad',1),0);
-    $order = uc_order_load(998, true);
-    $response = [
-        [
-            'mama' => 'tata',
-        ],
+    error_log(print_r('gowno',1),0);
+    $dane = [
+        "response" => "hell fucking yeah",
     ];
 
-    return $response;
+    return $dane;
 }
 
 /**
@@ -165,30 +162,22 @@ function _timian_service_create_product($data)
  */
 function _timian_service_resource_delete($data)
 {
-    // $user = user_load_by_name($data['supplier']);
-    // $order = uc_order_load($data['order_id'], true);
+    $user = user_load_by_name($data['supplier']);
+    $order = uc_order_load($data['order_id'], true);
 
-    // uc_order_product_delete($data['product_id']);
-    // uc_order_save($order);
-    // uc_order_comment_save(
-    //     $data['order_id'],
-    //     $user->uid,
-    //     "Eyddi út vörulínu: " . $data['model'] . " - " . $data['title'] . ", magn: " . $data['weight'] * $data['quantity'] . " " . $data['weight'] . ", " . theme('uc_price', ['price' => $data['price'] * $data['quantity']]), "order", $order->order_status, false);
-    error_log(print_r('gowno',1),0);
-    // $response = [
-        // [
-        //     'order_id' => $data['order_id'],
-        //     'product'  => $data['title'],
-        // ],
-    // ];
-    $order = uc_order_load(998, true);
+    uc_order_product_delete($data['product_id']);
+    uc_order_save($order);
+    uc_order_comment_save(
+        $data['order_id'],
+        $user->uid,
+        "Eyddi út vörulínu: " . $data['model'] . " - " . $data['title'] . ", magn: " . $data['weight'] * $data['quantity'] . " " . $data['weight'] . ", " . theme('uc_price', ['price' => $data['price'] * $data['quantity']]), "order", $order->order_status, false);
+
     $response = [
-    
-            'kasdjk' => $order,
-        
+        [
+            'order_id' => $data['order_id'],
+            'product'  => $data['title'],
+        ],
     ];
 
     return $response;
-
-    
 }
