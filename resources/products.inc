@@ -84,7 +84,7 @@ function _timian_service_fetch_product($model, $title)
  *      json with order_id
  */
 
- 
+
 // [872] => stdClass Object
 // (
 //     [order_product_id] => 872
@@ -115,25 +115,28 @@ function _timian_service_fetch_product($model, $title)
 
 //         )
 
-function _timian_service_resource_edit($data){
+function _timian_service_resource_edit($data)
+{
+    $quantity = eldhus_parse_number($data['quantity']);
+    $weight = eldhus_parse_number($data['weight']);
+    $unit_price = eldhus_parse_number($data['unit_price']);
+    $discount = eldhus_parse_number($data['discount']);
+
     $order = uc_order_load($data['order']);
     $product = $order->products[$data['product_id']];
-    $product->price = $data['unit_price'];
-    $product->qty = $data['quantity'];
-    $product->weight = $data['weight'] / $data['quantity'];
-    // $order['products']
+    $product->price = $unit_price;
+    $product->qty = $quantity;
+    $product->weight = $weight / $quantity;
+    $product->data['total_weight'] = $weight;
+    $product->data['unit_price'] = $unit_price;
+    $product->data['qty'] = $quantity;
+    $product->data['discount'] = $discount;
+
     uc_order_save($order);
 
-    // $quantity = eldhus_parse_number($data['quantity']);
-    // $weight = eldhus_parse_number($data['weight']);
-    // $unit_price = eldhus_parse_number($data['price']);
-    // $discount = eldhus_parse_number($data['discount']);
-
-    // $add_product = node_load($data['nid']);
-    // $user = user_load_by_name($data['supplier']);
-    error_log(print_r('gowno z dupy',1),0);
+    error_log(print_r('gowno z dupy', 1), 0);
     $order = uc_order_load($data['order']);
-    error_log(print_r($order,1),0);
+    error_log(print_r($order, 1), 0);
     $dane = [
         "response" => $data['order'],
     ];
