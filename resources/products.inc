@@ -85,8 +85,10 @@ function _timian_service_fetch_product($model, $title)
  */
 function _timian_service_resource_edit($data){
     $order = uc_order_load($data['order']);
+    $product = $order->products[$data['product_id']];
+    $product['price'] = $data['unit_price'];
     // $order['products']
-    // uc_order_save($order);
+    uc_order_save($order);
 
     // $quantity = eldhus_parse_number($data['quantity']);
     // $weight = eldhus_parse_number($data['weight']);
@@ -96,7 +98,8 @@ function _timian_service_resource_edit($data){
     // $add_product = node_load($data['nid']);
     // $user = user_load_by_name($data['supplier']);
     error_log(print_r('gowno z dupy',1),0);
-    error_log(print_r($order->products[$data['product_id']],1),0);
+    $order = uc_order_load($data['order']);
+    error_log(print_r($order,1),0);
     $dane = [
         "response" => $data['order'],
     ];
