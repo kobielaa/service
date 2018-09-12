@@ -83,11 +83,44 @@ function _timian_service_fetch_product($model, $title)
  * @return array $data
  *      json with order_id
  */
+
+ 
+[872] => stdClass Object
+(
+    [order_product_id] => 872
+    [order_id] => 169
+    [nid] => 3574
+    [title] => ( Bruður Holland Toast)
+    [model] => N710100
+    [qty] => 2.000
+    [cost] => 0.00000
+    [price] => 500
+    [weight] => 0.25
+    [weight_units] => kg
+    [data] => Array
+        (
+            [module] => uc_product
+            [supplier] => Array
+                (
+                    [model] => N710100
+                    [total_weight] => 0.5
+                    [unit_price] => 217
+                    [qty] => 2
+                    [discount] => 0
+                    [org_price] => 217.00000
+                    [org_qty] => 2.000
+                    [org_weight] => 0.2
+                    [surplus] => 0.1
+                )
+
+        )
+
 function _timian_service_resource_edit($data){
     $order = uc_order_load($data['order']);
     $product = $order->products[$data['product_id']];
-    error_log(print_r($product->price,1),0);
     $product->price = $data['unit_price'];
+    $product->qty = $data['quantity'];
+    $product->weight = $data['weight'] / $data['quantity'];
     // $order['products']
     uc_order_save($order);
 
