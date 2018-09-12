@@ -86,7 +86,8 @@ function _timian_service_fetch_product($model, $title)
 function _timian_service_resource_edit($data){
     $order = uc_order_load($data['order']);
     $product = $order->products[$data['product_id']];
-    $product['price'] = $data['unit_price'];
+    error_log(print_r($product->price,1),0);
+    $product->price = $data['unit_price'];
     // $order['products']
     uc_order_save($order);
 
