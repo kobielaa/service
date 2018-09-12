@@ -127,10 +127,10 @@ function _timian_service_resource_edit($data)
     $product->price = $unit_price;
     $product->qty = $quantity;
     $product->weight = $weight / $quantity;
-    $product->data['total_weight'] = $weight;
-    $product->data['unit_price'] = $unit_price;
-    $product->data['qty'] = $quantity;
-    $product->data['discount'] = $discount;
+    $product->data['supplier']['total_weight'] = $weight;
+    $product->data['supplier']['unit_price'] = $unit_price;
+    $product->data['supplier']['qty'] = $quantity;
+    $product->data['supplier']['discount'] = $discount;
 
     uc_order_save($order);
 
