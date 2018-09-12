@@ -96,7 +96,7 @@ function _timian_service_resource_edit($data){
     // $add_product = node_load($data['nid']);
     // $user = user_load_by_name($data['supplier']);
     error_log(print_r('gowno z dupy',1),0);
-    error_log(print_r($order->products['872'],1),0);
+    error_log(print_r($order->products[data['product_id']],1),0);
     $dane = [
         "response" => $data['order'],
     ];
