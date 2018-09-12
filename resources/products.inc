@@ -134,11 +134,8 @@ function _timian_service_resource_edit($data)
 
     uc_order_save($order);
 
-    error_log(print_r('gowno z dupy', 1), 0);
-    $order = uc_order_load($data['order']);
-    error_log(print_r($order, 1), 0);
-    $dane = [
-        "response" => $data['order'],
+    $response = [
+        "order_id" => $data['order'],
     ];
 
     return $dane;
