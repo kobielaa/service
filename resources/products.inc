@@ -138,7 +138,7 @@ function _timian_service_resource_edit($data)
         "order_id" => $data['order'],
     ];
 
-    return $dane;
+    return $response;
 }
 
 /**
