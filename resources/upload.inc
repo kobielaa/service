@@ -15,6 +15,8 @@ function _timian_service_data_access($data)
 
 function _timian_service_price_update($data)
 {
+    error_log(print_r('weszlo do serwisu',1),0);
+    error_log(print_r($data,1),0);
     // // getting supplier value
     // $uid = $db->select('users', 'u')
     // ->fields('u', ['uid'])
@@ -111,7 +113,5 @@ function _timian_service_price_update($data)
     //         "status" => 1
     //     ];
     // }
-    return [
-            "status" => 1
-        ];
+    return $data;
 }
