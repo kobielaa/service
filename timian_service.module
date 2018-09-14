@@ -264,5 +264,29 @@ function timian_service_services_resources()
             ],
            
         ],
+        'upload' => [
+            'actions'    => [
+                'price_update'   => [
+                    'help'            => 'Update product price',
+                    'callback'        => '_timian_service_price_update',
+                    'access arguments append' => true,
+                    'args'            => [
+                        [
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'The object with product new product specification.',
+                            'source'      => 'data',
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/upload'
+                    ],
+                ],
+            ],
+        ],
     ];
 }
