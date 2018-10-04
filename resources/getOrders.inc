@@ -14,7 +14,9 @@ function _timian_service_data_access($data)
 }
 
 function timian_service_get_single_order($supplier_name, $order_id){
-    error_log(print_r('weszlo',1),0);
+    
+    $args = func_get_args();
+    error_log(print_r($args,1),0);
     $order_data = [
 		"order_id" => $supplier_name,
         "supplier_name" => $order_id,
