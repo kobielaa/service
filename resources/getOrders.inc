@@ -78,7 +78,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         }
         
         header('Content-Type: application/json');
-        return json_encode($orders);
+        return $orders;
     
 }
 
