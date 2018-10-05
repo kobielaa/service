@@ -290,6 +290,46 @@ function timian_service_services_resources()
         ],
         'getOrders'=> [
             'operations' => [
+                'index'    => [
+                    'help'            => 'Get all orders for particular purchaser',
+                    'callback'        => 'timian_service_get_all_orders',
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/getOrders'
+                    ],
+                    'args'            => [
+                        [
+                            'name'        => 'supplier_name',
+                            'type'        => 'string',
+                            'description' => 'Supplier name',
+                            'source'      => ['path' => '0'],
+                            'optional'    => false,
+                        ],
+                        [
+                            'name'        => 'fromTime',
+                            'optional'    => true,
+                            'type'        => 'string',
+                            'description' => 'The zero-based index of the page to get, defaults to 0.',
+                            'source'      => ['param' => 'start'],
+                        ],
+                        [
+                            'name'        => 'toTime',
+                            'optional'    => true,
+                            'type'        => 'string',
+                            'description' => 'The zero-based index of the page to get, defaults to 0.',
+                            'source'      => ['param' => 'end'],
+                        ],
+                        [
+                            'name'        => 'status',
+                            'optional'    => true,
+                            'type'        => 'string',
+                            'description' => 'The zero-based index of the page to get, defaults to 0.',
+                            'source'      => ['param' => 'status'],
+                        ],
+                    ],
+                ],
                 'retrieve' => [
                     'help'            => 'Get specific orders for particular supplier in JSON format',
                     'callback'        => 'timian_service_get_single_order',
@@ -316,25 +356,7 @@ function timian_service_services_resources()
                         'name'   => 'resources/getOrders'
                     ],
                 ],
-                // 'index'    => [
-                //     'help'            => 'Get all orders for particular purchaser',
-                //     'callback'        => '_timian_service_fetch_data',
-                //     'access callback' => '_timian_service_data_access',
-                //     'file'            => [
-                //         'type'   => 'inc',
-                //         'module' => 'timian_service',
-                //         'name'   => 'resources/products'
-                //     ],
-                //     'args'            => [
-                //         [
-                //             'name'        => 'search',
-                //             'optional'    => false,
-                //             'type'        => 'string',
-                //             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                //             'source'      => ['param' => 'search'],
-                //         ],
-                //     ],
-                // ],
+               
             ],
         ]
     ];
