@@ -95,13 +95,10 @@ function _timian_service_create_supplier($data)
 function _timian_service_update_supplier($data)
 {
     $user = user_load_by_name($data['user']);
-    $newUserName = user_load_by_name($data['name']);
 
     if ($user) {
-        if (!$newUserName) {
             $update_user = [
                 'name' => $data['name'],
-                'pass' => $data['password'],
                 'mail' => $data['email'],
                 'init' => $data['email'],
                 'field_user_fullname' => [
@@ -119,20 +116,7 @@ function _timian_service_update_supplier($data)
                 "result" => "User {$data['name']} updated",
             ];
         }
-        else{
-            header("HTTP/1.0 409");
-            
-            return [
-                "result" => "User with given name \"{$data['name']}\" already exists",
-            ];
-        }
-    } else {
-        header("HTTP/1.0 404");
-        
-        return [
-            "result" => "User {$data['user']} doesn't exists",
-        ];
-    }
+
 }
 
 // /**
@@ -193,8 +177,6 @@ function _timian_service_validate_supplier($data)
 
 function _timian_service_delete_supplier($data)
 {
-    error_log(print_r('weszlo do delete', 1), 0);
-
     $node_nid = get_node_nid($data['name']);
     $user = user_load_by_name($data['name']);
     node_delete($node_nid);
