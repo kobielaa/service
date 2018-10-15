@@ -62,7 +62,26 @@ function timian_service_services_resources()
                         'name'   => 'resources/supplier'
                     ],
                 ],
-                'validate' => [
+                'validate_user' => [
+                    'help'            => 'Check if username isn\'t already taken',
+                    'callback'        => '_timian_service_validate_user',
+                    'args'            => [
+                        [
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'Data from HTTP POST request',
+                            'source'      => 'data',
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/supplier'
+                    ],
+                ],
+                'validate_supplier' => [
                     'help'            => 'Check if username isn\'t already taken',
                     'callback'        => '_timian_service_validate_supplier',
                     'args'            => [

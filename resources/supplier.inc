@@ -166,12 +166,21 @@ function _timian_service_update_supplier($data)
  * @return array
  *   json with result
  */
-function _timian_service_validate_supplier($data)
+function _timian_service_validate_user($data)
 {
     $user = user_load_by_name($data['name']);
 
     return [
         "result" => $user ? "fail" : "success",
+    ];
+}
+
+function _timian_service_validate_supplier($data)
+{
+    $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
+
+    return [
+        "result" => $node ? "fail" : "success",
     ];
 }
 
