@@ -43,6 +43,25 @@ function timian_service_services_resources()
                         'name'   => 'resources/supplier'
                     ],
                 ],
+                'create_supplier'   => [
+                    'help'            => 'Create a supplier user',
+                    'callback'        => '_timian_service_create_supplier_entity',
+                    'args'            => [
+                        [
+                            'name'        => 'data',
+                            'type'        => 'array',
+                            'description' => 'Data from HTTP POST request',
+                            'source'      => 'data',
+                            'optional'    => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file'            => [
+                        'type'   => 'inc',
+                        'module' => 'timian_service',
+                        'name'   => 'resources/supplier'
+                    ],
+                ],
                 'update'   => [
                     'help'            => 'Update a supplier user data',
                     'callback'        => '_timian_service_update_supplier',
@@ -100,6 +119,7 @@ function timian_service_services_resources()
                         'name'   => 'resources/supplier'
                     ],
                 ],
+
                 'delete' => [
                     'help'            => 'Delete supplier user',
                     'callback'        => '_timian_service_delete_supplier',

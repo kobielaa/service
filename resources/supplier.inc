@@ -22,6 +22,8 @@ function _timian_service_data_access($data)
  * @return array
  *   json with result
  */
+
+
 function _timian_service_create_supplier($data)
 {
     $user = user_load_by_name($data['name']);
@@ -83,6 +85,14 @@ function _timian_service_create_supplier($data)
     }
 }
 
+function _timian_service_create_supplier_entity($data) {
+
+    create_node_birgi($data);
+    header("HTTP/1.0 201");
+    return [
+        "result" => "User {$data['name']} created",
+    ];
+}
 /**
  * Callback function to update new supplier user
  *
