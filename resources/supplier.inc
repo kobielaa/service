@@ -80,7 +80,7 @@ function _timian_service_create_supplier($data)
 
         header("HTTP/1.0 201");
         return [
-            "result" => "User {$data['name']} created",
+            "result" => "Supplier {$data['name']} created",
         ];
     }
 }
