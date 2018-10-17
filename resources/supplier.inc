@@ -23,7 +23,6 @@ function _timian_service_data_access($data)
  *   json with result
  */
 
-
 function _timian_service_create_supplier($data)
 {
     $user = user_load_by_name($data['name']);
@@ -34,22 +33,8 @@ function _timian_service_create_supplier($data)
             "result" => "User {$data['name']} already exists",
         ];
     } else {
-        //get the highest supplier value to avoide duplicate entry
-        $query = db_select('field_data_field_user_supplier', 'n');
-        $query->addField('n', 'field_user_supplier_value', 'supplierId');
-        $query->orderBy('field_user_supplier_value', 'DESC'); //ordering , type of varchar, need to cast to int
-        $values = $query->execute();
-        $supplier_value = $query->execute()->fetchAll();
-
-        $highestId = 0;
-        foreach ($supplier_value as $key => $value) {
-            $id = ((int) $value->supplierId);
-            if ($id >= $highestId) {
-                $highestId = ((int) $value->supplierId);
-            }
-        }
-
-        $supplier_value = $highestId + 1;
+ 
+        $supplier_value = get_node_nid_by_acronym($data['birgi']);
 
         $new_user = [
             'name' => $data['name'],
@@ -85,7 +70,8 @@ function _timian_service_create_supplier($data)
     }
 }
 
-function _timian_service_create_supplier_entity($data) {
+function _timian_service_create_supplier_entity($data)
+{
 
     create_node_birgi($data);
     header("HTTP/1.0 201");
@@ -107,26 +93,42 @@ function _timian_service_update_supplier($data)
     $user = user_load_by_name($data['user']);
 
     if ($user) {
-            $update_user = [
-                'name' => $data['name'],
-                'mail' => $data['email'],
-                'init' => $data['email'],
-                'field_user_fullname' => [
-                    'und' => [
-                        0 => [
-                            'value' => $data['name'],
-                        ],
+        
+        $supplier_value = get_node_nid_by_acronym($data['birgi']);
+
+        $update_user = [
+            'name' => $data['name'],
+            'mail' => $data['email'],
+            'init' => $data['email'],
+            'field_user_fullname' => [
+                'und' => [
+                    0 => [
+                        'value' => $data['name'],
                     ],
                 ],
-            ];
-            user_save($user, $update_user);
-            header("HTTP/1.0 200");
-            
-            return [
-                "result" => "User {$data['name']} updated",
-            ];
-        }
+            ],
+            'field_user_supplier' => [
+                'und' => [
+                    0 => [
+                        'value' => $supplier_value,
+                    ],
+                ],
+            ],
+        ];
 
+        user_save($user, $update_user);
+        header("HTTP/1.0 200");
+
+        return [
+            "result" => "User {$data['user']} updated",
+        ];
+    }
+    else{
+        header("HTTP/1.0 404");
+        return [
+            "result" => "User {$data['user']} not found",
+        ];
+    }
 }
 
 // /**
@@ -209,6 +211,16 @@ function get_node_nid($node_title)
     $node_nid = $query->execute()->fetchAll();
     $node_nid = $node_nid[0]->nid;
     return $node_nid;
+}
+
+function get_node_nid_by_acronym($birgi)
+{
+    $query = db_select('field_data_field_supplier_shorthand', 'n');
+    $query->addField('n', 'entity_id', 'id');
+    $query->condition('field_supplier_shorthand_value', $birgi, '=');
+    $node_nid = $query->execute()->fetchAll();
+
+    return $node_nid ? $node_nid[0]->id : "_none";
 }
 
 function create_node_birgi($data)
