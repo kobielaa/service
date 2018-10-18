@@ -13,98 +13,105 @@ function _timian_service_data_access($data)
     return true;
 }
 
-function timian_service_get_single_order($supplier_name, $order_id){
-    
+function timian_service_get_single_order($supplier_name, $order_id)
+{
     $uc_order = uc_order_load($order_id);
     set_supplier_info_for_order($uc_order);
-    if($uc_order->supplier_name == $supplier_name) {
+    if ($uc_order->supplier_name == $supplier_name) {
         $order = new timianOrder($uc_order);
         if (is_array($order) || is_object($order)) {
             header('Content-Type: application/json');
             return $order;
         }
-    }
-    else {
-        return header("HTTP/1.0 415 No orders for supplier");
+    } else {
+        $user = user_load_by_name($supplier_name);
+        header("HTTP/1.0 404");
+
+        return $user ?
+        ['message' => "There is no such order with id = {$order_id}", 'status' => 404] :
+        ['message' => 'Supplier not found', 'status' => 404];
     }
 }
 
-function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $status){
-    
-    $from_timestamp = strtotime($fromTime);
-    $to_timestamp = strtotime($toTime);
-    $supplier_value =  field_get_items('user',  user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
+function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $status)
+{
+    $supplier = user_load_by_name($supplier_name);
 
-    $query = db_select('uc_orders','o')->fields('o',array('order_id'));
-		$query->condition('modified',$from_timestamp,'>=');
-		if (!empty($to_timestamp)) {
-			$query->condition('modified',$to_timestamp,'<=');
-		}
-		// if procure orders (default to begin with)
-		$query->condition('o.data','%procure%','like');
-		if (!empty($status) && $status !== 'all') {
-			$query->condition('order_status',$status);
-		}
-		else {
-			$uc_statuses  = uc_order_status_list('post_checkout');
-			$uc_statuses += uc_order_state_list('completed');
-			$uc_statuses = array_map(function ($itm) {return $itm['id'];}, $uc_statuses);
-			$query->condition('order_status',$uc_statuses,'IN');
-		}
-		$query->join('eldhus_uc_order_fields','of','of.order_id=o.order_id');
-		$query->fields('of',array('supplier_id'));
-		$query->leftJoin('node','n','n.nid=of.supplier_id');
-		$query->addField('n','title','supplier_name');
-		$query->leftJoin('field_data_field_supplier_shorthand','ss','ss.entity_id=of.supplier_id');
-		$query->fields('ss',array('field_supplier_shorthand_value'));
-		$query->leftJoin('field_data_field_supplier_sid','sid','sid.entity_id=of.supplier_id');
-		$query->fields('sid',array('field_supplier_sid_value'));
-		$query->leftJoin('users','u','u.uid=o.uid');
-		$query->fields('u',array('mail'));
-		$query->leftJoin('field_data_field_user_gsm','ug','ug.entity_id=o.uid');
-		$query->fields('ug',array('field_user_gsm_value'));
-		$query->leftJoin('field_data_field_user_fullname','ufn','ufn.entity_id=o.uid');
-		$query->fields('ufn',array('field_user_fullname_value'));
-        $query->condition('of.supplier_id',$supplier_value);
-        
-        $cursor =  $query->execute();
+    if ($supplier) {
+
+        $from_timestamp = strtotime($fromTime);
+        $to_timestamp = strtotime($toTime);
+        $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
+        $query = db_select('uc_orders', 'o')->fields('o', array('order_id'));
+        $query->condition('modified', $from_timestamp, '>=');
+
+        if (!empty($to_timestamp)) {
+            $query->condition('modified', $to_timestamp, '<=');
+        }
+        // if procure orders (default to begin with)
+        $query->condition('o.data', '%procure%', 'like');
+
+        if (!empty($status) && $status !== 'all') {
+            $query->condition('order_status', $status);
+        } else {
+            $uc_statuses = uc_order_status_list('post_checkout');
+            $uc_statuses += uc_order_state_list('completed');
+            $uc_statuses = array_map(function ($itm) {return $itm['id'];}, $uc_statuses);
+            $query->condition('order_status', $uc_statuses, 'IN');
+        }
+
+        $query->join('eldhus_uc_order_fields', 'of', 'of.order_id=o.order_id');
+        $query->fields('of', array('supplier_id'));
+        $query->leftJoin('node', 'n', 'n.nid=of.supplier_id');
+        $query->addField('n', 'title', 'supplier_name');
+        $query->leftJoin('field_data_field_supplier_shorthand', 'ss', 'ss.entity_id=of.supplier_id');
+        $query->fields('ss', array('field_supplier_shorthand_value'));
+        $query->leftJoin('field_data_field_supplier_sid', 'sid', 'sid.entity_id=of.supplier_id');
+        $query->fields('sid', array('field_supplier_sid_value'));
+        $query->leftJoin('users', 'u', 'u.uid=o.uid');
+        $query->fields('u', array('mail'));
+        $query->leftJoin('field_data_field_user_gsm', 'ug', 'ug.entity_id=o.uid');
+        $query->fields('ug', array('field_user_gsm_value'));
+        $query->leftJoin('field_data_field_user_fullname', 'ufn', 'ufn.entity_id=o.uid');
+        $query->fields('ufn', array('field_user_fullname_value'));
+        $query->condition('of.supplier_id', $supplier_value);
+
+        $cursor = $query->execute();
         $orders = array();
 
         foreach ($cursor as $row) {
-			$uc_order = uc_order_load($row->order_id);
-			$uc_order->supplier_name = $row->field_supplier_shorthand_value;
-			$uc_order->supplier_sid = $row->field_supplier_sid_value;
-			$orders[] = new timianOrder($uc_order); 
+            $uc_order = uc_order_load($row->order_id);
+            $uc_order->supplier_name = $row->field_supplier_shorthand_value;
+            $uc_order->supplier_sid = $row->field_supplier_sid_value;
+            $orders[] = new timianOrder($uc_order);
         }
-        
-        header('Content-Type: application/json');
+
         return $orders;
-    
+    } else {
+        header("HTTP/1.0 404");
+
+        return ['message' => "Supplier {$supplier_name} not found", 'status' => 404];
+    }
 }
 
-
-function set_supplier_info_for_order($order) {
-	if (isset($order->order_id)) {
-		$query = db_select("eldhus_uc_order_fields","o");
-        $query->innerJoin('field_data_field_user_supplier','s','o.supplier_id=s.field_user_supplier_value');
-        $query->innerJoin('field_data_field_supplier_sid','r','o.supplier_id=r.entity_id');
-        $query->innerJoin('users','u','s.entity_id=u.uid');
+function set_supplier_info_for_order($order)
+{
+    if (isset($order->order_id)) {
+        $query = db_select("eldhus_uc_order_fields", "o");
+        $query->innerJoin('field_data_field_user_supplier', 's', 'o.supplier_id=s.field_user_supplier_value');
+        $query->innerJoin('field_data_field_supplier_sid', 'r', 'o.supplier_id=r.entity_id');
+        $query->innerJoin('users', 'u', 's.entity_id=u.uid');
         $query->fields("s")->fields("u")->fields("o")->fields("r");
         $query->condition("o.order_id", $order->order_id);
-       
-		$supplier = $query->execute()->fetch();
+
+        $supplier = $query->execute()->fetch();
 
         if ($supplier) {
-			$order->supplier_name = $supplier->name;
-			$order->supplier_sid = $supplier->field_supplier_sid_value;
-		}
-		else {
-			$order->supplier_name = t('Supplier not found');
-			$order->supplier_sid = null;
-		}
-	}
+            $order->supplier_name = $supplier->name;
+            $order->supplier_sid = $supplier->field_supplier_sid_value;
+        } else {
+            $order->supplier_name = t('Supplier not found');
+            $order->supplier_sid = null;
+        }
+    }
 }
-
-
-
-
