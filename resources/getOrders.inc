@@ -43,7 +43,10 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $to_timestamp = strtotime($toTime);
         $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
         $query = db_select('uc_orders', 'o')->fields('o', array('order_id'));
-        $query->condition('modified', $from_timestamp, '>=');
+       
+        if (!empty($from_timestamp)) {
+            $query->condition('modified', $from_timestamp, '>=');
+        }
 
         if (!empty($to_timestamp)) {
             $query->condition('modified', $to_timestamp, '<=');
@@ -75,15 +78,24 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $query->leftJoin('field_data_field_user_fullname', 'ufn', 'ufn.entity_id=o.uid');
         $query->fields('ufn', array('field_user_fullname_value'));
         $query->condition('of.supplier_id', $supplier_value);
-
+        $query->leftJoin('eldhus_divisions', 'd', 'd.id = of.cost_div');
+        $query->addField('d', 'code', 'delivery_code');
+        
         $cursor = $query->execute();
         $orders = array();
 
         foreach ($cursor as $row) {
+            // if ($row->order_id=="4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD 
+            //     continue;
+            // }
             $uc_order = uc_order_load($row->order_id);
             $uc_order->supplier_name = $row->field_supplier_shorthand_value;
             $uc_order->supplier_sid = $row->field_supplier_sid_value;
-            $orders[] = new timianOrder($uc_order);
+            $timian_order = new timianOrder($uc_order);
+            $timian_order->currency = $uc_order->currency;
+            $timian_order->data = $uc_order ->data;
+            $timian_order->deliveryCode= $row->delivery_code;
+            $orders[] = $timian_order;
         }
 
         return $orders;
