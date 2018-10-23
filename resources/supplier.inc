@@ -189,8 +189,13 @@ function _timian_service_validate_user($data)
 
 function _timian_service_validate_supplier($data)
 {
-    $node = node_load(array('title' => $data['name'], 'type' => 'birgi'));
+     $query = new EntityFieldQuery();
+    $node = $query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', 'birgi')
+    ->propertyCondition('title', $data['name'])
+    ->execute();
 
+    $result = $node ? "fail" : "success";
     return [
         "result" => $node ? "fail" : "success",
     ];
