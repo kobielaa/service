@@ -33,7 +33,7 @@ function _timian_service_create_supplier($data)
             "result" => "User {$data['name']} already exists",
         ];
     } else {
- 
+
         $supplier_value = get_node_nid_by_acronym($data['birgi']);
 
         $new_user = [
@@ -93,7 +93,7 @@ function _timian_service_update_supplier($data)
     $user = user_load_by_name($data['user']);
 
     if ($user) {
-        
+
         $supplier_value = get_node_nid_by_acronym($data['birgi']);
 
         $update_user = [
@@ -122,8 +122,7 @@ function _timian_service_update_supplier($data)
         return [
             "result" => "User {$data['user']} updated",
         ];
-    }
-    else{
+    } else {
         header("HTTP/1.0 404");
         return [
             "result" => "User {$data['user']} not found",
@@ -189,15 +188,24 @@ function _timian_service_validate_user($data)
 
 function _timian_service_validate_supplier($data)
 {
-     $query = new EntityFieldQuery();
-    $node = $query->entityCondition('entity_type', 'node')
-    ->propertyCondition('type', 'birgi')
-    ->propertyCondition('title', $data['name'])
-    ->execute();
+    $query = new EntityFieldQuery();
+    $name = $query->entityCondition('entity_type', 'node')
+        ->propertyCondition('type', 'birgi')
+        ->propertyCondition('title', $data['name'])
+        ->count()->execute();
 
-    $result = $node ? "fail" : "success";
+    $sid = $query->entityCondition('entity_type', 'node')
+        ->fieldCondition('field_supplier_sid', 'value', $data['sid'])
+        ->count()->execute();
+
+    $acronym = $query->entityCondition('entity_type', 'node')
+        ->fieldCondition('field_supplier_shorthand', 'value', $data['acronym'])
+        ->count()->execute();
+
     return [
-        "result" => $node ? "fail" : "success",
+        "name" => $name ? 'not-unique' : 'unique',
+        "sid" =>  $sid ? 'not-unique' : 'unique',
+        "acronym" => $acronym ? 'not-unique' : 'unique',
     ];
 }
 
