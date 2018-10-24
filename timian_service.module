@@ -2,401 +2,421 @@
 /**
  * Implements hook_services_resources
  */
-function timian_service_init() {
+function timian_service_init()
+{
     $method = $_SERVER['REQUEST_METHOD'];
-  
+
     if (isset($_SERVER['HTTP_ORIGIN'])) {
-      drupal_add_http_header('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN']);
+        drupal_add_http_header('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN']);
     }
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-      drupal_add_http_header('Access-Control-Allow-Headers', $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+        drupal_add_http_header('Access-Control-Allow-Headers', $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
     }
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
-      drupal_add_http_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        drupal_add_http_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     }
     if ($method == 'OPTIONS') {
-      exit;
+        exit;
     }
-  }
+}
 
 function timian_service_services_resources()
 {
     return [
         'supplier' => [
             'actions' => [
-                'create'   => [
-                    'help'            => 'Create a supplier user',
-                    'callback'        => '_timian_service_create_supplier',
-                    'args'            => [
+                'create' => [
+                    'help' => 'Create a supplier user',
+                    'callback' => '_timian_service_create_supplier',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
                     ],
                 ],
-                'create_supplier'   => [
-                    'help'            => 'Create a supplier user',
-                    'callback'        => '_timian_service_create_supplier_entity',
-                    'args'            => [
+                'create_supplier' => [
+                    'help' => 'Create a supplier user',
+                    'callback' => '_timian_service_create_supplier_entity',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
                     ],
                 ],
-                'update'   => [
-                    'help'            => 'Update a supplier user data',
-                    'callback'        => '_timian_service_update_supplier',
-                    'args'            => [
+                'update_supplier' => [
+                    'help' => 'Update a supplier entity',
+                    'callback' => '_timian_service_update_supplier_entity',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
+                    ],
+                ],
+                'update' => [
+                    'help' => 'Update a supplier user data',
+                    'callback' => '_timian_service_update_supplier',
+                    'args' => [
+                        [
+                            'name' => 'data',
+                            'type' => 'array',
+                            'description' => 'Data from HTTP POST request',
+                            'source' => 'data',
+                            'optional' => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file' => [
+                        'type' => 'inc',
+                        'module' => 'timian_service',
+                        'name' => 'resources/supplier',
                     ],
                 ],
                 'validate_user' => [
-                    'help'            => 'Check if username isn\'t already taken',
-                    'callback'        => '_timian_service_validate_user',
-                    'args'            => [
+                    'help' => 'Check if username isn\'t already taken',
+                    'callback' => '_timian_service_validate_user',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
                     ],
                 ],
                 'validate_supplier' => [
-                    'help'            => 'Check if username isn\'t already taken',
-                    'callback'        => '_timian_service_validate_supplier',
-                    'args'            => [
+                    'help' => 'Check if username isn\'t already taken',
+                    'callback' => '_timian_service_validate_supplier',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
                     ],
                 ],
 
                 'delete' => [
-                    'help'            => 'Delete supplier user',
-                    'callback'        => '_timian_service_delete_supplier',
-                    'args'            => [
+                    'help' => 'Delete supplier user',
+                    'callback' => '_timian_service_delete_supplier',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from HTTP POST request',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/supplier'
+                        'name' => 'resources/supplier',
                     ],
                 ],
-            ]
+            ],
         ],
-        'orders'   => [
+        'orders' => [
             'operations' => [
                 'retrieve' => [
-                    'help'            => 'Get single order order',
-                    'callback'        => '_timian_service_fetch_order',
-                    'args'            => [
+                    'help' => 'Get single order order',
+                    'callback' => '_timian_service_fetch_order',
+                    'args' => [
                         [
-                            'name'        => 'order_id',
-                            'type'        => 'int',
+                            'name' => 'order_id',
+                            'type' => 'int',
                             'description' => 'Order ID',
-                            'source'      => ['path' => '0'],
-                            'optional'    => false,
+                            'source' => ['path' => '0'],
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/orders'
+                        'name' => 'resources/orders',
                     ],
                 ],
-                'update'   => [
-                    'help'            => 'Update order',
-                    'callback'        => '_timian_service_update_order',
-                    'args'            => [
+                'update' => [
+                    'help' => 'Update order',
+                    'callback' => '_timian_service_update_order',
+                    'args' => [
                         [
-                            'name'        => 'order_id',
-                            'type'        => 'int',
+                            'name' => 'order_id',
+                            'type' => 'int',
                             'description' => 'Order ID',
-                            'source'      => ['path' => '0'],
-                            'optional'    => false,
+                            'source' => ['path' => '0'],
+                            'optional' => false,
                         ],
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'The object with comment and order status',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/orders'
+                        'name' => 'resources/orders',
                     ],
                 ],
 
-            ]
+            ],
         ],
         'products' => [
             'operations' => [
                 'retrieve' => [
-                    'help'            => 'Get products',
-                    'callback'        => '_timian_service_fetch_product',
-                    'args'            => [
+                    'help' => 'Get products',
+                    'callback' => '_timian_service_fetch_product',
+                    'args' => [
                         [
-                            'name'        => 'product_model',
-                            'type'        => 'string',
+                            'name' => 'product_model',
+                            'type' => 'string',
                             'description' => 'Product model',
-                            'source'      => ['path' => '0'],
-                            'optional'    => false,
+                            'source' => ['path' => '0'],
+                            'optional' => false,
                         ],
                         [
-                            'name'        => 'title',
-                            'optional'    => false,
-                            'type'        => 'string',
+                            'name' => 'title',
+                            'optional' => false,
+                            'type' => 'string',
                             'description' => 'Product description (title)',
-                            'source'      => ['param' => 'title'],
+                            'source' => ['param' => 'title'],
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/products'
+                        'name' => 'resources/products',
                     ],
                 ],
-                'index'    => [
-                    'help'            => 'Get products (autocompolete)',
-                    'callback'        => '_timian_service_fetch_data',
+                'index' => [
+                    'help' => 'Get products (autocompolete)',
+                    'callback' => '_timian_service_fetch_data',
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/products'
+                        'name' => 'resources/products',
                     ],
-                    'args'            => [
+                    'args' => [
                         [
-                            'name'        => 'search',
-                            'optional'    => false,
-                            'type'        => 'string',
+                            'name' => 'search',
+                            'optional' => false,
+                            'type' => 'string',
                             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                            'source'      => ['param' => 'search'],
+                            'source' => ['param' => 'search'],
                         ],
                     ],
                 ],
-                'create'   => [
-                    'help'            => 'Add product to order',
-                    'callback'        => '_timian_service_create_product',
-                    'args'            => [
+                'create' => [
+                    'help' => 'Add product to order',
+                    'callback' => '_timian_service_create_product',
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from add product form',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/products'
+                        'name' => 'resources/products',
                     ],
                 ],
 
             ],
-            'actions'    => [
+            'actions' => [
                 'delete' => [
-                    'help'                    => 'Delete product',
-                    'callback'                => '_timian_service_resource_delete',
+                    'help' => 'Delete product',
+                    'callback' => '_timian_service_resource_delete',
                     'access arguments append' => true,
-                    'args'                    => [
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'Data from add product form',
-                            'source'      => 'data',
-                            'optional'    => false,
-                        ],
-                    ],
-                    'access callback'         => '_timian_service_data_access',
-                    'file'                    => [
-                        'type'   => 'inc',
-                        'module' => 'timian_service',
-                        'name'   => 'resources/products'
-                    ],
-                ],
-                'edit'   => [
-                    'help'            => 'Update product from order list',
-                    'callback'        => '_timian_service_resource_edit',
-                    'access arguments append' => true,
-                    'args'            => [
-                        [
-                            'name'        => 'data',
-                            'type'        => 'array',
-                            'description' => 'The object with product new product specification.',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/products'
+                        'name' => 'resources/products',
+                    ],
+                ],
+                'edit' => [
+                    'help' => 'Update product from order list',
+                    'callback' => '_timian_service_resource_edit',
+                    'access arguments append' => true,
+                    'args' => [
+                        [
+                            'name' => 'data',
+                            'type' => 'array',
+                            'description' => 'The object with product new product specification.',
+                            'source' => 'data',
+                            'optional' => false,
+                        ],
+                    ],
+                    'access callback' => '_timian_service_data_access',
+                    'file' => [
+                        'type' => 'inc',
+                        'module' => 'timian_service',
+                        'name' => 'resources/products',
                     ],
                 ],
             ],
-           
+
         ],
         'upload' => [
-            'actions'    => [
-                'price_update'   => [
-                    'help'            => 'Update product price',
-                    'callback'        => '_timian_service_price_update',
+            'actions' => [
+                'price_update' => [
+                    'help' => 'Update product price',
+                    'callback' => '_timian_service_price_update',
                     'access arguments append' => true,
-                    'args'            => [
+                    'args' => [
                         [
-                            'name'        => 'data',
-                            'type'        => 'array',
+                            'name' => 'data',
+                            'type' => 'array',
                             'description' => 'The object with product new product specification.',
-                            'source'      => 'data',
-                            'optional'    => false,
+                            'source' => 'data',
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/upload'
+                        'name' => 'resources/upload',
                     ],
                 ],
             ],
         ],
-        'getOrders'=> [
+        'getOrders' => [
             'operations' => [
-                'index'    => [
-                    'help'            => 'Get all orders for particular purchaser',
-                    'callback'        => 'timian_service_get_all_orders',
+                'index' => [
+                    'help' => 'Get all orders for particular purchaser',
+                    'callback' => 'timian_service_get_all_orders',
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/getOrders'
+                        'name' => 'resources/getOrders',
                     ],
-                    'args'            => [
+                    'args' => [
                         [
-                            'name'        => 'supplier_name',
-                            'type'        => 'string',
+                            'name' => 'supplier_name',
+                            'type' => 'string',
                             'description' => 'Supplier name',
-                            'source'      => ['path' => '0'],
-                            'optional'    => false,
+                            'source' => ['path' => '0'],
+                            'optional' => false,
                         ],
                         [
-                            'name'        => 'fromTime',
-                            'optional'    => true,
-                            'type'        => 'string',
+                            'name' => 'fromTime',
+                            'optional' => true,
+                            'type' => 'string',
                             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                            'source'      => ['param' => 'start'],
+                            'source' => ['param' => 'start'],
                         ],
                         [
-                            'name'        => 'toTime',
-                            'optional'    => true,
-                            'type'        => 'string',
+                            'name' => 'toTime',
+                            'optional' => true,
+                            'type' => 'string',
                             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                            'source'      => ['param' => 'end'],
+                            'source' => ['param' => 'end'],
                         ],
                         [
-                            'name'        => 'status',
-                            'optional'    => true,
-                            'type'        => 'string',
+                            'name' => 'status',
+                            'optional' => true,
+                            'type' => 'string',
                             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                            'source'      => ['param' => 'status'],
+                            'source' => ['param' => 'status'],
                         ],
                     ],
                 ],
                 'retrieve' => [
-                    'help'            => 'Get specific orders for particular supplier in JSON format',
-                    'callback'        => 'timian_service_get_single_order',
-                    'args'            => [
+                    'help' => 'Get specific orders for particular supplier in JSON format',
+                    'callback' => 'timian_service_get_single_order',
+                    'args' => [
                         [
-                            'name'        => 'supplier_name',
-                            'type'        => 'string',
+                            'name' => 'supplier_name',
+                            'type' => 'string',
                             'description' => 'Supplier name',
-                            'source'      => ['path' => '0'],
-                            'optional'    => false,
+                            'source' => ['path' => '0'],
+                            'optional' => false,
                         ],
                         [
-                            'name'        => 'order_id',
-                            'type'        => 'int',
+                            'name' => 'order_id',
+                            'type' => 'int',
                             'description' => 'Product model',
-                            'source'      => ['path' => '1'],
-                            'optional'    => false,
+                            'source' => ['path' => '1'],
+                            'optional' => false,
                         ],
                     ],
                     'access callback' => '_timian_service_data_access',
-                    'file'            => [
-                        'type'   => 'inc',
+                    'file' => [
+                        'type' => 'inc',
                         'module' => 'timian_service',
-                        'name'   => 'resources/getOrders'
+                        'name' => 'resources/getOrders',
                     ],
                 ],
-               
+
             ],
-        ]
+        ],
     ];
 }

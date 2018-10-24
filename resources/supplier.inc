@@ -139,34 +139,31 @@ function _timian_service_update_supplier($data)
 //  * @return array
 //  *   json with result
 //  */
-// function _timian_service_update_supplier($data)
-// {
-//     $node_nid = get_node_nid($data['name']);
-//     $user = user_load_by_name($data['name']);
-//     $node = node_load($node_nid);
+function _timian_service_update_supplier_entity($data)
+{
+    $node_nid = get_node_nid($data['previous_supplier_name']);
+    $node = node_load($node_nid);
 
-//     if ($node) {
-//         $node->field_supplier_defphone['und'][0]['value'] = $data['phone'];
-//         $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
-//         $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
-//         $node->field_supplier_order_email['und'][0]['value'] = $data['email_for_orders'];
-//         $node->field_supplier_def_email['und'][0]['value'] = $data['email'];
-//         $node->field_supplier_shorthand['und'][0]['value'] = $data['short_name'];
-//         $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
-//         $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
-//         $node->field_supplier_price_permission['und'][0]['value'] = 0;
-//         node_save($node);
-//     } else {
-//         create_node_birgi($data);
-//     }
+    if ($node) {
+        $node->title = $data['name'];
+        $node->field_supplier_defphone['und'][0]['value'] = $data['phone'];
+        $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
+        $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];
+        $node->field_supplier_order_email['und'][0]['value'] = $data['email_for_orders'];
+        $node->field_supplier_def_email['und'][0]['value'] = $data['email'];
+        $node->field_supplier_shorthand['und'][0]['value'] = $data['short_name'];
+        $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
+        $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
+        $node->field_supplier_price_permission['und'][0]['value'] = 0;
+        node_save($node);
+    }
+   header("HTTP/1.0 200");
 
-//     if ($user) {
-//         $user->mail = $data['email'];
-//         user_save($user);
-//     } else {
-//         _timian_service_create_supplier($data);
-//     }
-// }
+    return [
+        "result" => "Supplier {$data['name']} updated",
+    ];
+
+}
 
 /**
  * Callback function for checking accessibility of username
@@ -188,17 +185,19 @@ function _timian_service_validate_user($data)
 
 function _timian_service_validate_supplier($data)
 {
-    $query = new EntityFieldQuery();
-    $name = $query->entityCondition('entity_type', 'node')
+    $name_query = new EntityFieldQuery();
+    $name = $name_query->entityCondition('entity_type', 'node')
         ->propertyCondition('type', 'birgi')
         ->propertyCondition('title', $data['name'])
         ->count()->execute();
 
-    $sid = $query->entityCondition('entity_type', 'node')
+    $sid_query = new EntityFieldQuery();
+    $sid = $sid_query->entityCondition('entity_type', 'node')
         ->fieldCondition('field_supplier_sid', 'value', $data['sid'])
         ->count()->execute();
 
-    $acronym = $query->entityCondition('entity_type', 'node')
+    $acronym_query = new EntityFieldQuery();
+    $acronym = $acronym_query->entityCondition('entity_type', 'node')
         ->fieldCondition('field_supplier_shorthand', 'value', $data['acronym'])
         ->count()->execute();
 
