@@ -126,7 +126,7 @@ function _timian_service_resource_edit($data)
     $product = $order->products[$data['product_id']];
     $product->price = $unit_price;
     $product->qty = $quantity;
-    $product->weight = $weight / $quantity;
+   //$product->weight = $weight / $quantity;
     $product->data['supplier']['total_weight'] = $weight;
     $product->data['supplier']['unit_price'] = $unit_price;
     $product->data['supplier']['qty'] = $quantity;
