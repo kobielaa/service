@@ -23,15 +23,26 @@ function _timian_service_data_access($data)
  *   json with result
  */
 
-function _timian_service_create_supplier($data)
+function _timian_service_create_user($data)
 {
     $user = user_load_by_name($data['name']);
 
     if ($user) {
-        header("HTTP/1.0 409");
-        return [
-            "result" => "User {$data['name']} already exists",
-        ];
+        if  (!$user->status) {
+            $user->status = "1";
+            user_save($user);
+            header("HTTP/1.0 201");
+            return [
+                "result" => "Supplier {$data['name']} activated",
+            ];
+
+        }else {
+            header("HTTP/1.0 409");
+            return [
+                "result" => "User {$data['name']} already exists",
+            ];
+        }
+
     } else {
 
         $supplier_value = get_node_nid_by_acronym($data['birgi']);
@@ -72,6 +83,20 @@ function _timian_service_create_supplier($data)
 
 function _timian_service_create_supplier_entity($data)
 {
+    $name_query = new EntityFieldQuery();
+    $name = $name_query->entityCondition('entity_type', 'node')
+    ->propertyCondition('type', 'birgi')
+    ->propertyCondition('title', $data['previous_supplier_name'])
+    ->count()->execute();
+
+    if($name) {
+        _timian_service_update_supplier_entity($data);
+        header("HTTP/1.0 201");
+        return [
+            "result" => "Supplier {$data['name']} updated",
+        ];
+    }
+
 
     create_node_birgi($data);
     header("HTTP/1.0 201");
@@ -146,6 +171,7 @@ function _timian_service_update_supplier_entity($data)
 
     if ($node) {
         $node->title = $data['name'];
+        $node->status = "1";
         $node->field_supplier_defphone['und'][0]['value'] = $data['phone'];
         $node->field_supplier_sid['und'][0]['value'] = $data['sid'];
         $node->field_supplier_def_web['und'][0]['value'] = $data['webpage'];

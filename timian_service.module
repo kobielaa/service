@@ -27,7 +27,7 @@ function timian_service_services_resources()
             'actions' => [
                 'create' => [
                     'help' => 'Create a supplier user',
-                    'callback' => '_timian_service_create_supplier',
+                    'callback' => '_timian_service_create_user',
                     'args' => [
                         [
                             'name' => 'data',
