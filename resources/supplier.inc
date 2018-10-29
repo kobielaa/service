@@ -237,9 +237,18 @@ function _timian_service_validate_supplier($data)
 function _timian_service_delete_supplier($data)
 {
     $node_nid = get_node_nid($data['name']);
-    $user = user_load_by_name($data['name']);
+    if ($node_nid){
+        $node = Node::load($node_nid);
+        $node->status = "0";
+        node_save($node);
+        header("HTTP/1.0 201");
+    return [
+        "result" => "Supplier {$data['name']} blocked",
+    ];
+
+    }
     node_delete($node_nid);
-    user_delete($user->uid);
+
 
 }
 
