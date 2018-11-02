@@ -28,7 +28,7 @@ function _timian_service_create_user($data)
     $user = user_load_by_name($data['name']);
 
     if ($user) {
-        if  (!$user->status) {
+        if (!$user->status) {
             $user->status = "1";
             user_save($user);
             header("HTTP/1.0 201");
@@ -36,7 +36,7 @@ function _timian_service_create_user($data)
                 "result" => "Supplier {$data['name']} activated",
             ];
 
-        }else {
+        } else {
             header("HTTP/1.0 409");
             return [
                 "result" => "User {$data['name']} already exists",
@@ -84,24 +84,40 @@ function _timian_service_create_user($data)
 function _timian_service_create_supplier_entity($data)
 {
     $name_query = new EntityFieldQuery();
-    $name = $name_query->entityCondition('entity_type', 'node')
-    ->propertyCondition('type', 'birgi')
-    ->propertyCondition('title', $data['previous_supplier_name'])
-    ->count()->execute();
 
-    if($name) {
-        _timian_service_update_supplier_entity($data);
-        header("HTTP/1.0 201");
-        return [
-            "result" => "Supplier {$data['name']} updated",
-        ];
+    if (array_key_exists('previous_supplier_name', $data) && !empty($data['previous_supplier_name'])) {
+        $name = $name_query->entityCondition('entity_type', 'node')
+            ->propertyCondition('type', 'birgi')
+            ->propertyCondition('title', $data['previous_supplier_name'])
+            ->count()->execute();
+
+        if ($name) { //if had previous name
+            _timian_service_update_supplier_entity($data);
+            header("HTTP/1.0 201");
+            return [
+                "result" => "Supplier {$data['name']} updated",
+            ];
+        }
+    } else {
+        $name = $name_query->entityCondition('entity_type', 'node')
+            ->propertyCondition('type', 'birgi')
+            ->propertyCondition('title', $data['name'])
+            ->count()->execute();
+
+        if ($name) { //if already exist updated
+            $data['previous_supplier_name'] = $data['name'];
+            _timian_service_update_supplier_entity($data);
+            header("HTTP/1.0 201");
+            return [
+                "result" => "Supplier {$data['name']} updated",
+            ];
+        }
     }
-
 
     create_node_birgi($data);
     header("HTTP/1.0 201");
     return [
-        "result" => "User {$data['name']} created",
+        "result" => "Supplier {$data['name']} created",
     ];
 }
 /**
@@ -166,7 +182,7 @@ function _timian_service_update_supplier($data)
 //  */
 function _timian_service_update_supplier_entity($data)
 {
-    $node_nid = get_node_nid($data['previous_supplier_name']);
+    $node_nid = get_node_nid($data['previous_supplier_name']); //TODO what if previous supplier name is empty
     $node = node_load($node_nid);
 
     if ($node) {
@@ -183,7 +199,7 @@ function _timian_service_update_supplier_entity($data)
         $node->field_supplier_price_permission['und'][0]['value'] = 0;
         node_save($node);
     }
-   header("HTTP/1.0 200");
+    header("HTTP/1.0 200");
 
     return [
         "result" => "Supplier {$data['name']} updated",
@@ -209,6 +225,63 @@ function _timian_service_validate_user($data)
     ];
 }
 
+// /**
+//  * Callback function for checking accessibility of username
+//  *
+//  * @param array $data
+//  *   User's data from http post request
+//  *
+//  * @return array
+//  *   json with result
+//  */
+// function _timian_service_validate_user($data)
+// {
+//     $operation = $data["operation"];
+//     $user = user_load_by_name($data['name']);
+//     $emptyData = "";
+
+//     if (empty($data['name'])) { //validate parameters
+//         $emptyData .= "name, ";
+//     }
+//     if (empty($data['operation'])) {
+//         $emptyData .= "operation, ";
+//     }
+//     if ($data['operation'] == "update") {
+//         if(!array_key_exists('newUserName',$data) || empty($data['newUserName']))
+//         $emptyData .= "newUserName, ";
+//     }
+
+//     if (!empty($emptyData)) {
+//         header("HTTP/1.0 400");
+
+//         return ["message" => "Following data was not provided: {$emptyData}", "status" => 400];
+//     } else {
+
+//         switch (strtolower($operation)) {
+//             case 'create':
+//                 if (!empty($user)) {
+//                     return ["result" => "fail", "message" => "User {$data['name']} already exist"];
+//                 }
+//                 return ["result" => "success"]; //checked above if exist
+//             case 'update':
+//                 if (!empty($user)) {
+//                     $newUserName = $data['newUserName'];
+//                     if (!user_load_by_name($newUserName) || $data['name'] == $newUserName) {
+//                         return ["result" => "success"];
+//                     } else {
+//                         return ["result" => "fail", "message" => "User name {$newUserName} already exist"];
+//                     }
+//                 } else {
+//                     return ["result" => "fail", "message" => "User {$data['name']} not found"];
+//                 }
+//             default:
+//                 header("HTTP/1.0 400");
+//                 return ["message" => "Wrong type of operation: {$operation}", "status" => 400];
+//         }
+//     }
+
+// }
+
 function _timian_service_validate_supplier($data)
 {
     $name_query = new EntityFieldQuery();
@@ -229,7 +302,7 @@ function _timian_service_validate_supplier($data)
 
     return [
         "name" => $name ? 'not-unique' : 'unique',
-        "sid" =>  $sid ? 'not-unique' : 'unique',
+        "sid" => $sid ? 'not-unique' : 'unique',
         "acronym" => $acronym ? 'not-unique' : 'unique',
     ];
 }
@@ -237,7 +310,7 @@ function _timian_service_validate_supplier($data)
 function _timian_service_delete_supplier($data)
 {
     $node_nid = get_node_nid($data['name']);
-    if ($node_nid){
+    if ($node_nid) {
         $node = node_load($node_nid);
         $node->status = "0";
         node_save($node);
@@ -246,7 +319,6 @@ function _timian_service_delete_supplier($data)
             "result" => "Supplier {$data['name']} blocked",
         ];
     }
-
 
 }
 
