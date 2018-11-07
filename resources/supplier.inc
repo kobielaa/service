@@ -76,7 +76,7 @@ function _timian_service_create_user($data)
 
         header("HTTP/1.0 201");
         return [
-            "result" => "Supplier {$data['name']} created",
+            "result" => "User {$data['name']} created",
         ];
     }
 }
@@ -198,13 +198,13 @@ function _timian_service_update_supplier_entity($data)
         $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
         $node->field_supplier_price_permission['und'][0]['value'] = 0;
         node_save($node);
+
+        header("HTTP/1.0 200");
+
+        return [
+            "result" => "Supplier {$data['name']} updated",
+        ];
     }
-    header("HTTP/1.0 200");
-
-    return [
-        "result" => "Supplier {$data['name']} updated",
-    ];
-
 }
 
 /**
@@ -307,7 +307,7 @@ function _timian_service_validate_supplier($data)
     ];
 }
 
-function _timian_service_delete_supplier($data) //TODO get all supplier users and set them to inactive
+function _timian_service_delete_supplier($data)
 {
     $node_nid = get_node_nid($data['name']);
     if ($node_nid) {
