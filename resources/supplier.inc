@@ -33,7 +33,7 @@ function _timian_service_create_user($data)
             user_save($user);
             header("HTTP/1.0 201");
             return [
-                "result" => "Supplier {$data['name']} activated",
+                "result" => "User {$data['name']} activated",
             ];
 
         } else {
@@ -45,7 +45,7 @@ function _timian_service_create_user($data)
 
     } else {
 
-        $supplier_value = get_node_nid_by_acronym($data['birgi']);
+        $supplier_value =  get_node_nid($data['birgi']); //get_node_nid_by_acronym($data['birgi']);
 
         $new_user = [
             'name' => $data['name'],
@@ -307,14 +307,27 @@ function _timian_service_validate_supplier($data)
     ];
 }
 
-function _timian_service_delete_supplier($data)
+function _timian_service_delete_supplier($data) //TODO get all supplier users and set them to inactive
 {
     $node_nid = get_node_nid($data['name']);
     if ($node_nid) {
         $node = node_load($node_nid);
         $node->status = "0";
         node_save($node);
+
+        $query = new EntityFieldQuery();
+        $query->entityCondition('entity_type', 'user')
+            ->fieldCondition('field_user_supplier', 'value', $node_nid, '=');
+        $result = $query->execute();
+        $users_ids = array_keys($result['user']);
+
+        foreach ($users_ids as $id) {
+            $user = user_load($id);
+            $user->status = 0;
+            user_save($user);
+        }
         header("HTTP/1.0 201");
+
         return [
             "result" => "Supplier {$data['name']} blocked",
         ];
