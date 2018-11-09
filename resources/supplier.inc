@@ -197,7 +197,7 @@ function _timian_service_update_supplier_entity($data)
         $node->field_min_order_total['und'][0]['value'] = $data['minimum'];
         $node->field_supplier_address1['und'][0]['value'] = $data['street'] . ", " . $data['postal_code'] . " " . $data['city'];
         $node->field_supplier_price_permission['und'][0]['value'] = 0;
-        $node->field_supplier_price_permission['und'][0]['value'] = $data['can_upload'];
+        $node->field_supplier_can_upload['und'][0]['value'] = $data['can_upload'];
 
         node_save($node);
 
