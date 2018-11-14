@@ -76,8 +76,36 @@ function _timian_service_fetch_order($order_id)
  *      json with order_id
  */
 function _timian_service_update_order($order_id, $data){
-	
+	$products_ids = [];
+	$updated_products = [];
+
+	//retriving products sended from edit order form
+	foreach ($data as $key => $value) {
+    	if(strpos($key,'weight') !== false){
+			$products_ids[] = explode('weight', $key)[1];
+		}
+	}
+	foreach ($data as $key => $value) {
+		foreach ($products_ids as $id) {
+			if(strpos($key,$id) !== false) {
+				$updated_products[$id][explode($id, $key)[0]] = eldhus_parse_number($value);
+			}
+			
+		}
+	}
+
 	$order = uc_order_load($order_id, true);
+	foreach($updated_products as $key => $value) {
+		$product = $order->products[$key];
+		$product->price = $value['unit_price'];
+		$product->qty = $value['quantity'];
+		// $product->weight = $weight / $quantity;
+		$product->data['supplier']['total_weight'] = $value['weight'];
+		$product->data['supplier']['unit_price'] = $value['unit_price'];
+		$product->data['supplier']['qty'] = $value['quantity'];
+		$product->data['supplier']['discount'] = $value['discount'];
+	}
+
 	$user = user_load_by_name($data['supplier']);
 
 	$orderStatus = $data['status'];
@@ -93,8 +121,7 @@ function _timian_service_update_order($order_id, $data){
 		uc_order_comment_save($order_id, $user->uid, $data['comment'], 'order',  $data['status'], false);
 	}
 	
-	$order = uc_order_load($order_id, true);
-	$changed = false;
+
 	if (isset($data['ext_invoice_id'])) {
 		$invoice_ids = explode(',',$data['ext_invoice_id']);
 		if (count($invoice_ids) > 1) {
@@ -112,9 +139,8 @@ function _timian_service_update_order($order_id, $data){
 		$changed = true;
 	}
 	
-	if ($changed) {
+
 		uc_order_save($order);
-	}
 
 	return [
 		"order_id" => $order_id,
