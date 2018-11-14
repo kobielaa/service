@@ -45,7 +45,7 @@ function _timian_service_create_user($data)
 
     } else {
 
-        $supplier_value =  get_node_nid($data['birgi']); //get_node_nid_by_acronym($data['birgi']);
+        $supplier_value = get_node_nid($data['birgi']); //get_node_nid_by_acronym($data['birgi']);
 
         $new_user = [
             'name' => $data['name'],
@@ -182,7 +182,7 @@ function _timian_service_update_supplier($data)
 //  */
 function _timian_service_update_supplier_entity($data)
 {
-    $node_nid = get_node_nid($data['previous_supplier_name']); //TODO what if previous supplier name is empty
+    $node_nid = get_node_nid($data['previous_supplier_name']);
     $node = node_load($node_nid);
 
     if ($node) {
@@ -285,20 +285,22 @@ function _timian_service_validate_user($data)
 function _timian_service_validate_supplier($data)
 {
     $name_query = new EntityFieldQuery();
-    $name = $name_query->entityCondition('entity_type', 'node')
+    $name = $name_query
+        ->entityCondition('entity_type', 'node')
         ->propertyCondition('type', 'birgi')
+        ->propertyCondition('status', array(0, 1), 'IN')
         ->propertyCondition('title', $data['name'])
         ->count()->execute();
 
-    $sid_query = new EntityFieldQuery();
-    $sid = $sid_query->entityCondition('entity_type', 'node')
-        ->fieldCondition('field_supplier_sid', 'value', $data['sid'])
-        ->count()->execute();
+    $sid = db_query("SELECT field_supplier_sid_value 
+    FROM `main_field_data_field_supplier_sid`
+    where field_supplier_sid_value = :sid", 
+    array(':sid' => $data['sid']))->fetchField();
 
-    $acronym_query = new EntityFieldQuery();
-    $acronym = $acronym_query->entityCondition('entity_type', 'node')
-        ->fieldCondition('field_supplier_shorthand', 'value', $data['acronym'])
-        ->count()->execute();
+    $acronym = db_query("SELECT field_supplier_shorthand_value 
+    FROM `main_field_data_field_supplier_shorthand`
+    where field_supplier_shorthand_value = :acr", 
+    array(':acr' => $data['acronym']))->fetchField();
 
     return [
         "name" => $name ? 'not-unique' : 'unique',
