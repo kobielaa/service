@@ -41,39 +41,111 @@ function _timian_service_fetch_data($search)
     }
 
     $data = [
-        "results" => $result
+        "results" => $result,
     ];
     return $data;
 }
 
-
-/**
- * Callback function - get specific product
- *
- * @param string $model
- * @param string $title
- *
- * @return array $data Product
- */
-function _timian_service_fetch_product($model, $title)
+// /**
+//  * Callback function - get specific product
+//  *
+//  * @param string $supplier
+//  *
+//  * @return array $data Product
+//  */
+function _timian_service_fetch_products($data)
 {
-    $query = db_select('node', 'n')->fields('n');
-    $query->join('uc_products', 'p', 'p.nid=n.nid');
-    $query->fields('p');
-    $query->condition('n.status', true);
-    $query->condition('n.type', 'product');
-    $query->join('field_data_field_commodity_supplier', 'cs', 'cs.entity_id=n.nid');
-    $query->condition('p.model', $model);
-    $query->condition('n.title', $title);
-    $product = $query->execute()->fetchAll();
+    $supplierId = get_node_nid($data['supplier']);
 
-    $data = [
-        'response' => $product,
-    ];
+    if ($supplierId) {
+        $query = db_select('node', 'n')->fields('n');
+        $query->fields('n', array('nid', 'title', 'changed'));
+        $query->leftJoin('field_data_body', 'nb', 'nb.revision_id=n.vid');
+        $query->join('uc_products', 'p', 'p.vid=n.vid');
+        $query->fields('p', array('model', 'list_price', 'sell_price', 'weight', 'weight_units', 'is_offer'));
+        $query->join('field_data_field_commodity_supplier', 'sidx', 'sidx.entity_id=n.nid');
+        $query->leftJoin('field_data_field_commodity_discount', 'd', 'd.entity_id=n.nid');
+        $query->fields('d', array('field_commodity_discount_value'));
+        $query->leftJoin('field_data_field_commodity_units_sale', 'u_sale', 'u_sale.entity_id=n.nid');
+        $query->fields('u_sale', array('field_commodity_units_sale_value'));
+        $query->leftJoin('field_data_field_commodity_saleunit', 's_unit', 's_unit.entity_id=n.nid');
+        $query->fields('s_unit', array('field_commodity_saleunit_value'));
+        $query->leftJoin('field_data_field_commodity_unspsc', 'pidx', 'pidx.entity_id=n.nid');
+        $query->fields('pidx', array('field_commodity_unspsc_code'));
+        $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
+        $query->fields('us', array('descr'));
+        $query->fields('nb', array('body_value'));
+        $query->condition('sidx.field_commodity_supplier_value', $supplierId); //TODO get supplier value
+        $query->condition('n.status', 1);
 
-    return $data;
+        if (isset($data['is_offer'])) {
+            $query->condition('p.is_offer', 0, '>');
+        }
+
+        $header=[];
+        if (isset($data['category'])) {
+            
+            switch ($data['category']) {
+                // case 'everything':
+                //     $query->orderBy('p.title', 'DESC');          
+                //     break;
+                case 'model':
+                    $query->condition('p.model', $data['term'] . '%', 'LIKE');
+                    $query->orderBy('p.model', 'ASC');    
+                    break;
+                case 'title':
+                    $query->condition('n.title', '%' . $data['term'] . '%', 'LIKE');
+                    $query->orderBy('n.title', 'ASC'); 
+                    break;
+                case 'description':
+                    $query->condition('nb.body_value', '%' . $data['term'] . '%', 'LIKE');
+                    $query->orderBy('nb.body_value', 'ASC'); 
+                    break;
+                case 'unspsc';
+                    $query->condition('us.descr', '%' . $data['term'] . '%', 'LIKE');
+                    $query->orderBy('us.descr', 'ASC');
+                    break;
+                default:
+                    $query->orderBy('n.title', 'ASC'); 
+                    break;
+            }
+        }
+
+        if (isset($data['purchasers_numbers'])) { //TODO check if number      
+            if (isset($data['page'])) {
+                $max_pages = 10 / intval($data['purchasers_numbers']);
+                $query->range((intval($data['page'])-1) * $max_pages, $max_pages);
+            }
+            else{
+                $max_pages = 10 / intval($data['purchasers_numbers']);
+                $query->range(0, $max_pages);
+            }
+        }
+        //$db_or = db_or();
+        // if (isset($data['model'])) {
+        //     $db_or->condition('p.model', $data['model'] . '%', 'LIKE');
+        // }
+        // if (isset($data['title'])) {
+        //     $db_or->condition('n.title', '%' . $data['title'] . '%', 'LIKE');
+        // }
+        // if (isset($data['body_value'])) {
+        //     $db_or->condition('nb.body_value', '%' . $data['body_value'] . '%', 'LIKE');
+        // }
+        // if (isset($data['unspsc_description'])) {
+        //     $db_or->condition('us.descr', '%' .  $data['unspsc_description'] . '%', 'LIKE');
+        // }
+
+        //$query->condition($db_or);
+        $products = $query->execute()->fetchAll(); //defalut drupal is sorting by nodeif if no order by is provided
+        
+
+        return $products ? $products : "None products found for supplier {$data['supplier']}";
+    } else {
+        header("HTTP/1.0 404");
+
+        return ['message' => 'Supplier not found', 'status' => 404];
+    }
 }
-
 
 /**
  * Callback function - update product from order
@@ -83,7 +155,6 @@ function _timian_service_fetch_product($model, $title)
  * @return array $data
  *      json with order_id
  */
-
 
 // [872] => stdClass Object
 // (
@@ -162,21 +233,21 @@ function _timian_service_create_product($data)
     if ($add_product) {
         $add_product_data = [
             'order_id' => $data['order_id'],
-            'title'    => $data['description'],
-            'model'    => $data['model'],
-            'qty'      => $quantity,
-            'weight'   => $weight,
-            'price'    => $unit_price * (1 - $discount / 100),
-            'cost'     => 0,
-            'data'     => [
+            'title' => $data['description'],
+            'model' => $data['model'],
+            'qty' => $quantity,
+            'weight' => $weight,
+            'price' => $unit_price * (1 - $discount / 100),
+            'cost' => 0,
+            'data' => [
                 'supplier' => [
                     'total_weight' => $weight,
-                    'unit_price'   => $unit_price,
-                    'qty'          => $quantity,
-                    'discount'     => $discount,
-                    'model'        => $data['model']
-                ]
-            ]
+                    'unit_price' => $unit_price,
+                    'qty' => $quantity,
+                    'discount' => $discount,
+                    'model' => $data['model'],
+                ],
+            ],
         ];
 
         // if (arg(0) == 'supplier' && arg(1) == 'view' && arg(2) == 'order') {
@@ -197,7 +268,6 @@ function _timian_service_create_product($data)
 
     return $response;
 }
-
 
 /**
  * Callback function to delete product from order
@@ -224,9 +294,17 @@ function _timian_service_resource_delete($data)
     $response = [
         [
             'order_id' => $data['order_id'],
-            'product'  => $data['title'],
+            'product' => $data['title'],
         ],
     ];
 
     return $response;
+}
+
+function get_node_nid($node_title)
+{
+    $query = db_select('node', 'n')->fields('n')->condition('title', $node_title)->condition('type', 'birgi');
+    $node_nid = $query->execute()->fetchAll();
+    $node_nid = $node_nid[0]->nid;
+    return $node_nid;
 }
