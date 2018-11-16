@@ -75,7 +75,7 @@ function _timian_service_fetch_products($data)
         $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
         $query->fields('us', array('descr'));
         $query->fields('nb', array('body_value'));
-        $query->condition('sidx.field_commodity_supplier_value', $supplierId); //TODO get supplier value
+        $query->condition('sidx.field_commodity_supplier_value', $supplierId);
         $query->condition('n.status', 1);
 
         if (isset($data['is_offer'])) {
@@ -109,15 +109,15 @@ function _timian_service_fetch_products($data)
                     $query->orderBy('n.title', 'ASC'); 
                     break;
             }
-        }
-
+        } 
         if (isset($data['purchasers_numbers'])) { //TODO check if number      
+
+            $max_pages = 300 / intval($data['purchasers_numbers']);
+
             if (isset($data['page'])) {
-                $max_pages = 10 / intval($data['purchasers_numbers']);
                 $query->range((intval($data['page'])-1) * $max_pages, $max_pages);
             }
             else{
-                $max_pages = 10 / intval($data['purchasers_numbers']);
                 $query->range(0, $max_pages);
             }
         }
@@ -137,6 +137,7 @@ function _timian_service_fetch_products($data)
 
         //$query->condition($db_or);
         $products = $query->execute()->fetchAll(); //defalut drupal is sorting by nodeif if no order by is provided
+        $products['products_count'] = count($products);
         
 
         return $products ? $products : "None products found for supplier {$data['supplier']}";
