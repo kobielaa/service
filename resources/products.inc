@@ -78,7 +78,7 @@ function _timian_service_fetch_products($data)
         $query->condition('sidx.field_commodity_supplier_value', $supplierId);
         $query->condition('n.status', 1);
 
-        if (isset($data['is_offer'])) {
+        if ($data['is_offer'] == "true") {
             $query->condition('p.is_offer', 0, '>');
         }
 

@@ -41,7 +41,7 @@ function _timian_service_fetch_order($order_id)
 	$statuses = eldhus_uc_order_status_display();
 
 	$orderStatus = $order[0]->order_status;
-	$order[0]->order_status = $statuses['for_suppliers'][$orderStatus];
+	$order[0]->order_status_icelandic = $statuses['for_suppliers'][$orderStatus];
 
 	unset($statuses['for_suppliers']['received']);
 	unset($statuses['for_suppliers']['completed']);
