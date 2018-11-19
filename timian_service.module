@@ -252,9 +252,9 @@ function timian_service_services_resources()
                             'optional' => true,
                         ],
                         [
-                            'name' => 'purchasers_numbers',
+                            'name' => 'total_page',
                             'type' => 'int',
-                            'description' => 'Number of purchasers for paging',
+                            'description' => 'Propotional number for paging',
                             'source' => 'param',
                             'optional' => true,
                         ],

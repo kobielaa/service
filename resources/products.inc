@@ -82,65 +82,57 @@ function _timian_service_fetch_products($data)
             $query->condition('p.is_offer', 0, '>');
         }
 
-        $header=[];
         if (isset($data['category'])) {
-            
+            $db_or = db_or();
             switch ($data['category']) {
                 // case 'everything':
-                //     $query->orderBy('p.title', 'DESC');          
+                //     $query->orderBy('p.title', 'DESC');
                 //     break;
                 case 'model':
                     $query->condition('p.model', $data['term'] . '%', 'LIKE');
-                    $query->orderBy('p.model', 'ASC');    
+                    $query->orderBy('p.model', 'ASC');
                     break;
                 case 'title':
                     $query->condition('n.title', '%' . $data['term'] . '%', 'LIKE');
-                    $query->orderBy('n.title', 'ASC'); 
+                    $query->orderBy('n.title', 'ASC');
                     break;
                 case 'description':
                     $query->condition('nb.body_value', '%' . $data['term'] . '%', 'LIKE');
-                    $query->orderBy('nb.body_value', 'ASC'); 
+                    $query->orderBy('nb.body_value', 'ASC');
                     break;
                 case 'unspsc';
                     $query->condition('us.descr', '%' . $data['term'] . '%', 'LIKE');
                     $query->orderBy('us.descr', 'ASC');
                     break;
                 default:
-                    $query->orderBy('n.title', 'ASC'); 
+                    if (isset($data['term'])) {
+                        $db_or->condition('p.model', $data['term'] . '%', 'LIKE');
+                        $db_or->condition('n.title', '%' . $data['term'] . '%', 'LIKE');
+                        $db_or->condition('nb.body_value', '%' . $data['term'] . '%', 'LIKE');
+                        $db_or->condition('us.descr', '%' . $data['term'] . '%', 'LIKE');
+                        $query->condition($db_or);
+                    }
+                    $query->orderBy('n.title', 'ASC');
                     break;
             }
-        } 
-        if (isset($data['purchasers_numbers'])) { //TODO check if number      
+        }
+        $products = $query->execute()->fetchAll();
+        $productCounter = count($products); // products with filters
 
-            $max_pages = 300 / intval($data['purchasers_numbers']);
+        if (isset($data['total_page'])) {
+            $max_products = $productCounter / intval($data['total_page']); // proportional max number of products to fetch
 
             if (isset($data['page'])) {
-                $query->range((intval($data['page'])-1) * $max_pages, $max_pages);
-            }
-            else{
-                $query->range(0, $max_pages);
+                $query->range((intval($data['page']) - 1) * $max_products, $max_products);
+            } else {
+                $query->range(0, 300);
             }
         }
-        //$db_or = db_or();
-        // if (isset($data['model'])) {
-        //     $db_or->condition('p.model', $data['model'] . '%', 'LIKE');
-        // }
-        // if (isset($data['title'])) {
-        //     $db_or->condition('n.title', '%' . $data['title'] . '%', 'LIKE');
-        // }
-        // if (isset($data['body_value'])) {
-        //     $db_or->condition('nb.body_value', '%' . $data['body_value'] . '%', 'LIKE');
-        // }
-        // if (isset($data['unspsc_description'])) {
-        //     $db_or->condition('us.descr', '%' .  $data['unspsc_description'] . '%', 'LIKE');
-        // }
 
-        //$query->condition($db_or);
-        $products = $query->execute()->fetchAll(); //defalut drupal is sorting by nodeif if no order by is provided
-        $products['products_count'] = count($products);
-        
+        $productsFinal = $query->execute()->fetchAll();
+        $productsFinal['products_count'] = $productCounter;
 
-        return $products ? $products : "None products found for supplier {$data['supplier']}";
+        return $productsFinal ? $productsFinal : "None products found for supplier {$data['supplier']}";
     } else {
         header("HTTP/1.0 404");
 
