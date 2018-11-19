@@ -127,6 +127,8 @@ function _timian_service_fetch_products($data)
             } else {
                 $query->range(0, 300);
             }
+        }else {
+            $query->range(0, 300);
         }
 
         $productsFinal = $query->execute()->fetchAll();
