@@ -119,8 +119,8 @@ function _timian_service_fetch_products($data)
         $products = $query->execute()->fetchAll();
         $productCounter = count($products); // products with filters
 
-        if (isset($data['total_page'])) {
-            $max_products = $productCounter / intval($data['total_page']); // proportional max number of products to fetch
+        if (isset($data['total_pages'])) {
+            $max_products = $productCounter / intval($data['total_pages']); // proportional max number of products to fetch
 
             if (isset($data['page'])) {
                 $query->range((intval($data['page']) - 1) * $max_products, $max_products);
