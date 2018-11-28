@@ -113,7 +113,7 @@ function _timian_service_update_order($order_id, $data){
 	$data['status'] = array_search($orderStatus,$statuses['for_suppliers']);
 
 	if ($data['status'] != $order->order_status) {	
-		uc_order_update_status($order_id, $data['status']);
+		$order->order_status = $data['status'];
 	}
 	if (empty($data['comment'])) {
 		uc_order_comment_save($order_id, $user->uid, '-', 'order', $data['status'], false);
