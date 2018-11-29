@@ -58,8 +58,8 @@ function _timian_service_fetch_products($data)
     $query = db_select('node', 'n');
     $query->condition('n.type', 'product');
     $query->condition('n.status', 1);
-    $sort->condition('n.changed', 'DESC');
-     $query->range(0, 100);
+
+     $query->range(0, 1);
     $query->fields('n', array('nid', 'title', 'changed'));
     $query->leftJoin('field_data_body', 'nb', 'nb.revision_id=n.vid');
     $query->fields('nb', array('body_value'));
@@ -78,6 +78,15 @@ function _timian_service_fetch_products($data)
     $query->fields('pidx', array('field_commodity_unspsc_code'));
     $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
     $query->fields('us', array('descr'));
+    $query->join('field_data_field_commodity_tax', 'tax' , 'tax.entity_id=n.nid');
+    $query->fields('tax', array('field_commodity_tax_value'));
+    $query->join('field_data_field_brutto_weight', 'brutto', 'brutto.entity_id=n.nid');
+    $query->fields('brutto', array('field_brutto_weight_value'));
+
+
+$query->orderby('n.changed', 'DESC');
+
+
 
     $products = $query->execute()->fetchAll();
     $response = [
