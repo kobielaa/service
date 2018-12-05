@@ -5,7 +5,7 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($key)
+function _timian_service_data_access()
 {
     return true;
 }
@@ -53,13 +53,13 @@ function _timian_service_fetch_data($search)
 //  *
 //  * @return array $data Product
 //  */
-function _timian_service_fetch_products($data)
+function _timian_service_fetch_products()
 {
     $query = db_select('node', 'n');
     $query->condition('n.type', 'product');
     $query->condition('n.status', 1);
 
-     $query->range(0, 1);
+     $query->range(0, 100);
     $query->fields('n', array('nid', 'title', 'changed'));
     $query->leftJoin('field_data_body', 'nb', 'nb.revision_id=n.vid');
     $query->fields('nb', array('body_value'));
@@ -78,17 +78,19 @@ function _timian_service_fetch_products($data)
     $query->fields('pidx', array('field_commodity_unspsc_code'));
     $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
     $query->fields('us', array('descr'));
-    $query->join('field_data_field_commodity_tax', 'tax' , 'tax.entity_id=n.nid');
+    $query->leftJoin('field_data_field_commodity_tax', 'tax' , 'tax.entity_id=n.nid');
     $query->fields('tax', array('field_commodity_tax_value'));
-    $query->join('field_data_field_brutto_weight', 'brutto', 'brutto.entity_id=n.nid');
+    $query->leftJoin('field_data_field_brutto_weight', 'brutto', 'brutto.entity_id=n.nid');
     $query->fields('brutto', array('field_brutto_weight_value'));
+    $query->orderby('n.changed', 'DESC');
+
+    $purchaser = end(explode('/',  $GLOBALS['base_path'], -1));
 
 
-$query->orderby('n.changed', 'DESC');
-
-
-
-    $products = $query->execute()->fetchAll();
+   $products = $query->execute()->fetchAll();
+   foreach( $products as $product) {
+       $product->purchaser = $purchaser;
+   }
     $response = [
         "products" => $products,
     ];
