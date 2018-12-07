@@ -82,7 +82,7 @@ function _timian_service_fetch_products()
     $query->fields('tax', array('field_commodity_tax_value'));
     $query->leftJoin('field_data_field_brutto_weight', 'brutto', 'brutto.entity_id=n.nid');
     $query->fields('brutto', array('field_brutto_weight_value'));
-    $query->orderby('n.changed', 'DESC');
+     $query->orderby('n.changed', 'DESC');
 
     $purchaser = end(explode('/',  $GLOBALS['base_path'], -1));
 
