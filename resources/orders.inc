@@ -95,22 +95,43 @@ function _timian_service_update_order($order_id, $data){
 	}
 
 	$order = uc_order_load($order_id, true);
+
+	
+	$orderStatus = $data['status'];
+	$statuses = eldhus_uc_order_status_display();
+	$data['status'] = array_search($orderStatus, $statuses['for_suppliers']);
+
 	foreach($updated_products as $key => $value) {
 		$product = $order->products[$key];
-		$product->price = $value['unit_price'];
-		$product->qty = $value['quantity'];
-		// $product->weight = $weight / $quantity;
-		$product->data['supplier']['total_weight'] = $value['weight'];
-		$product->data['supplier']['unit_price'] = $value['unit_price'];
-		$product->data['supplier']['qty'] = $value['quantity'];
-		$product->data['supplier']['discount'] = $value['discount'];
+
+		if ($data['status'] == "pending") {
+			$product->data['supplier']['model'] = $product->model;
+			$product->data['supplier']['total_weight'] = eldhus_parse_number($value['weight']);
+			$product->data['supplier']['unit_price'] = eldhus_parse_number($value['unit_price']);
+			$product->data['supplier']['qty'] =eldhus_parse_number($value['quantity']);
+			$product->data['supplier']['discount'] = eldhus_parse_number($value['discount']);
+		} else {
+			$product->data['supplier']['model'] =  $product->model;
+			$product->data['supplier']['total_weight'] = eldhus_parse_number ($value['weight']);
+			$product->data['supplier']['unit_price'] =  eldhus_parse_number($value['unit_price']);
+			$product->data['supplier']['qty'] =  eldhus_parse_number($value['quantity']);
+			$product->data['supplier']['discount'] =  eldhus_parse_number($value['discount']);
+			$product->data['supplier']['org_qty'] = 	$product->data['supplier']['org_qty']? $product->data['supplier']['org_qty'] : $product->qty;
+			$product->data['supplier']['org_weight'] = 	$product->data['supplier']['org_weight']? $product->data['supplier']['org_weight'] : $product->weight;
+			$product->data['supplier']['org_price'] = 	$product->data['supplier']['org_price']? $product->data['supplier']['org_price'] : $product->price;
+			$product->price = round($value['unit_price'] * (1- (eldhus_parse_number($value['discount'])/100)),2);
+			$product->qty = eldhus_parse_number($value['quantity']);
+			if ( !$value['quantity']){
+				$product->weight = 0;
+			}else {
+				$product->weight = eldhus_parse_number($value['weight'])/eldhus_parse_number($value['quantity']);
+			}
+			
+		}
+		
 	}
 
 	$user = user_load_by_name($data['supplier']);
-
-	$orderStatus = $data['status'];
-	$statuses = eldhus_uc_order_status_display(); 
-	$data['status'] = array_search($orderStatus,$statuses['for_suppliers']);
 
 	if ($data['status'] != $order->order_status) {	
 		$order->order_status = $data['status'];
