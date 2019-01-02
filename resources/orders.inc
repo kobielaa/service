@@ -131,7 +131,7 @@ function _timian_service_update_order($order_id, $data){
 		
 	}
 
-	$user = user_load_by_name($data['supplier']);
+	$user = user_load_by_name($data['user']);
 
 	if ($data['status'] != $order->order_status) {	
 		$order->order_status = $data['status'];

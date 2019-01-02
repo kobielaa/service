@@ -38,6 +38,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
     $supplierId = get_node_nid($supplier_name);
 
     if ($supplierId) {
+        $cos =user_load_by_name($supplier_name);
 
         $from_timestamp = strtotime($fromTime);
         $to_timestamp = strtotime($toTime);
