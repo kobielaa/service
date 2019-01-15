@@ -135,7 +135,7 @@ function _timian_service_update_supplier($data)
 
     if ($user) {
 
-        $supplier_value = get_node_nid_by_acronym($data['birgi']);
+        $supplier_value = get_node_nid($data['birgi']);
 
         $update_user = [
             'name' => $data['name'],
