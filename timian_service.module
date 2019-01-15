@@ -1,4 +1,6 @@
 <?php
+require_once('config/variables.inc');
+
 /**
  * Implements hook_services_resources
  */
@@ -23,7 +25,7 @@ function timian_service_init()
 function data_access_handler()
 {
     if (isset($_SERVER['HTTP_X_AUTH_TOKEN']) &&
-        $_SERVER['HTTP_X_AUTH_TOKEN'] == 'SuperSecretToken') {
+        $_SERVER['HTTP_X_AUTH_TOKEN'] == get_secret_token()) {
         return true;
 	}
 	
@@ -47,7 +49,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -66,7 +68,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -85,7 +87,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -104,7 +106,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -123,7 +125,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -142,7 +144,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -162,7 +164,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -221,176 +223,176 @@ function timian_service_services_resources()
 
             ],
         ],
-        'products' => [
-            'operations' => [
-                'index' => [
-                    'help' => 'Get products',
-                    'callback' => '_timian_service_fetch_products',
-                    'access callback' => '_timian_service_data_access',
-                    'file' => [
-                        'type' => 'inc',
-                        'module' => 'timian_service',
-                        'name' => 'resources/products',
-                    ],
-                    'args' => [
-                        [
-                            'name' => 'supplier',
-                            'type' => 'string',
-                            'description' => 'Supplier name',
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'term',
-                            'type' => 'string',
-                            'description' => 'Product body',
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'category',
-                            'type' => 'string',
-                            'description' => 'Product filter category: everything, model, title, description ,unspsc',                          
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'is_offer',
-                            'type' => 'string',
-                            'description' => 'Only offers switch',
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'total_page',
-                            'type' => 'int',
-                            'description' => 'Propotional number for paging',
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'page',
-                            'type' => 'int',
-                            'description' => 'Only offers switch',
-                            'source' => 'param',
-                            'optional' => true,
-                        ],
-                    ],
-                ],
-                // 'index' => [
-                //     'help' => 'Get products (autocompolete)',
-                //     'callback' => '_timian_service_fetch_data',
-                //     'access callback' => '_timian_service_data_access',
-                //     'file' => [
-                //         'type' => 'inc',
-                //         'module' => 'timian_service',
-                //         'name' => 'resources/products',
-                //     ],
-                //     'args' => [
-                //         [
-                //             'name' => 'search',
-                //             'optional' => false,
-                //             'type' => 'string',
-                //             'description' => 'The zero-based index of the page to get, defaults to 0.',
-                //             'source' => ['param' => 'search'],
-                //         ],
-                //     ],
-                // ],
-                'create' => [
-                    'help' => 'Add product to order',
-                    'callback' => '_timian_service_create_product',
-                    'args' => [
-                        [
-                            'name' => 'data',
-                            'type' => 'array',
-                            'description' => 'Data from add product form',
-                            'source' => 'data',
-                            'optional' => false,
-                        ],
-                    ],
-                    'access callback' => '_timian_service_data_access',
-                    'file' => [
-                        'type' => 'inc',
-                        'module' => 'timian_service',
-                        'name' => 'resources/products',
-                    ],
-                ],
+        // 'products' => [
+        //     'operations' => [
+        //         'index' => [
+        //             'help' => 'Get products',
+        //             'callback' => '_timian_service_fetch_products',
+        //             'access callback' => '_timian_service_data_access',
+        //             'file' => [
+        //                 'type' => 'inc',
+        //                 'module' => 'timian_service',
+        //                 'name' => 'resources/products',
+        //             ],
+        //             'args' => [
+        //                 [
+        //                     'name' => 'supplier',
+        //                     'type' => 'string',
+        //                     'description' => 'Supplier name',
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //                 [
+        //                     'name' => 'term',
+        //                     'type' => 'string',
+        //                     'description' => 'Product body',
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //                 [
+        //                     'name' => 'category',
+        //                     'type' => 'string',
+        //                     'description' => 'Product filter category: everything, model, title, description ,unspsc',                          
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //                 [
+        //                     'name' => 'is_offer',
+        //                     'type' => 'string',
+        //                     'description' => 'Only offers switch',
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //                 [
+        //                     'name' => 'total_page',
+        //                     'type' => 'int',
+        //                     'description' => 'Propotional number for paging',
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //                 [
+        //                     'name' => 'page',
+        //                     'type' => 'int',
+        //                     'description' => 'Only offers switch',
+        //                     'source' => 'param',
+        //                     'optional' => true,
+        //                 ],
+        //             ],
+        //         ],
+        //         // 'index' => [
+        //         //     'help' => 'Get products (autocompolete)',
+        //         //     'callback' => '_timian_service_fetch_data',
+        //         //     'access callback' => '_timian_service_data_access',
+        //         //     'file' => [
+        //         //         'type' => 'inc',
+        //         //         'module' => 'timian_service',
+        //         //         'name' => 'resources/products',
+        //         //     ],
+        //         //     'args' => [
+        //         //         [
+        //         //             'name' => 'search',
+        //         //             'optional' => false,
+        //         //             'type' => 'string',
+        //         //             'description' => 'The zero-based index of the page to get, defaults to 0.',
+        //         //             'source' => ['param' => 'search'],
+        //         //         ],
+        //         //     ],
+        //         // ],
+        //         'create' => [
+        //             'help' => 'Add product to order',
+        //             'callback' => '_timian_service_create_product',
+        //             'args' => [
+        //                 [
+        //                     'name' => 'data',
+        //                     'type' => 'array',
+        //                     'description' => 'Data from add product form',
+        //                     'source' => 'data',
+        //                     'optional' => false,
+        //                 ],
+        //             ],
+        //             'access callback' => '_timian_service_data_access',
+        //             'file' => [
+        //                 'type' => 'inc',
+        //                 'module' => 'timian_service',
+        //                 'name' => 'resources/products',
+        //             ],
+        //         ],
 
-            ],
-            'actions' => [
-                'delete' => [
-                    'help' => 'Delete product',
-                    'callback' => '_timian_service_resource_delete',
-                    'access arguments append' => true,
-                    'args' => [
-                        [
-                            'name' => 'data',
-                            'type' => 'array',
-                            'description' => 'Data from add product form',
-                            'source' => 'data',
-                            'optional' => false,
-                        ],
-                    ],
-                    'access callback' => '_timian_service_data_access',
-                    'file' => [
-                        'type' => 'inc',
-                        'module' => 'timian_service',
-                        'name' => 'resources/products',
-                    ],
-                ],
-                'edit' => [
-                    'help' => 'Update product from order list',
-                    'callback' => '_timian_service_resource_edit',
-                    'access arguments append' => true,
-                    'args' => [
-                        [
-                            'name' => 'data',
-                            'type' => 'array',
-                            'description' => 'The object with product new product specification.',
-                            'source' => 'data',
-                            'optional' => false,
-                        ],
-                    ],
-                    'access callback' => '_timian_service_data_access',
-                    'file' => [
-                        'type' => 'inc',
-                        'module' => 'timian_service',
-                        'name' => 'resources/products',
-                    ],
-                ],
-            ],
+        //     ],
+        //     'actions' => [
+        //         'delete' => [
+        //             'help' => 'Delete product',
+        //             'callback' => '_timian_service_resource_delete',
+        //             'access arguments append' => true,
+        //             'args' => [
+        //                 [
+        //                     'name' => 'data',
+        //                     'type' => 'array',
+        //                     'description' => 'Data from add product form',
+        //                     'source' => 'data',
+        //                     'optional' => false,
+        //                 ],
+        //             ],
+        //             'access callback' => '_timian_service_data_access',
+        //             'file' => [
+        //                 'type' => 'inc',
+        //                 'module' => 'timian_service',
+        //                 'name' => 'resources/products',
+        //             ],
+        //         ],
+        //         'edit' => [
+        //             'help' => 'Update product from order list',
+        //             'callback' => '_timian_service_resource_edit',
+        //             'access arguments append' => true,
+        //             'args' => [
+        //                 [
+        //                     'name' => 'data',
+        //                     'type' => 'array',
+        //                     'description' => 'The object with product new product specification.',
+        //                     'source' => 'data',
+        //                     'optional' => false,
+        //                 ],
+        //             ],
+        //             'access callback' => '_timian_service_data_access',
+        //             'file' => [
+        //                 'type' => 'inc',
+        //                 'module' => 'timian_service',
+        //                 'name' => 'resources/products',
+        //             ],
+        //         ],
+        //     ],
 
-        ],
-        'upload' => [
-            'actions' => [
-                'price_update' => [
-                    'help' => 'Update product price',
-                    'callback' => '_timian_service_price_update',
-                    'access arguments append' => true,
-                    'args' => [
-                        [
-                            'name' => 'data',
-                            'type' => 'array',
-                            'description' => 'The object with product new product specification.',
-                            'source' => 'data',
-                            'optional' => false,
-                        ],
-                    ],
-                    'access callback' => '_timian_service_data_access',
-                    'file' => [
-                        'type' => 'inc',
-                        'module' => 'timian_service',
-                        'name' => 'resources/upload',
-                    ],
-                ],
-            ],
-        ],
+        // ],
+        // 'upload' => [
+        //     'actions' => [
+        //         'price_update' => [
+        //             'help' => 'Update product price',
+        //             'callback' => '_timian_service_price_update',
+        //             'access arguments append' => true,
+        //             'args' => [
+        //                 [
+        //                     'name' => 'data',
+        //                     'type' => 'array',
+        //                     'description' => 'The object with product new product specification.',
+        //                     'source' => 'data',
+        //                     'optional' => false,
+        //                 ],
+        //             ],
+        //             'access callback' => 'data_access_handler',
+        //             'file' => [
+        //                 'type' => 'inc',
+        //                 'module' => 'timian_service',
+        //                 'name' => 'resources/upload',
+        //             ],
+        //         ],
+        //     ],
+        // ],
         'getOrders' => [
             'operations' => [
                 'index' => [
                     'help' => 'Get all orders for particular purchaser',
                     'callback' => 'timian_service_get_all_orders',
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -446,7 +448,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
