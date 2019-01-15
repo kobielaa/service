@@ -106,7 +106,7 @@ function _timian_service_update_order($order_id, $data){
 		$product->data['supplier']['discount'] = $value['discount'];
 	}
 
-	$user = user_load_by_name($data['supplier']);
+	$user = user_load_by_name($data['user']);
 
 	$orderStatus = $data['status'];
 	$statuses = eldhus_uc_order_status_display(); 

@@ -20,6 +20,16 @@ function timian_service_init()
     }
 }
 
+function data_access_handler()
+{
+    if (isset($_SERVER['HTTP_X_AUTH_TOKEN']) &&
+        $_SERVER['HTTP_X_AUTH_TOKEN'] == 'SuperSecretToken') {
+        return true;
+	}
+	
+    return false;
+}
+
 function timian_service_services_resources()
 {
     return [
@@ -175,7 +185,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',//'_timian_service_data_access',
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
@@ -201,7 +211,7 @@ function timian_service_services_resources()
                             'optional' => false,
                         ],
                     ],
-                    'access callback' => '_timian_service_data_access',
+                    'access callback' => 'data_access_handler',//'_timian_service_data_access',//,
                     'file' => [
                         'type' => 'inc',
                         'module' => 'timian_service',
