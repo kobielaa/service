@@ -5,7 +5,7 @@
  * @return bool
  *     Returns boolen
  */
-function _timian_service_data_access($key)
+function _timian_service_data_access()
 {
     return true;
 }
@@ -53,93 +53,50 @@ function _timian_service_fetch_data($search)
 //  *
 //  * @return array $data Product
 //  */
-function _timian_service_fetch_products($data)
+function _timian_service_fetch_products()
 {
-    $supplierId = get_node_nid($data['supplier']);
+    $query = db_select('node', 'n');
+    $query->condition('n.type', 'product');
+    $query->condition('n.status', 1);
 
-    if ($supplierId) {
-        $query = db_select('node', 'n')->fields('n');
-        $query->fields('n', array('nid', 'title', 'changed'));
-        $query->leftJoin('field_data_body', 'nb', 'nb.revision_id=n.vid');
-        $query->join('uc_products', 'p', 'p.vid=n.vid');
-        $query->fields('p', array('model', 'list_price', 'sell_price', 'weight', 'weight_units', 'is_offer'));
-        $query->join('field_data_field_commodity_supplier', 'sidx', 'sidx.entity_id=n.nid');
-        $query->leftJoin('field_data_field_commodity_discount', 'd', 'd.entity_id=n.nid');
-        $query->fields('d', array('field_commodity_discount_value'));
-        $query->leftJoin('field_data_field_commodity_units_sale', 'u_sale', 'u_sale.entity_id=n.nid');
-        $query->fields('u_sale', array('field_commodity_units_sale_value'));
-        $query->leftJoin('field_data_field_commodity_saleunit', 's_unit', 's_unit.entity_id=n.nid');
-        $query->fields('s_unit', array('field_commodity_saleunit_value'));
-        $query->leftJoin('field_data_field_commodity_unspsc', 'pidx', 'pidx.entity_id=n.nid');
-        $query->fields('pidx', array('field_commodity_unspsc_code'));
-        $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
-        $query->fields('us', array('descr'));
-        $query->fields('nb', array('body_value'));
-        $query->condition('sidx.field_commodity_supplier_value', $supplierId);
-        $query->condition('n.status', 1);
+     $query->range(0, 100);
+    $query->fields('n', array('nid', 'title', 'changed'));
+    $query->leftJoin('field_data_body', 'nb', 'nb.revision_id=n.vid');
+    $query->fields('nb', array('body_value'));
+    $query->join('uc_products', 'p', 'p.vid=n.vid');
+    $query->fields('p', array('model', 'list_price', 'sell_price', 'weight', 'weight_units', 'is_offer'));
+    $query->join('field_data_field_commodity_supplier', 'sidx', 'sidx.entity_id=n.nid');
+    $query->join('node', 'supplier_name', 'sidx.field_commodity_supplier_value=supplier_name.nid');
+    $query->fields('supplier_name', array('title'));
+    $query->leftJoin('field_data_field_commodity_discount', 'd', 'd.entity_id=n.nid');
+    $query->fields('d', array('field_commodity_discount_value'));
+    $query->leftJoin('field_data_field_commodity_units_sale', 'u_sale', 'u_sale.entity_id=n.nid');
+    $query->fields('u_sale', array('field_commodity_units_sale_value'));
+    $query->leftJoin('field_data_field_commodity_saleunit', 's_unit', 's_unit.entity_id=n.nid');
+    $query->fields('s_unit', array('field_commodity_saleunit_value'));
+    $query->leftJoin('field_data_field_commodity_unspsc', 'pidx', 'pidx.entity_id=n.nid');
+    $query->fields('pidx', array('field_commodity_unspsc_code'));
+    $query->leftJoin('eldhus_unspsc', 'us', 'us.code=pidx.field_commodity_unspsc_code');
+    $query->fields('us', array('descr'));
+    $query->leftJoin('field_data_field_commodity_tax', 'tax' , 'tax.entity_id=n.nid');
+    $query->fields('tax', array('field_commodity_tax_value'));
+    $query->leftJoin('field_data_field_brutto_weight', 'brutto', 'brutto.entity_id=n.nid');
+    $query->fields('brutto', array('field_brutto_weight_value'));
+     $query->orderby('n.changed', 'DESC');
 
-        if ($data['is_offer'] == "true") {
-            $query->condition('p.is_offer', 0, '>');
-        }
+    $purchaser = end(explode('/',  $GLOBALS['base_path'], -1));
 
-        if (isset($data['category'])) {
-            $db_or = db_or();
-            switch ($data['category']) {
-                // case 'everything':
-                //     $query->orderBy('p.title', 'DESC');
-                //     break;
-                case 'model':
-                    $query->condition('p.model', $data['term'] . '%', 'LIKE');
-                    $query->orderBy('p.model', 'ASC');
-                    break;
-                case 'title':
-                    $query->condition('n.title', '%' . $data['term'] . '%', 'LIKE');
-                    $query->orderBy('n.title', 'ASC');
-                    break;
-                case 'description':
-                    $query->condition('nb.body_value', '%' . $data['term'] . '%', 'LIKE');
-                    $query->orderBy('nb.body_value', 'ASC');
-                    break;
-                case 'unspsc';
-                    $query->condition('us.descr', '%' . $data['term'] . '%', 'LIKE');
-                    $query->orderBy('us.descr', 'ASC');
-                    break;
-                default:
-                    if (isset($data['term'])) {
-                        $db_or->condition('p.model', $data['term'] . '%', 'LIKE');
-                        $db_or->condition('n.title', '%' . $data['term'] . '%', 'LIKE');
-                        $db_or->condition('nb.body_value', '%' . $data['term'] . '%', 'LIKE');
-                        $db_or->condition('us.descr', '%' . $data['term'] . '%', 'LIKE');
-                        $query->condition($db_or);
-                    }
-                    $query->orderBy('n.title', 'ASC');
-                    break;
-            }
-        }
-        $products = $query->execute()->fetchAll();
-        $productCounter = count($products); // products with filters
 
-        if (isset($data['total_pages'])) {
-            $max_products = $productCounter / intval($data['total_pages']); // proportional max number of products to fetch
+   $products = $query->execute()->fetchAll();
+   foreach( $products as $product) {
+       $product->purchaser = $purchaser;
+   }
+    $response = [
+        "products" => $products,
+    ];
 
-            if (isset($data['page'])) {
-                $query->range((intval($data['page']) - 1) * $max_products, $max_products);
-            } else {
-                $query->range(0, 300);
-            }
-        }else {
-            $query->range(0, 300);
-        }
+    return $response;
 
-        $productsFinal = $query->execute()->fetchAll();
-        $productsFinal['products_count'] = $productCounter;
-
-        return $productsFinal ? $productsFinal : "None products found for supplier {$data['supplier']}";
-    } else {
-        header("HTTP/1.0 404");
-
-        return ['message' => 'Supplier not found', 'status' => 404];
-    }
 }
 
 /**
