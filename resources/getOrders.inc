@@ -16,21 +16,31 @@ function _timian_service_data_access($data)
 function timian_service_get_single_order($supplier_name, $order_id)
 {
     $uc_order = uc_order_load($order_id);
-    set_supplier_info_for_order($uc_order);
-    if ($uc_order->supplier_name == $supplier_name) {
-        $order = new timianOrder($uc_order);
-        if (is_array($order) || is_object($order)) {
-            header('Content-Type: application/json');
-            return $order;
-        }
-    } else {
-        $user = user_load_by_name($supplier_name);
-        header("HTTP/1.0 404");
 
-        return $user ?
-        ['message' => "There is no such order with id = {$order_id}", 'status' => 404] :
-        ['message' => 'Supplier not found', 'status' => 404];
-    }
+    if ($uc_order) {
+        $query = new EntityFieldQuery(); //Check if supplier exists
+        $supplier = $query->entityCondition('entity_type', 'node')
+            ->propertyCondition('type', 'birgi')
+            ->propertyCondition('title', $supplier_name)
+            ->range(0, 1)
+            ->execute();
+        if ($supplier) {
+            set_supplier_info_for_order($uc_order); //add supplier info to order 
+            if ($uc_order->supplier_name == $supplier_name) { // check if order supplier is same as in request
+                $order = new timianOrder($uc_order);
+                if (is_array($order) || is_object($order)) {
+                    header('Content-Type: application/json');
+                    return $order;
+                }
+            }
+        }
+        else{
+            header("HTTP/1.0 404");
+            return ['message' => "There is no such supplier with name = {$supplier_name}", 'status' => 404];
+        }
+    }   
+        header("HTTP/1.0 404");
+        return ['message' => "There is no such order with id = {$order_id}", 'status' => 404];
 }
 
 function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $status)
@@ -43,7 +53,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $to_timestamp = strtotime($toTime);
         $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
         $query = db_select('uc_orders', 'o')->fields('o', array('order_id'));
-       
+
         if (!empty($from_timestamp)) {
             $query->condition('modified', $from_timestamp, '>=');
         }
@@ -80,12 +90,12 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $query->condition('of.supplier_id', $supplierId);
         $query->leftJoin('eldhus_divisions', 'd', 'd.id = of.cost_div');
         $query->addField('d', 'code', 'delivery_code');
-        
+
         $cursor = $query->execute();
         $orders = array();
 
         foreach ($cursor as $row) {
-            if ($row->order_id=="4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD 
+            if ($row->order_id == "4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD
                 continue;
             }
             $uc_order = uc_order_load($row->order_id);
@@ -93,8 +103,8 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
             $uc_order->supplier_sid = $row->field_supplier_sid_value;
             $timian_order = new timianOrder($uc_order);
             $timian_order->currency = $uc_order->currency;
-            $timian_order->data = $uc_order ->data;
-            $timian_order->deliveryCode= $row->delivery_code;
+            $timian_order->data = $uc_order->data;
+            $timian_order->deliveryCode = $row->delivery_code;
             $orders[] = $timian_order;
         }
 
@@ -106,7 +116,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
     }
 }
 
-function set_supplier_info_for_order($order)
+function set_supplier_info_for_order(&$order)
 {
     if (isset($order->order_id)) {
         $query = db_select("eldhus_uc_order_fields", "o");
@@ -116,18 +126,18 @@ function set_supplier_info_for_order($order)
         $query->fields("s")->fields("u")->fields("o")->fields("r");
         $query->condition("o.order_id", $order->order_id);
 
-        $supplier = $query->execute()->fetch();
+        $result = $query->execute()->fetch();
+        $supplier = node_load($result->supplier_id);
 
         if ($supplier) {
-            $order->supplier_name = $supplier->name;
-            $order->supplier_sid = $supplier->field_supplier_sid_value;
+            $order->supplier_name = $supplier->title;
+            $order->supplier_sid = $supplier->nid;
         } else {
             $order->supplier_name = t('Supplier not found');
             $order->supplier_sid = null;
         }
     }
 }
-
 
 function get_node_nid($node_title)
 {
@@ -136,4 +146,3 @@ function get_node_nid($node_title)
     $node_nid = $node_nid[0]->nid;
     return $node_nid;
 }
-
