@@ -95,9 +95,9 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $orders = array();
 
         foreach ($cursor as $row) {
-            if ($row->order_id == "4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD
-                continue;
-            }
+                  // if ($row->order_id == "4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD
+            //     continue;
+            // }
             $uc_order = uc_order_load($row->order_id);
             $uc_order->supplier_name = $row->field_supplier_shorthand_value;
             $uc_order->supplier_sid = $row->field_supplier_sid_value;
