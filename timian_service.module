@@ -427,6 +427,13 @@ function timian_service_services_resources()
                             'description' => 'The zero-based index of the page to get, defaults to 0.',
                             'source' => ['param' => 'status'],
                         ],
+                        [
+                            'name' => 'orderId',
+                            'optional' => true,
+                            'type' => 'number',
+                            'description' => 'ID of order',
+                            'source' => ['param' => 'orderId'],
+                        ],
                     ],
                 ],
                 'retrieve' => [

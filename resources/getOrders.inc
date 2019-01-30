@@ -43,7 +43,7 @@ function timian_service_get_single_order($supplier_name, $order_id)
         return ['message' => "There is no such order with id = {$order_id}", 'status' => 404];
 }
 
-function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $status)
+function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $status, $orderId)
 {
     $supplierId = get_node_nid($supplier_name);
 
@@ -52,7 +52,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $from_timestamp = strtotime($fromTime);
         $to_timestamp = strtotime($toTime);
         $status = json_decode($status, true);
-        $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
+        // $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
         $query = db_select('uc_orders', 'o')->fields('o', array('order_id'));
 
         if (!empty($from_timestamp)) {
@@ -62,6 +62,10 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         if (!empty($to_timestamp)) {
             $query->condition('modified', $to_timestamp, '<=');
         }
+        if (!empty($orderId)) {
+          $query->condition('o.order_id', $orderId);
+        }
+
         // if procure orders (default to begin with)
         $query->condition('o.data', '%procure%', 'like');
 
