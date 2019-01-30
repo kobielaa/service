@@ -51,6 +51,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
 
         $from_timestamp = strtotime($fromTime);
         $to_timestamp = strtotime($toTime);
+        $status = json_decode($status, true);
         $supplier_value = field_get_items('user', user_load_by_name($supplier_name), 'field_user_supplier')[0]['value'];
         $query = db_select('uc_orders', 'o')->fields('o', array('order_id'));
 
@@ -65,7 +66,7 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $query->condition('o.data', '%procure%', 'like');
 
         if (!empty($status) && $status !== 'all') {
-            $query->condition('order_status', $status);
+          $query->condition('order_status', $status, 'IN');
         } else {
             $uc_statuses = uc_order_status_list('post_checkout');
             $uc_statuses += uc_order_state_list('completed');
@@ -95,9 +96,9 @@ function timian_service_get_all_orders($supplier_name, $fromTime, $toTime, $stat
         $orders = array();
 
         foreach ($cursor as $row) {
-                  // if ($row->order_id == "4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD
-            //     continue;
-            // }
+                  if ($row->order_id == "4993") { // HARDCODED ESCAPE FOR INVALID LOCAL RECORD
+                continue;
+            }
             $uc_order = uc_order_load($row->order_id);
             $uc_order->supplier_name = $row->field_supplier_shorthand_value;
             $uc_order->supplier_sid = $row->field_supplier_sid_value;
